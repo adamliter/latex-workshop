@@ -78,20 +78,45 @@ nice empty nodes/.style={for tree={calign=fixed edge angles},delay={where conten
 
 \usepackage{hologo}
 
+\usepackage{textglos}
+\usepackage[nomain,nostyles]{glossaries}
+\usepackage{glossary-inline}
+\usepackage{leipzig-mod}
+\makeglossaries
+\glsdisablehyper
+
+\newleipzig{pol}{pol}{polite}
+
+\usepackage[
+	shadedcells,
+	notipa
+]{ot-tableau}
+
+\usepackage{gb4e}
+\noautomath
+
 \title{Impromptu \LaTeX{} workshop at the 2015 Chicago LSA Institute%
 \thanks{The \File{.tex} file that produced this PDF is available at \url{https://github.com/adamliter/latex-workshop}.
-I've tried to make it self-contained, but there are a few dependencies and oddities that might prevent you from actually being able to compile it yourself on your machine.
+There are a few dependencies and oddities that might prevent you from actually being able to compile it yourself on your machine.
 (It definitely won't compile on one of the online editors because you need to enable shell escape.)
 Anyway, it's not worth explaining these things any further in a footnote.
 This document already has enough footnotes as it is, but you're welcome to look at the source code of the document to get an idea of how to write something in \LaTeX.
 }
 }
-\author{Adam Liter\\\href{mailto:adam.liter@gmail.com}{\nolinkurl{adam.liter@gmail.com}}}
+\author{\begin{tabular}{cc}Adam Liter\\\href{mailto:adam.liter@gmail.com}{\nolinkurl{adam.liter@gmail.com}}\end{tabular}}
 \date{July 22, 2015}
 
 \newcommand*{\File}[1]{\texttt{#1}}
 \newcommand*{\Package}[1]{\texttt{#1}}
+\newcommand*{\Directory}[1]{\texttt{#1}}
+
+\newcommand*{\TitleText}[1]{\textit{#1}}
+
 \newcommand*{\IE}{\emph{i.e.},}
+
+\newcommand{\CurlyBrackets}[1]{%
+	$\left\{\begin{tabular}{@{}l@{}}#1\end{tabular}\right\}$
+}
 
 \begin{document}
 
@@ -100,7 +125,7 @@ This document already has enough footnotes as it is, but you're welcome to look 
 \section{Terminology}
 \label{sec:terminology}
 
-This section is largely a brief recap of \S1 of Alan Munn's \emph{A Beginner's Guide to \LaTeX{} (on the Mac)}.%
+This section is largely a brief recap of \S1 of Alan Munn's \TitleText{A Beginner's Guide to \LaTeX{} (on the Mac)}.%
 \footnote{%
 A PDF of this is available at \url{https://www.msu.edu/~amunn/latex/nano-companion.pdf}.
 If you have trouble accessing it, try refreshing the page a few times. The web servers at Michigan State University can sometimes be sort of shitty.
@@ -139,7 +164,7 @@ It is both short and useful.
 	
 	\item[Compiling]{
 	The act of processing a \File{.tex} file with an engine to produce (most likely) a PDF.
-	Often used interchangeably with ``typesetting''.
+	Can be used interchangeably with ``typesetting''.
 	}
 	
 	\item[Preamble]{
@@ -230,7 +255,7 @@ which is a different distribution than TeX Live.
 At one point, there were security concerns about \hologo{MiKTeX} and thus it was preferable to install TeX Live.
 However, these security concerns seem to have been mitigated, and it's not clear that there is a huge reason to prefer a TeX Live installation on Windows.%
 \footnote{%
-See \href{http://tex.stackexchange.com/q/20036/32888}{this question and its answers on TeX.SX for discussion}.
+See \href{http://tex.stackexchange.com/q/20036/32888}{this question and its answers on TeX.SX} for discussion.
 }
 Moreover, it is not as straightforward to install TeX Live as it is to install \hologo{MiKTeX}.
 Nonetheless, if you wish to do so, see \href{http://www.tug.org/texlive/acquire-netinstall.html}{here}.
@@ -319,8 +344,8 @@ If you're interested in reading more about TDS, you can do so at \url{https://ww
 \end{figure}
 
 It is necessary to conform to this standard so that the engine you use to compile your \File{.tex} file can find certain types of files.
-For example, if you maintain a single master \File{.bib} file, it should be placed in the folder \verb|texmf/bibtex/bib|.
-If you put it in any other folder, the engine you use to compile your document will not find it because it is only programmed to look for bibliography files inside the \verb|texmf/bibtex/bib| folder.
+For example, if you maintain a single master \File{.bib} file, it should be placed in the folder \Directory{texmf/bibtex/bib}.
+If you put it in any other folder, the engine you use to compile your document will not find it because it is only programmed to look for bibliography files inside the \Directory{texmf/bibtex/bib} folder.
 
 In what follows, I describe how to set up a local TDS-compliant directory for both TeX Live and \hologo{MiKTeX}.
 For further discussion, see \href{http://tex.stackexchange.com/q/1137/32888}{this question and its answers on TeX.SX}.
@@ -333,7 +358,7 @@ TeX Live specifically provides two places for users to put their own files, such
 These two places are identified by their variable names, TEXMFHOME and TEXMFLOCAL.
 
 You can change the values of these variables.
-TEXMFHOME usually refers to the path \verb|~/Library/texmf| on Mac, the path \verb|~/texmf| on Linux, and the path \verb|C:\Users\<user name>\texmf| on Windows, but you could change the variable TEXMFHOME to point to \verb|~/Dropbox/texmf| instead, if you wanted to.
+TEXMFHOME usually refers to the path \Directory{\textasciitilde/Library/texmf} on Mac, the path \Directory{\textasciitilde/texmf} on Linux, and the path \Directory{C:\textbackslash Users\textbackslash <user name>\textbackslash texmf} on Windows, but you could change the variable TEXMFHOME to point to \Directory{\textasciitilde/Dropbox/texmf} instead, if you wanted to.
 
 TEXMFHOME and TEXMFLOCAL have the same semantics; that is to say, they are both places where users can put their own files that are not part of TeX Live. However, TEXMFLOCAL will be overwritten every time you install a new version of TeX Live.
 For this reason, it is probably best to keep all of your local files in TEXMFHOME.%
@@ -341,17 +366,17 @@ For this reason, it is probably best to keep all of your local files in TEXMFHOM
 For discussion, see \url{http://www.tex.ac.uk/FAQ-what-TDS.html}.
 }
 
-As mentioned above, the default value for TEXMFHOME on a Mac is \verb|~/Library/texmf|, the default value on Linux is \verb|~/texmf|, and the default value on Windows is \verb|C:\Users\<user name>\texmf|.%
+As mentioned above, the default value for TEXMFHOME on a Mac is \Directory{\textasciitilde/Library/texmf}, the default value on Linux is \Directory{\textasciitilde/texmf}, and the default value on Windows is \Directory{C:\textbackslash Users\textbackslash <user name>\textbackslash texmf}.%
 \footnote{%
-If you're still on Windows XP, it should be \mintinline{text}|C:\Documents and Settings\<user name>\texmf| instead of \mintinline{text}|C:\Users\<user name>\texmf|.
+If you're still on Windows XP, it should be \Directory{C:\textbackslash Documents and Settings\textbackslash <user name>\textbackslash texmf} instead of \Directory{C:\textbackslash Users\textbackslash <user name>\textbackslash texmf}.
 }
 
 If you are unsure what the value of TEXMFHOME is, you can check it by going to the command line and running \mintinline{sh}|kpsewhich -var-value TEXMFHOME|.
 
-If, for example, you're on a Mac and haven't changed the default setting, this should return the following file path: \verb|/Users/<user name>/Library/texmf|.%
+If, for example, you're on a Mac and haven't changed the default setting, this should return the following file path: \Directory{/Users/<user name>/Library/texmf}.%
 \footnote{%
-The `\mintinline{text}|~|' is used as shorthand for a user's home directory.
-That is to say, `\mintinline{text}|~/Library/texmf|' is the same as `\mintinline{text}|/Users/<user name>/Library/texmf|' on a Mac.
+The `\Directory{\textasciitilde}' is used as shorthand for a user's home directory.
+That is to say, `\Directory{\textasciitilde/Library/texmf}' is the same as `\Directory{/Users/<user name>/Library/texmf}' on a Mac.
 }
 
 Even though the variable TEXMFHOME has a value, the folder might not exist.
@@ -364,7 +389,8 @@ If you're on Linux, you can do what is shown in Listing~\ref{lst:make-TEXMFHOME}
 This will also work on a Mac.
 }
 
-\begin{listing}[htbp]	\centering
+\begin{listing}[htbp]
+	\centering
 	\begin{minted}{sh}
 mkdir -p $(kpsewhich -var-value TEXMFHOME)/{doc,generic,scripts,source}
 mkdir -p $(kpsewhich -var-value TEXMFHOME)/bibtex/{bib,bst}
@@ -372,7 +398,8 @@ mkdir -p $(kpsewhich -var-value TEXMFHOME)/fonts/{afm,map,misc,pk,source,tfm,typ
 mkdir -p $(kpsewhich -var-value TEXMFHOME)/tex/{context,generic,latex,plain,xelatex,xetex}
 	\end{minted}
 	\caption{Make a minimal TDS-compliant directory at TEXMFHOME}
-	\label{lst:make-TEXMFHOME}\end{listing}
+	\label{lst:make-TEXMFHOME}
+\end{listing}
 
 I don't know anything about the Windows Command Prompt, so the only thing I can suggest is creating the folders manually using File Explorer.
 
@@ -382,12 +409,12 @@ I don't know anything about the Windows Command Prompt, so the only thing I can 
 \hologo{MiKTeX} is different from TeX Live in that it allows users to directly select certain directories to be used for storing local files, rather than having a variable that maps to such a directory.
 
 In order to get things set up on \hologo{MiKTeX}, you will want to first set up a TDS-compliant directory somewhere on your computer.
-\hologo{MiKTeX} recommends making the directory at \mintinline{text}|C:\Local TeX Files|.
-Once you create the folder \mintinline{text}|Local TeX Files| in the \mintinline{text}|C:\| directory, then you will need to create the folders shown in Figure~\ref{fig:TDS}.%
+\hologo{MiKTeX} recommends making the directory at \Directory{C:\textbackslash Local TeX Files}.
+Once you create the folder \Directory{Local TeX Files} in the \Directory{C:\textbackslash} directory, then you will need to create the folders shown in Figure~\ref{fig:TDS}.%
 \footnote{%
-Note that in this case the folder called \mintinline{text}|Local TeX Files| is the same as the \mintinline{text}|texmf| folder depicted in Figure~\ref{fig:TDS}.
-You should \emph{not} put a folder called \mintinline{text}|texmf| inside of \mintinline{text}|Local TeX Files|.
-Instead, treat \mintinline{text}|Local TeX Files| as the \mintinline{text}|texmf| folder.
+Note that in this case the folder called \Directory{Local TeX Files} is the same as the \Directory{texmf} folder depicted in Figure~\ref{fig:TDS}.
+You should \emph{not} put a folder called \Directory{texmf} inside of \Directory{Local TeX Files}.
+Instead, treat \Directory{Local TeX Files} as the \Directory{texmf} folder.
 }
 
 After you have created all of these folders, you can follow \href{http://docs.miktex.org/manual/localadditions.html#id601919}{these steps}.
@@ -398,7 +425,7 @@ After you have created all of these folders, you can follow \href{http://docs.mi
 \subsection{\LaTeX{} philosophy}
 \label{subsec:latex-philosophy}
 
-This subsection is very similar to \S3 of Alan Munn's \emph{A Beginner's Guide to \LaTeX{} (on the Mac)}.
+This subsection is very similar to \S3 of Alan Munn's \TitleText{A Beginner's Guide to \LaTeX{} (on the Mac)}.
 
 \LaTeX{} was designed with the intent of separating content from formatting.
 This is quite different from a what-you-see-is-what-you-get (WYSIWYG) editor like Word, where you see the output of your content formatted as you go along.
@@ -448,6 +475,34 @@ Blah blah.
 	\label{lst:blue-sections}
 \end{listing}
 
+\subsection{Titles}
+\label{subsec:titles}
+
+To typeset a title, an author, and a date in a paper using the basic \Package{article} class, you can do what is shown in Listing~\ref{lst:basic-title}.
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{latex}
+\documentclass{article}
+
+\title{Super awesome title}
+\author{Best Author}
+\date{July 22, 2015}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+Blah blah.
+
+\end{document}
+	\end{minted}
+	\caption{A basic example of how to typeset the title of a paper using the \Package{article} class}
+	\label{lst:basic-title}
+\end{listing}
+
 \subsection{Quotes and dashes}
 \label{subsec:quotes-and-dashes}
 
@@ -465,6 +520,50 @@ To typeset an en-dash, write \mintinline{latex}|--|.
 
 To typeset an em-dash, write \mintinline{latex}|---|.
 
+\subsection{Formatting text}
+\label{subsec:formatting-text}
+
+To typeset something in bold, use \mintinline{latex}|\textbf{}|.
+
+To typeset something in italics, use \mintinline{latex}|\textit{}|.
+
+To typeset something in small caps, use \mintinline{latex}|\textsc{}|.
+
+To typeset something in a mono-spaced font, use \mintinline{latex}|\texttt{}|.
+
+To underline something, don't.%
+\footnote{%
+Underlining is really frowned upon in the typographical community.
+I also personally do not like it.
+However, if you have a really, really, really, really, really (really) good reason, then I suppose you can use \mintinline{latex}|\uline| from the \Package{ulem} package.
+When you load, \Package{ulem} be \emph{sure} to pass it the argument \mintinline{latex}|normalem|, like \mintinline{latex}|\usepackage[normalem]{ulem}|.
+}
+
+One important thing to note about all of the foregoing commands is that using them directly in your document is \emph{not} good practice.
+They are not semantic commands.
+For example, many people use italic text for emphasis, so you might think to use the \mintinline{latex}|\textit{}| command.
+
+This is \emph{bad practice}.
+Instead, you should use the \mintinline{latex}|\emph{}| command.
+That is, you should give everything that you want to be emphasized in the same document the same semantics so that you can easily change it in the preamble if you want to.
+
+This is quite relevant in the case of linguistics.
+It is common practice in our field to use italics for inline examples.
+You might therefore want to distinguish emphasized text from inline examples by doing bold emphasis instead of italic emphasis.
+If you had used the command \mintinline{latex}|\textit{}| throughout your document, you would have to go through the document and change every instance of this to \mintinline{latex}|\textbf{}|.
+Instead, if you use the command \mintinline{latex}|\emph{}|, you can change the behavior of \mintinline{latex}|\emph{}| just once in the preamble of your document, saving yourself a lot of time.
+
+A further example can be seen if you look at the source code for this handout.
+You will notice that I typeset all the names of packages in a mono-spaced font.
+Rather than writing, for example, \mintinline{latex}|\texttt{forest}|, I have written \mintinline{latex}|\Package{forest}|.
+In my preamble, I defined the \mintinline{latex}|\Package{}| command in the following way: \mintinline{latex}|\newcommand*[1]{\Package}{\texttt{#1}}|.
+If I ever wanted to change how the name of every package is typeset in this document, I would only need to change it once in my preamble.
+
+\subsection{Footnotes}
+\label{subsec:footnotes}
+
+To typeset footnotes, use \mintinline{latex}|\footnote{}|.
+
 \subsection{Special characters}
 \label{subsec:special-characters}
 
@@ -478,6 +577,7 @@ If you wish to render the character `\texttt{\textbackslash}' you can use the co
 Two further exceptions are \mintinline{text}|^| and \mintinline{text}|~|.
 Preceding these two characters with `\texttt{\textbackslash}' is used for appending diacritics in \LaTeX{} (though see \S\ref{subsec:fontspec-and-unicode} for a better way of doing this).
 If you wish to print these characters, you will need to do \mintinline{latex}|\^{}| and \mintinline{latex}|\~{}|, respectively (though see \href{http://tex.stackexchange.com/q/312/32888}{this post on TeX.SX} for suggestions of better ways to typeset a tilde).
+\label{fn:diacritics}
 }
 
 The character `\mintinline{text}|#|' is used for passing arguments to macros.
@@ -521,8 +621,8 @@ Let's see an example of a basic table, such as the one in Listing~\ref{lst:basic
 \begin{document}
 
 \begin{tabular}{lcr}
-Left-aligned column & Center-aligned column & Right-aligned column \\ \hline
-56\%                & 75\%                  & 34\%                 \\
+    Left-aligned column & Center-aligned column & Right-aligned column \\ \hline
+    56\%                & 75\%                  & 34\%                 \\
 \end{tabular}
 
 \end{document}
@@ -532,20 +632,23 @@ Left-aligned column & Center-aligned column & Right-aligned column \\ \hline
 \end{listing}
 
 \begin{minipage}{\textwidth}
+
 The code in Listing~\ref{lst:basic-table} will produce the following table.
 
 \begin{center}
-\begin{tabular}{lcr}
-Left-aligned column & Center-aligned column & Right-aligned column \\ \hline
-56\%                & 75\%                  & 34\%                 \\
-\end{tabular}
+	\begin{tabular}{lcr}
+		Left-aligned column & Center-aligned column & Right-aligned column \\ \hline
+		56\%                & 75\%                  & 34\%                 \\
+	\end{tabular}
 \end{center}
+
 \end{minipage}
 
 One useful package for making aesthetically pleasing tables is the package called \Package{booktabs}.
 It provides commands called \mintinline{latex}|\toprule|, \mintinline{latex}|\bottomrule|, and \mintinline{latex}|\midrule| for nicer horizontal rules in a table.
 
 \begin{minipage}{\textwidth}
+
 Consider Listing~\ref{lst:booktabs-table}, which produces the following output.
 
 \begin{center}
@@ -568,11 +671,11 @@ Consider Listing~\ref{lst:booktabs-table}, which produces the following output.
 \begin{document}
 
 \begin{tabular}{lll}
-\toprule
-         & Passive sentences & Active sentences \\ \midrule
-Adults   & 99\%              & 98\%             \\
-Children & 56\%              & 87\%             \\
-\bottomrule
+    \toprule
+             & Passive sentences & Active sentences \\ \midrule
+    Adults   & 99\%              & 98\%             \\
+    Children & 56\%              & 87\%             \\
+    \bottomrule
 \end{tabular}
 
 \end{document}
@@ -625,14 +728,14 @@ Try typesetting this yourself and see what the result is.
 This is a table that is a float.
 
 \begin{table}[htbp]
-\centering
-\begin{tabular}{lll}
-\toprule
-         & Passive sentences & Active sentences \\ \midrule
-Adults   & 99\%              & 98\%             \\
-Children & 56\%              & 87\%             \\
-\bottomrule
-\end{tabular}
+    \centering
+    \begin{tabular}{lll}
+        \toprule
+                 & Passive sentences & Active sentences \\ \midrule
+        Adults   & 99\%              & 98\%             \\
+        Children & 56\%              & 87\%             \\
+        \bottomrule
+    \end{tabular}
 \caption{Adult performance compared to child performance}
 \end{table}
 
@@ -641,15 +744,15 @@ It might not actually show up in between these two sentences.
 This is a table that is not a float.
 
 \begin{table}[H]
-\centering
-\begin{tabular}{lll}
-\toprule
-            & Spanish speakers  & Portuguese speakers \\ \midrule
-Condition 1 & 99\%              & 98\%                \\
-Condition 2 & 56\%              & 87\%                \\
-\bottomrule
-\end{tabular}
-\caption{A half-baked pretend linguistic example of a table}
+    \centering
+    \begin{tabular}{lll}
+        \toprule
+                    & Spanish speakers  & Portuguese speakers \\ \midrule
+        Condition 1 & 99\%              & 98\%                \\
+        Condition 2 & 56\%              & 87\%                \\
+        \bottomrule
+    \end{tabular}
+    \caption{A half-baked pretend linguistic example of a table}
 \end{table}
 
 It is \emph{sure as hell} going to show up in between these two sentences.
@@ -683,9 +786,9 @@ Let's look at the example in Listing~\ref{lst:figure-example}.
 \begin{document}
 
 \begin{figure}[htbp]
-\centering
-\includegraphics[width=.8\textwidth]{super-important-graph}
-\caption{Super scientificy graphy thingy}
+    \centering
+    \includegraphics[width=.8\textwidth]{super-important-graph}
+    \caption{Super scientificy graphy thingy}
 \end{figure}
 
 \end{document}
@@ -700,7 +803,7 @@ This means that the package \Package{graphicx} will look in the folder called \t
 You don't need to do this.
 If you prefer, you can just put the image file in the same folder as the \File{.tex} file.
 The working directory (\IE{} the folder that the \File{.tex} file is in) is a place that the engine will always search when typesetting a document.
-So if you're struggling with setting up a local \texttt{texmf} folder as described in \S\ref{subsec:local-files}, you can always just put files in the same folder as your \File{.tex} file for the time being.
+So if you're struggling with setting up a local \Directory{texmf} folder as described in \S\ref{subsec:local-files}, you can always just put files in the same folder as your \File{.tex} file for the time being.
 But anyway, a reason you might want to have a separate folder dedicated for figures is to avoid clutter.
 It's really up to you.
 }
@@ -735,15 +838,15 @@ Let's modify Listing~\ref{lst:figure-example} a bit, as in the new Listing~\ref{
 As can be seen in Figure~\ref{fig:important-graph}, the results clearly show that I'm right.
 
 \begin{figure}[htbp]
-\centering
-\includegraphics[width=.8\textwidth]{super-important-graph}
-\caption{Super scientificy graphy thingy}
-\label{fig:important-graph}
+    \centering
+    \includegraphics[width=.8\textwidth]{super-important-graph}
+    \caption{Super scientificy graphy thingy}
+    \label{fig:important-graph}
 \end{figure}
 
 \end{document}
 	\end{minted}
-	\caption{An example of including an image inside of a float in \LaTeX}
+	\caption{An example of referencing a figure in \LaTeX}
 	\label{lst:cross-referencing}
 \end{listing}
 
@@ -794,7 +897,10 @@ So, if you tried typesetting your document, received a compilation error, figure
 
 Getting a bibliography to work with \LaTeX{} is often one of the big hurdles of learning \LaTeX, but once you've figured it out, it's really, really, really frikken nice.
 
-\textsc{remains to be written \ldots}
+\paragraph{Promissory note}
+
+Unfortunately, getting this set up properly requires going into how to install a \TeX{} distribution on your computer and how properly set up a local TDS-compliant directory.
+If folks are interested, we could do a follow up workshop next Wednesday that goes into how to do this.
 
 \subsection{Paragraphs}
 \label{subsec:paragraphs}
@@ -806,7 +912,7 @@ And second, because a very common \emph{really bad practice} of \LaTeX{} beginne
 
 Recall from \S\ref{subsec:latex-philosophy} that \LaTeX{} is all about semantic markup.
 This goes for paragraphs, too.
-People who are used to Word are used to pressing ENTER on the keyboard once in order separate paragraphs.
+People who are used to Word are used to pressing ENTER on the keyboard once in order to separate paragraphs.
 Perhaps unsurprisingly, then, many new \LaTeX{} users will often do stuff like what is shown in Listing~\ref{lst:bad-practice-with-line-breaks}.
 
 \begin{listing}[htbp]
@@ -886,20 +992,398 @@ Also, hopefully you now understand this \href{https://xkcd.com/1285/}{joke}.
 \subsection{\Package{fontspec} and Unicode}
 \label{subsec:fontspec-and-unicode}
 
+In fn.~\ref{fn:diacritics}, I mentioned a better way of typesetting diacritics in \LaTeX.
+This is where the \Package{fontspec} package comes in.
+Historically, using \LaTeX{} with fonts hasn't really been a thing.
+This has changed recently with the advent of two other engines---\hologo{XeLaTeX} and \hologo{LuaLaTeX}---and the \Package{fontspec} package.
 
+If you process a document with one of these two engines, you can use the \Package{fontspec} package to specify which font you want to use.
+You can use any font that is installed on your computer.
+
+In \S6 of \TitleText{A Beginner's Guide to \LaTeX{} (on the Mac)}, Alan gives the example of declaring a new font family to use for phonetic fonts.
+A complete example of what Alan suggests is given in Listing~\ref{lst:phonetic-font}.%
+\footnote{%
+See also \href{http://tex.stackexchange.com/q/25249/32888}{this question and its answers on TeX.SX}.
+Note that in order for the example in Listing~\ref{lst:phonetic-font} to actually compile, you will need to have the font Doulos SIL installed on your machine.
+Covering how to install a font on your machine is beyond the scope of this workshop, since it is very specific to the type of operating system that you are running.
+However, you should be able to search for instructions online and pretty easily figure out how to do it.
+}
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{latex}
+\documentclass{article}
+
+\usepackage{fontspec}
+\setmainfont[Ligatures=TeX]{Times New Roman}
+\newfontfamily\phonetic[]{Doulos SIL}
+
+\usepackage{textglos} % this package provides semantic markup for inline linguistic examples
+
+\begin{document}
+
+The English word \xv{cat} is underlyingly {\phonetic/kæt/}.
+
+\end{document}
+	\end{minted}
+	\caption{Example of using a distinct font for phonetics}
+	\label{lst:phonetic-font}
+\end{listing}
+
+In addition to using a separate font for phonetic stuff, you can also use one font for the entire document if the font you are using has glyphs for all of the characters that you need.
+I actually really like the Computer Modern font that is the default font in \TeX.
+There is a version of the Computer Modern font that you can \href{http://cm-unicode.sourceforge.net/}{download} and install on your machine which has glyphs for a huge range of the Unicode characters.
+
+If you download and install this font on your machine, then you can do something like in Listing~\ref{lst:one-font}, rather than having to use a separate font for special (phonetic) characters.
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{latex}
+\documentclass{article}
+
+\usepackage{fontspec}
+\setmainfont[Ligatures=TeX]{CMU Serif Roman}
+
+\usepackage{textglos}
+
+\begin{document}
+
+The English word \xv{cat} is underlyingly /kæt/.
+
+Also, look at the cool stuff that I can do in the same font: ášçëû!
+
+\end{document}
+	\end{minted}
+	\caption{Using one font that has a lot of Unicode glyphs}
+	\label{lst:one-font}
+\end{listing}
+
+Processing either Listing~\ref{lst:phonetic-font}~or~\ref{lst:one-font} with either \hologo{LuaLaTeX} or \hologo{XeLaTeX} will produce a PDF with the correct glyphs (as long as you have the requisite fonts installed on your computer).
+One further thing that is important for this to work correctly is to make sure that your \File{.tex} file has the correct character encoding.
+It is best to make sure that all of your \File{.tex} files are saved with UTF-8 encoding.
+A good editor should allow to see and change the character encoding of the file.
+Since this depends on the editor, it is beyond the scope of the workshop to explain it in any more detail, but you should be able to search online and figure it out.
 
 \subsection{Examples}
 \label{subsec:examples}
 
+There are two main packages that I would recommend for typesetting linguistic examples, \Package{gb4e} and \Package{ExPex}.%
+\footnote{%
+There is also the package called \Package{linguex}.
+I don't know much about it.
+I've always avoided it because, as Alan points out in \TitleText{A Beginner's Guide to \LaTeX{} (on the Mac)}, its markup is not all that semantic.
+}
+The \Package{gb4e} package works well in most cases.
+For more complicated use cases, you might want to learn \Package{ExPex}.
+However, this workshop will only focus on \Package{gb4e}.
 
+\subsubsection{Basic linguistic example}
+\label{subsubsec:basic-linguistic-example}
+
+Listing~\ref{lst:basic-linguistic-example} gives an example of how to typeset some basic examples.
+Try typesetting these examples yourself and see what the result is.
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{latex}
+\documentclass{article}
+
+\usepackage{textglos}
+
+\usepackage{gb4e}
+\noautomath % you should always declare this after loading gb4e
+
+\begin{document}
+(\ref{ex:bad-English}) is an unacceptable sentence in English.
+(\ref{ex:questionable-English}) is marginally acceptable.
+
+\begin{exe}
+    \ex[*]{What$_{i}$ did the man that stole $t_{i}$ was caught?}
+    \label{ex:bad-English}
+    \ex[?]{His$_{i}$ mother loves every$_{i}$ boy no matter what.}
+    \label{ex:questionable-English}
+    \ex[]{Strong crossover
+        \begin{xlist}
+            \ex[*]{He$_{i}$ loves everyone$_{i}$}
+            \ex[*]{She$_{i}$ thinks everyone$_{i}$ is smart}
+            \label{ex:everyone-is-smart}
+        \end{xlist}
+    }
+    \label{ex:strong-crossover}
+\end{exe}
+
+The examples in (\ref{ex:strong-crossover}) exemplify the phenomenon of strong crossover.
+For example, in (\ref{ex:everyone-is-smart}), \xv{she} c-commands \xv{everyone}.
+However, pronouns cannot c-command their binders.
+
+\end{document}
+	\end{minted}
+	\caption{Typesetting basic linguistics examples}
+	\label{lst:basic-linguistic-example}
+\end{listing}
+
+\subsubsection{Glossing examples}
+\label{subsubsec:glossing-examples}
+
+With \Package{gb4e}, you can also gloss examples.
+An example is shown in Listing~\ref{lst:glossed-example}.%
+\footnote{%
+Recall from above that I said using a command like \mintinline{latex}|\textsc| in your document is bad practice.
+It is.
+Don't do this.
+For a much better way of typesetting common linguistic gloss abbreviations, check out the \href{http://ctan.org/pkg/leipzig}{\Package{leipzig}} package.
+}
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{latex}
+\begin{exe}
+    \ex[]{\gll Der Apfel würde gegessen.\\
+    The.\textsc{msc}.\textsc{sg}.\textsc{nom} apple was eaten\\
+    \trans `The apple was eaten'
+    }
+\end{exe}
+	\end{minted}
+	\caption{A glossed example with \Package{gb4e}}
+	\label{lst:glossed-example}
+\end{listing}
+
+Try typesetting (\ref{ex:try-glossed-example}) yourself.
+
+\begin{exe}
+	%
+	\ex[]{\gll Hasan geu-peu-reubah aneuk miet nyan\\
+	Hasan \Third\Pol-\Caus-fall child small \Dem\\
+	\trans `Hasan caused the child to fall'
+	}
+	\label{ex:try-glossed-example}
+	%
+\end{exe}
+
+\subsubsection{Redundant examples}
+\label{subsubsec:redundant-examples}
+
+This is something that you might find useful.
+We won't worry much about how this actually works.
+But if you ever have a need for this, feel free to copy and paste.
+
+\begin{minipage}{\textwidth}
+
+Listing~\ref{lst:redundant-examples} shows you how you can typeset multiple examples in the same example number.
+It will produce the result in (\ref{ex:redundant-examples}).
+
+\begin{exe}
+	%
+	\ex[\#]{\CurlyBrackets{A cat\\Seven dogs\\Mary} \CurlyBrackets{is\\are} widespread.}
+	\label{ex:redundant-examples}
+	%
+\end{exe}
+
+\end{minipage}
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{latex}
+\documentclass{article}
+\usepackage{gb4e}
+\noautomath
+\newcommand{\CurlyBrackets}[1]{%
+    $\left\{\begin{tabular}{@{}l@{}}#1\end{tabular}\right\}$
+}
+\begin{document}
+
+\begin{exe}
+    \ex[\#]{\CurlyBrackets{A cat\\Seven dogs\\Mary} \CurlyBrackets{is\\are} widespread.}
+\end{exe}
+
+\end{document}
+	\end{minted}
+	\caption{Typesetting multiple examples in the same example number}
+	\label{lst:redundant-examples}
+\end{listing}
 
 \subsection{Typesetting trees}
 \label{subsec:typesetting-trees}
 
+There are two main packages that are useful for typesetting linguistics trees, \Package{tikz-qtree} and \Package{forest}.
+Both are built on top of the package, \Package{tikz}.
+I would recommend using \Package{forest}.%
+\footnote{%
+For further discussion, see \href{http://tex.stackexchange.com/q/5447/32888}{this question and its answers on TeX.SX}.
+}
+The syntax for both of these is almost the same, and \Package{forest} is a lot more powerful.
+However, you don't need to know its internals to do the basic stuff.
 
+An example is given in Listing~\ref{lst:typesetting-trees}.
+This will produce what you see in (\ref{ex:typesetting-trees}).
+
+\begin{exe}
+    \ex[]{
+        \begin{forest} baseline, sn edges
+        [TP
+            [DP
+                [D\\he, align=center, name=DP2]
+            ]
+            [T$'$
+                [T\\PRES, align=center]
+                [\emph{v}P, s sep+=20pt
+                    [DP, name=DP1]
+                    [\emph{v}$'$
+                        [\emph{v}
+                            [V\\loves, align=center, name=V2]
+                            [\emph{v}]
+                        ]
+                        [VP, s sep+=20pt
+                            [V, align=center, name=V1]
+                            [DP
+                                [D\\{ø}, align=center]
+                                [NP
+                                    [{Egyptian cotton shirts}, triangle]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ]
+        \draw[->] (V1) [in=-90, out=-90, looseness=1.5] to (V2);
+        \draw[->,dashed] (DP1) [in=-90, out=-90, looseness=1.5] to (DP2);
+        \end{forest}
+    }
+    \label{ex:typesetting-trees}
+\end{exe}
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{latex}
+\documentclass{article}
+\usepackage{forest}
+\forestset{
+sn edges/.style={for tree={parent anchor=south, child anchor=north}}
+}
+\usepackage{gb4e}
+\noautomath
+\begin{document}
+
+\begin{exe}
+    \ex[]{
+        \begin{forest} baseline, sn edges
+        [TP
+            [DP
+                [D\\he, align=center, name=DP2]
+            ]
+            [T$'$
+                [T\\PRES, align=center]
+                [\emph{v}P, s sep+=20pt
+                    [DP, name=DP1]
+                    [\emph{v}$'$
+                        [\emph{v}
+                            [V\\loves, align=center, name=V2]
+                            [\emph{v}]
+                        ]
+                        [VP, s sep+=20pt
+                            [V, align=center, name=V1]
+                            [DP
+                                [D\\{ø}, align=center]
+                                [NP
+                                    [{Egyptian cotton shirts}, triangle]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ]
+        \draw[->] (V1) [in=-90, out=-90, looseness=1.5] to (V2);
+        \draw[->,dashed] (DP1) [in=-90, out=-90, looseness=1.5] to (DP2);
+        \end{forest}
+    }
+\end{exe}
+
+\end{document}
+	\end{minted}
+	\caption{An example of typesetting a syntax tree using \Package{forest}}
+	\label{lst:typesetting-trees}
+\end{listing}
+
+A few comments about what you see in Listing~\ref{lst:typesetting-trees}.
+
+First, \Package{forest} is designed to typeset trees as compactly as possible.
+Sometimes when you want to show movement, you will therefore need to increase the distance between siblings so that arrows don't overlap something else.
+This is what \mintinline{latex}|s sep+=| allows you to do.
+You can manually set the sibling separation with just \mintinline{latex}|s sep=|, whereas \mintinline{latex}|s sep+=| allows you to increase the default sibling separation value by a certain amount.
+
+If you want to draw an arrow from one leaf in a tree to another leaf, you need to give them names that you can pass to the \mintinline{latex}|\draw| command.
+
+If you want to have spaces in a node in a tree, you will need to surround the content in braces, like what I did with \mintinline{latex}|{Egyptian cotton shirts}| in Listing~\ref{lst:typesetting-trees}.
+
+If you want to have a line break in the content of a node in the tree, you will need to set \mintinline{latex}|align| to either \mintinline{latex}|left|, \mintinline{latex}|right|, or \mintinline{latex}|center|.
+
+Finally, you will want to pass both the \mintinline{latex}|baseline| and \mintinline{latex}|sn edges| options to the \mintinline{latex}|forest| environment.
+The first option ensures that the baseline of the typeset object is the top of the tree, rather than the bottom of the tree.
+The second option ensures that the branches of the tree connect at the bottom of each node.
 
 \subsection{Typesetting OT tableaux}
 \label{subsec:typesetting-OT-tableaux}
+
+There are two options that I would recommend for typesetting OT tableaux.
+One package is called \href{http://sanders.phonologist.org/OTtablx/}{\Package{OTtablx}}, which is in beta and not yet on CTAN.
+Thus, in order to use it, you need to put it in either the same directory as your \File{.tex} file or put it in a local folder that your \TeX{} distribution can see (cf.~\S\ref{subsec:local-files}).
+Furthermore, it also relies on the package called \Package{pstricks}, which requires compiling things in a particular way that I haven't told you about.
+
+For this reason, we will instead use the package called \Package{ot-tableau}, which is available on CTAN and does not require a special compilation sequence.
+An example of how to typeset a tableau is given in Listing~\ref{lst:example-tableau}.
+This code will produce the result in (\ref{ex:example-tableau}).%
+\footnote{%
+Disclaimer: I'm not a phonologist.
+}
+
+\begin{exe}
+    %
+    \ex[]{
+        \begin{tableau}{c|c|c}
+            \inp{/bad/}          \const{*Voiced-Coda}  \const*{\textsc{Ident-IO}(voice)}  \const*{*[+voi,--son]}
+            \cand{bad}           \vio{*!}              \vio{}                             \vio{**}
+            \cand[\Optimal]{bat} \vio{}                \vio{*}                            \vio{*}
+            \cand{pat}           \vio{}                \vio{**!}                          \vio{}
+            \cand{pad}           \vio{*!}              \vio{*}                            \vio{*}
+        \end{tableau}
+    }
+    \label{ex:example-tableau}
+    %
+\end{exe}
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{latex}
+\documentclass{article}
+
+\usepackage[
+    shadedcells,
+    notipa
+]{ot-tableau}
+\usepackage{gb4e}
+\noautomath
+
+\begin{document}
+
+\begin{exe}
+\ex[]{
+\begin{tableau}{c|c|c}
+\inp{/bad/}          \const{*Voiced-Coda} \const*{\textsc{Ident-IO}(voice)} \const*{*[+voi,--son]}
+\cand{bad}           \vio{*!}             \vio{}                            \vio{**}
+\cand[\Optimal]{bat} \vio{}               \vio{*}                           \vio{*}
+\cand{pat}           \vio{}               \vio{**!}                         \vio{}
+\cand{pad}           \vio{*!}             \vio{*}                           \vio{*}
+\end{tableau}
+}
+\end{exe}
+
+\end{document}
+	\end{minted}
+	\caption{An example of an OT tableau}
+	\label{lst:example-tableau}
+\end{listing}
 
 \section{Getting help}
 \label{sec:getting-help}
@@ -908,7 +1392,9 @@ As already mentioned, there is \href{http://tex.stackexchange.com/}{TeX.SX}.
 Don't forget to try searching the site before you ask your question.
 Chances are that somebody has already asked it.
 But we are generally pretty friendly and nice on TeX.SX, so don't hesitate to ask if you can't find an answer!
-We don't bite.
+
+If you do decide ask a question on TeX.SX, in most cases you should provide a \href{http://meta.tex.stackexchange.com/q/228/32888}{Minimal (non-)Working Example (MWE)}.
+The process of creating an MWE is often a good way to debug any problems you run into, and, in many cases, you might end up fixing the problem yourself in the course of creating an MWE.
 
 There's also the \href{https://en.wikibooks.org/wiki/LaTeX}{\LaTeX{} Wikibook}, which is generally pretty good.
 
