@@ -103,7 +103,8 @@ auto/
 *.mtc0
 
 ### minted
-*.pyg
+*.pygtex
+*.pygstyle
 
 ### morewrites
 *.mw
