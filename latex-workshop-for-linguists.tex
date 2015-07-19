@@ -1,0 +1,933 @@
+% !TEX encoding = UTF-8 Unicode
+% !TEX TS-program = arara
+% arara: xelatex: { shell: yes }
+% arara: xelatex: { shell: yes, synctex: yes }
+
+\documentclass{article}
+
+\usepackage{fontspec}
+\setmainfont{CMU Serif Roman}
+
+\usepackage[
+	justification=centering
+]{caption}
+\usepackage{booktabs}
+
+\usepackage{minted}
+\setminted{frame=single}
+
+\usepackage[
+	margin=0.75in
+]{geometry}
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1ex}
+
+\usepackage{calc}
+
+\usepackage{forest}
+\forestset{
+sn edges/.style={for tree={parent anchor=south, child anchor=north}},
+nice empty nodes/.style={for tree={calign=fixed edge angles},delay={where content={}{shape=coordinate,for parent={for children={anchor=north}}}{}}}
+}
+\usetikzlibrary{positioning}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.pathreplacing}
+\usepackage{fixltx2e}
+
+\definecolor{fblue}{RGB}{92,144,192}
+
+\newcommand\myfolder[2][fblue]{%
+\begin{tikzpicture}[overlay]
+  \draw[fill=#1!82!black] 
+    (-20pt,14pt) -- 
+    (-17pt,17pt) --
+    (-1pt,17pt) --
+    (1pt,19pt) --
+    (12pt,19pt) --
+    (14pt,17pt) --
+    (17pt,17pt) --
+    (20pt,14pt) -- cycle;
+  \draw[line width=0.75pt,white] 
+    (-18.5pt,14pt) -- 
+    (-15.5pt,16.5pt) --
+    (0.5pt,16.5pt) --
+    (2pt,18.3pt) --
+    (10.5pt,18.3pt) --
+    (12.5pt,16.5pt) --
+    (15.5pt,16.5pt) --
+    (18.5pt,14pt) -- cycle;
+  \draw[rounded corners,top color=#1,bottom color=#1!30] 
+    (-23pt,14pt) -- 
+    (23pt,14pt) --
+    (21pt,-14pt) --
+    (-21pt,-14pt) -- cycle;
+  \draw[rounded corners,line width=1pt,white] 
+    (-22pt,13pt) -- 
+    (22pt,13pt) --
+    (20pt,-13pt) --
+    (-20pt,-13pt) -- cycle;
+\end{tikzpicture}%
+\makebox[0pt]{\raisebox{-3pt}{{\ttfamily\small#2}}}%
+}
+
+\usepackage{xcolor}
+\definecolor{darkred}{HTML}{B22613}
+
+\usepackage[colorlinks]{hyperref}
+\hypersetup{linkcolor=darkred,citecolor=gray,urlcolor=cyan}
+
+\usepackage{hologo}
+
+\title{Impromptu \LaTeX{} workshop at the 2015 Chicago LSA Institute%
+\thanks{The \File{.tex} file that produced this PDF is available at \url{https://github.com/adamliter/latex-workshop}.
+I've tried to make it self-contained, but there are a few dependencies and oddities that might prevent you from actually being able to compile it yourself on your machine.
+(It definitely won't compile on one of the online editors because you need to enable shell escape.)
+Anyway, it's not worth explaining these things any further in a footnote.
+This document already has enough footnotes as it is, but you're welcome to look at the source code of the document to get an idea of how to write something in \LaTeX.
+}
+}
+\author{Adam Liter\\\href{mailto:adam.liter@gmail.com}{\nolinkurl{adam.liter@gmail.com}}}
+\date{July 22, 2015}
+
+\newcommand*{\File}[1]{\texttt{#1}}
+\newcommand*{\Package}[1]{\texttt{#1}}
+\newcommand*{\IE}{\emph{i.e.},}
+
+\begin{document}
+
+\maketitle
+
+\section{Terminology}
+\label{sec:terminology}
+
+This section is largely a brief recap of \S1 of Alan Munn's \emph{A Beginner's Guide to \LaTeX{} (on the Mac)}.%
+\footnote{%
+A PDF of this is available at \url{https://www.msu.edu/~amunn/latex/nano-companion.pdf}.
+If you have trouble accessing it, try refreshing the page a few times. The web servers at Michigan State University can sometimes be sort of shitty.
+}
+But you should really just read that whole PDF (and ignore the parts specific to Mac if you're not on a Mac).
+It is both short and useful.
+
+\begin{description}
+
+	\item[\TeX{} Distribution]{
+		Contains all of the programs and packages that will be used to process and compile your \File{.tex} file.
+		There are two main distributions: TeX Live and \hologo{MiKTeX}.
+		There is also a distribution called {Mac\TeX}, which is a wrapper around TeX Live that does some stuff to make it work nicely on a Mac.
+		\hologo{MiKTeX} is for Windows only, and it is not based on TeX Live.%
+		\footnote{%
+		For discussion of the differences between \hologo{MiKTeX} and TeX Live, see \url{http://tex.stackexchange.com/q/20036/32888}.
+		If you're on Linux, do \emph{not} install TeX Live via your package manager!!!
+		You should instead install a ``vanilla'' version of TeX Live. See \url{http://tex.stackexchange.com/q/1092/32888}.
+		See also \S\ref{subsec:installing-a-tex-distro} of this handout.
+		}
+	}
+	
+	\item[Engines]{
+	There are a few different engines that are standardly used to process a \File{.tex} file and turn it into a PDF, including \hologo{pdfLaTeX}, \hologo{XeLaTeX}, and \hologo{LuaLaTeX}.
+	}
+	
+	\item[Editor]{
+	The application that is used to write the \File{.tex} file.
+	See \href{http://tex.stackexchange.com/q/339/32888}{here} for a long list of editors to choose from.
+	}
+	
+	\item[Previewer]{
+	An application for viewing the output of compiling the \File{.tex} file with an engine.
+	Many editors integrate a previewer into the editor.
+	}
+	
+	\item[Compiling]{
+	The act of processing a \File{.tex} file with an engine to produce (most likely) a PDF.
+	Often used interchangeably with ``typesetting''.
+	}
+	
+	\item[Preamble]{
+	Refers to the part of the document between \mintinline{latex}|\documentclass| and \mintinline{latex}|\begin{document}|.
+	It is where you can load packages and define new commands, among other things.
+	See Figure~\ref{fig:document-structure}.
+		
+		\begin{figure}[htbp]
+			\centering
+			\begin{tikzpicture}
+				[
+					baseline,
+					left brace/.style={semithick,decorate,decoration={brace,raise=2mm,amplitude=3pt,mirror}}
+				]
+				\matrix(M)[
+					matrix of nodes,
+					nodes={
+						align=left,
+						text width=3.5cm
+					}
+				]{
+					\mintinline{latex}|\documentclass{...}|\\
+					$\vdots$\\
+					\mintinline{latex}|\begin{document}|\\
+					$\vdots$\\
+					\mintinline{latex}|\end{document}|\\
+				};
+				\draw (M-1-1.north west) rectangle (M-5-1.south east);
+				\draw [left brace] (M-1-1.south west) -- (M-3-1.north west) node [midway, left=1em] {preamble};
+				\draw [left brace] (M-3-1.south west) -- (M-5-1.north west) node [midway, left=1em] {content};
+			\end{tikzpicture}
+			\caption{Schematic document structure of a \LaTeX{} document}
+			\label{fig:document-structure}
+		\end{figure}
+	
+	}
+	
+	\item[TeX.SX]{
+	Throughout this document, you will probably see numerous references to TeX.SX.
+	This is short for \href{http://tex.stackexchange.com/}{TeX Stack Exchange}.
+	If you're not familiar with the \href{http://stackexchange.com/sites#traffic}{family of Stack Exchange websites}, you should really check them out.
+	Each site is a Q\&A website for a specific topic, but the sites are intended to be repositories of knowledge in addition to Q\&A sites, so they aren't like your normal web forum.
+	Most sites go with the suffix of .SE, but the folks that use TeX Stack Exchange are a bit idiosyncratic and generally prefer the suffix .SX.
+	}
+
+\end{description}
+
+\section{Setting up your machine}
+\label{sec:setting-up-your-machine}
+
+\subsection{Installing a \TeX{} distribution}
+\label{subsec:installing-a-tex-distro}
+
+There are two relatively new and popular web editors for \LaTeX---namely, \href{https://www.sharelatex.com/}{ShareLaTeX} and \href{https://www.overleaf.com/}{Overleaf}.
+In this workshop, we will use these web editors and not bother with having folks install their own \TeX{} distribution.
+
+However, I still wanted to cover it in the handout.
+Feel free to read through this on your own time.
+
+\subsubsection{Mac}
+\label{subsubsec:tex-distro:mac}
+
+If you're on a Mac, you should install \href{https://tug.org/mactex/}{{Mac\TeX}}.
+{Mac\TeX} is all TeX Live underneath with just a thin wrapper that makes things work smoothly on a Mac.
+{Mac\TeX} also installs two editors---TeXShop and TeXworks---and a program for managing a \File{.bib} file, called BibDesk.
+
+\subsubsection{Linux}
+\label{subsubsec:tex-distro:linux}
+
+Do \emph{not} install TeX Live on Linux via your package manager!
+Since Linux package managers largely only install precompiled binaries, the \TeX{} distribution that you will get will most likely be horrendously out of date.
+
+Admittedly, it's not as bad as it used to be.
+On a new version of Ubuntu, I think you will get TeX Live 2013, for example. But, that is still two years out of date.
+
+Instead, you should \href{http://tex.stackexchange.com/q/1092/32888}{install a ``vanilla'' version of TeX Live}.
+
+\subsubsection{Windows}
+\label{subsubsec:tex-distro:windows}
+
+The easiest thing to install on Windows is \hologo{MiKTeX},%
+\footnote{%
+Disclaimer: I know \emph{very} little about Windows and \hologo{MiKTeX}.
+} %
+which is a different distribution than TeX Live.
+\hologo{MiKTeX} doesn't install every package but instead installs a minimal distribution and allows you to install packages on the fly when compiling your document if the requisite package is not already installed.
+
+At one point, there were security concerns about \hologo{MiKTeX} and thus it was preferable to install TeX Live.
+However, these security concerns seem to have been mitigated, and it's not clear that there is a huge reason to prefer a TeX Live installation on Windows.%
+\footnote{%
+See \href{http://tex.stackexchange.com/q/20036/32888}{this question and its answers on TeX.SX for discussion}.
+}
+Moreover, it is not as straightforward to install TeX Live as it is to install \hologo{MiKTeX}.
+Nonetheless, if you wish to do so, see \href{http://www.tug.org/texlive/acquire-netinstall.html}{here}.
+
+\subsection{Keeping your \TeX{} distribution up to date}
+\label{subsec:keeping-your-tex-distro-up-to-date}
+
+It is good practice to periodically update your \TeX{} distribution.
+A \TeX{} distribution includes a bunch of packages, which are periodically edited by their maintainers.
+These packages are hosted on the \href{http://ctan.org/}{Comprehensive \TeX{} Archive Network (CTAN)}.
+You should thus periodically update things in case the maintainers of packages find a bug and fix that bug or in case they add new features to the package.%
+\footnote{%
+One thing that is also great about \LaTeX, in stark contradistinction to Word, is its backward compatibility.
+That is, even if package authors introduce new features, they will make sure that any document you previously typeset using their package will be something that you can still typeset using the new updated version of their package.
+If package authors do decide to break backwards compatibility, they will usually create a new package with an entirely new name, which effectively maintains backward compatibility because the old package will always be available for use.
+On the other hand, with Word, you're lucky if you can open a file from last year's version of Word with this year's version of Word, much less have the formatting look even remotely the same.
+With \LaTeX, you could typeset a \LaTeX{} file written in 1739 and the output you get would be identical to the output you got in 1739.
+}
+
+In addition to periodically updating the packages, you will also want to periodically update the entire distribution.
+Just like with packages, new features are developed or bugfixes are sometimes made to the engines themselves and other binaries that are the core of a \TeX{} distribution.
+
+For TeX Live, there is a new distribution that is released every year.
+The current one is TeX Live 2015.
+
+When the new distribution is about to be released, the old one is ``frozen''.
+Once it is frozen, you will no longer be able to update packages, so you will want to install the newest version of TeX Live for any new features or bugfixes to the engines and other binaries as well as for the ability to continue to periodically update packages.
+
+\subsection{Local files}
+\label{subsec:local-files}
+
+One thing you will presumably also want to do at some point is set up a directory for local files that you want to be accessible to all of your \File{.tex} files, regardless of where that \File{.tex} file is actually stored on your machine.
+
+The most obvious use case for such a directory is for the purposes of maintaining a single master bibliography file on your computer that can be used for citations in all of your \File{.tex} files (see \S\ref{subsec:bibliographies}).
+
+Where and how to set up this directory depends on your distribution, TeX Live or \hologo{MiKTeX}.
+What is common to both cases, however, is that the directory must conform to the standard \TeX{} Directory Structure (TDS) hierarchy.
+A minimal example of a directory structure that conforms to this standard is given in Figure~\ref{fig:TDS}.%
+\footnote{%
+There are even more folders in a maximal TDS directory, but the ones depicted in Figure~\ref{fig:TDS} are probably enough for most use cases.
+If you're interested in reading more about TDS, you can do so at \url{https://www.tug.org/tds/tds.pdf}.
+}
+
+\begin{figure}[htbp]
+	\centering
+	\scalebox{0.65}{
+		\begin{forest}
+			for tree={
+				parent anchor=south,
+				child anchor=north,
+				node options={inner sep=11pt},
+				l sep=25pt,
+				s sep=40pt
+				} 
+			[\myfolder{texmf}
+				[\myfolder{bibtex}
+					[\myfolder{bib}]
+					[\myfolder{bst}]
+				]
+				[\myfolder{doc}]
+				[\myfolder{fonts}, l sep+=60pt 
+					[\myfolder{afm}]
+					[\myfolder{map}]
+					[\myfolder{misc}]
+					[\myfolder{pk}]
+					[\myfolder{source}]
+					[\myfolder{tfm}]
+					[\myfolder{type1}]
+				]
+				[\myfolder{generic}]
+				[\myfolder{scripts}]
+				[\myfolder{source}]
+				[\myfolder{tex}
+					[\myfolder{context}]
+					[\myfolder{generic}]
+					[\myfolder{latex}]
+					[\myfolder{plain}]
+					[\myfolder{xelatex}]
+					[\myfolder{xetex}]
+				]
+			]
+		\end{forest}
+	}
+	\caption{A minimal directory that conforms to the TDS standard}
+	\label{fig:TDS}
+\end{figure}
+
+It is necessary to conform to this standard so that the engine you use to compile your \File{.tex} file can find certain types of files.
+For example, if you maintain a single master \File{.bib} file, it should be placed in the folder \verb|texmf/bibtex/bib|.
+If you put it in any other folder, the engine you use to compile your document will not find it because it is only programmed to look for bibliography files inside the \verb|texmf/bibtex/bib| folder.
+
+In what follows, I describe how to set up a local TDS-compliant directory for both TeX Live and \hologo{MiKTeX}.
+For further discussion, see \href{http://tex.stackexchange.com/q/1137/32888}{this question and its answers on TeX.SX}.
+
+\subsubsection{TeX Live}
+\label{subsubsec:local-files:tex-live}
+
+In TeX Live, engines are set up to look in certain places for files that your \File{.tex} file might depend on.
+TeX Live specifically provides two places for users to put their own files, such as style files or bibliography files.
+These two places are identified by their variable names, TEXMFHOME and TEXMFLOCAL.
+
+You can change the values of these variables.
+TEXMFHOME usually refers to the path \verb|~/Library/texmf| on Mac, the path \verb|~/texmf| on Linux, and the path \verb|C:\Users\<user name>\texmf| on Windows, but you could change the variable TEXMFHOME to point to \verb|~/Dropbox/texmf| instead, if you wanted to.
+
+TEXMFHOME and TEXMFLOCAL have the same semantics; that is to say, they are both places where users can put their own files that are not part of TeX Live. However, TEXMFLOCAL will be overwritten every time you install a new version of TeX Live.
+For this reason, it is probably best to keep all of your local files in TEXMFHOME.%
+\footnote{%
+For discussion, see \url{http://www.tex.ac.uk/FAQ-what-TDS.html}.
+}
+
+As mentioned above, the default value for TEXMFHOME on a Mac is \verb|~/Library/texmf|, the default value on Linux is \verb|~/texmf|, and the default value on Windows is \verb|C:\Users\<user name>\texmf|.%
+\footnote{%
+If you're still on Windows XP, it should be \mintinline{text}|C:\Documents and Settings\<user name>\texmf| instead of \mintinline{text}|C:\Users\<user name>\texmf|.
+}
+
+If you are unsure what the value of TEXMFHOME is, you can check it by going to the command line and running \mintinline{sh}|kpsewhich -var-value TEXMFHOME|.
+
+If, for example, you're on a Mac and haven't changed the default setting, this should return the following file path: \verb|/Users/<user name>/Library/texmf|.%
+\footnote{%
+The `\mintinline{text}|~|' is used as shorthand for a user's home directory.
+That is to say, `\mintinline{text}|~/Library/texmf|' is the same as `\mintinline{text}|/Users/<user name>/Library/texmf|' on a Mac.
+}
+
+Even though the variable TEXMFHOME has a value, the folder might not exist.
+In order to make use of the ability to maintain your own personal bibliographic and style files, you need to make a TDS-compliant directory at the location of TEXMFHOME.
+
+If you're on a Mac, you're in luck, because Alan Munn has written an \href{https://www.msu.edu/~amunn/latex/make-local-texmf.zip}{app that will do this automagically for you}.
+
+If you're on Linux, you can do what is shown in Listing~\ref{lst:make-TEXMFHOME}.%
+\footnote{%
+This will also work on a Mac.
+}
+
+\begin{listing}[htbp]	\centering
+	\begin{minted}{sh}
+mkdir -p $(kpsewhich -var-value TEXMFHOME)/{doc,generic,scripts,source}
+mkdir -p $(kpsewhich -var-value TEXMFHOME)/bibtex/{bib,bst}
+mkdir -p $(kpsewhich -var-value TEXMFHOME)/fonts/{afm,map,misc,pk,source,tfm,type1}
+mkdir -p $(kpsewhich -var-value TEXMFHOME)/tex/{context,generic,latex,plain,xelatex,xetex}
+	\end{minted}
+	\caption{Make a minimal TDS-compliant directory at TEXMFHOME}
+	\label{lst:make-TEXMFHOME}\end{listing}
+
+I don't know anything about the Windows Command Prompt, so the only thing I can suggest is creating the folders manually using File Explorer.
+
+\subsubsection{\hologo{MiKTeX}}
+\label{subsubsec:local-files:miktex}
+
+\hologo{MiKTeX} is different from TeX Live in that it allows users to directly select certain directories to be used for storing local files, rather than having a variable that maps to such a directory.
+
+In order to get things set up on \hologo{MiKTeX}, you will want to first set up a TDS-compliant directory somewhere on your computer.
+\hologo{MiKTeX} recommends making the directory at \mintinline{text}|C:\Local TeX Files|.
+Once you create the folder \mintinline{text}|Local TeX Files| in the \mintinline{text}|C:\| directory, then you will need to create the folders shown in Figure~\ref{fig:TDS}.%
+\footnote{%
+Note that in this case the folder called \mintinline{text}|Local TeX Files| is the same as the \mintinline{text}|texmf| folder depicted in Figure~\ref{fig:TDS}.
+You should \emph{not} put a folder called \mintinline{text}|texmf| inside of \mintinline{text}|Local TeX Files|.
+Instead, treat \mintinline{text}|Local TeX Files| as the \mintinline{text}|texmf| folder.
+}
+
+After you have created all of these folders, you can follow \href{http://docs.miktex.org/manual/localadditions.html#id601919}{these steps}.
+
+\section{General \LaTeX{} stuff}
+\label{sec:general-latex-stuff}
+
+\subsection{\LaTeX{} philosophy}
+\label{subsec:latex-philosophy}
+
+This subsection is very similar to \S3 of Alan Munn's \emph{A Beginner's Guide to \LaTeX{} (on the Mac)}.
+
+\LaTeX{} was designed with the intent of separating content from formatting.
+This is quite different from a what-you-see-is-what-you-get (WYSIWYG) editor like Word, where you see the output of your content formatted as you go along.
+
+Something that goes hand in hand with separating content from formatting is that formatting should be given a semantics.
+What does this mean?
+(Bahhhh duhhhh chhhh!)
+This means that if you want \LaTeX{} to format things that are similar in nature in the same way, then you should give them the same semantic meaning.
+
+Alan gives the example of section headings.
+The proper way to make a section heading in \LaTeX{} is to write it like \mintinline{latex}|\section{Section title}|.
+The command \mintinline{latex}|\section{}| gives the content ``Section title'' the semantics of being a \textbf{section}.
+Then, if you want to change anything about how your sections are formatted, you can change this in the preamble of your document.
+This contrasts with how many folks use Word where they would change this for each individual section heading.%
+\footnote{%
+Note that Word also allows for semantic markup despite the fact that most people do not use it.
+If you cannot convince your Word-using friends and family to switch to \LaTeX, you should at least try to get them to use semantic markup in Word if they don't already do so.
+\texttt{:)}
+}
+For example, if you want the number preceding all of your section headings to be blue, you can change this at the beginning of the document, like in Listing~\ref{lst:blue-sections}.
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{latex}
+\documentclass{article}
+
+\usepackage{color} % this package provides the command \color{}
+\renewcommand\thesection{\color{blue}\arabic{section}}
+
+\begin{document}
+
+\section{Introduction}
+
+Blah blah.
+
+\section{Experiment}
+
+Blah blah.
+
+\section{Conclusion}
+
+Blah blah.
+
+\end{document}
+	\end{minted}
+	\caption{Example of semantic markup in \LaTeX{} for section headings}
+	\label{lst:blue-sections}
+\end{listing}
+
+\subsection{Quotes and dashes}
+\label{subsec:quotes-and-dashes}
+
+One idiosyncrasy of \LaTeX{} that you will have to get used to is how to typeset quotes and dashes.
+
+To typeset double open quotes, write \mintinline{latex}|``|.
+
+To typeset double close quotes, write \mintinline{latex}|''|.
+
+To typeset a single open quote, write \mintinline{latex}|`|.
+
+To typeset a single close quote, write \mintinline{latex}|'|.
+
+To typeset an en-dash, write \mintinline{latex}|--|.
+
+To typeset an em-dash, write \mintinline{latex}|---|.
+
+\subsection{Special characters}
+\label{subsec:special-characters}
+
+There are several characters that are treated as special characters in \LaTeX.
+These are \mintinline{text}|# $ % & ~ _ ^ \ { }|.
+
+If you ever want to print any of these characters in the output, you need to escape them with `\texttt{\textbackslash}'.%
+\footnote{%
+One exception to this is the escape character itself, `\texttt{\textbackslash}', because the sequence `\mintinline{text}|\\|' has a special meaning in \LaTeX, used for line breaks in tables.
+If you wish to render the character `\texttt{\textbackslash}' you can use the command \mintinline{latex}|\textbackslash|.
+Two further exceptions are \mintinline{text}|^| and \mintinline{text}|~|.
+Preceding these two characters with `\texttt{\textbackslash}' is used for appending diacritics in \LaTeX{} (though see \S\ref{subsec:fontspec-and-unicode} for a better way of doing this).
+If you wish to print these characters, you will need to do \mintinline{latex}|\^{}| and \mintinline{latex}|\~{}|, respectively (though see \href{http://tex.stackexchange.com/q/312/32888}{this post on TeX.SX} for suggestions of better ways to typeset a tilde).
+}
+
+The character `\mintinline{text}|#|' is used for passing arguments to macros.
+
+The character `\mintinline{text}|$|' is used for entering math mode (see \S\ref{subsec:math-mode}).
+
+The character `\mintinline{text}|%|' is used for writing comments in the source document (cf.~Listing~\ref{lst:blue-sections}).
+
+The character `\mintinline{text}|&|' is used for separating columns in a table (see \S\ref{subsec:tables}).
+
+The character `\mintinline{text}|~|' is a non-breaking space.
+
+The character `\mintinline{text}|_|' is used for subscripts in math mode.
+
+The character `\mintinline{text}|^|' is used for superscripts in math mode.
+
+The character `\mintinline{text}|\|' is the escape character.
+
+The characters `\mintinline{text}|{ }|' are used for delimiting the arguments to commands.
+
+\subsection{Math mode}
+\label{subsec:math-mode}
+
+One thing worth knowing about \LaTeX{} is that it has a distinct mode for typesetting math, creatively called math mode.
+There is inline math, triggered by \mintinline{latex}|$...$|, and display math, triggered by \mintinline{latex}|\[...\]|.
+
+For linguists, math mode is something that is largely only useful for typesetting semantics.
+For example, \mintinline{latex}|$\lambda x$| will produce $\lambda x$.
+
+\subsection{Tables}
+\label{subsec:tables}
+
+Tables are admittedly a bit of a pain in the ass in \LaTeX.
+Typesetting them takes a while to get used to.
+Let's see an example of a basic table, such as the one in Listing~\ref{lst:basic-table}.
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{latex}
+\documentclass{article}
+\begin{document}
+
+\begin{tabular}{lcr}
+Left-aligned column & Center-aligned column & Right-aligned column \\ \hline
+56\%                & 75\%                  & 34\%                 \\
+\end{tabular}
+
+\end{document}
+	\end{minted}
+	\caption{A basic table in \LaTeX}
+	\label{lst:basic-table}
+\end{listing}
+
+\begin{minipage}{\textwidth}
+The code in Listing~\ref{lst:basic-table} will produce the following table.
+
+\begin{center}
+\begin{tabular}{lcr}
+Left-aligned column & Center-aligned column & Right-aligned column \\ \hline
+56\%                & 75\%                  & 34\%                 \\
+\end{tabular}
+\end{center}
+\end{minipage}
+
+One useful package for making aesthetically pleasing tables is the package called \Package{booktabs}.
+It provides commands called \mintinline{latex}|\toprule|, \mintinline{latex}|\bottomrule|, and \mintinline{latex}|\midrule| for nicer horizontal rules in a table.
+
+\begin{minipage}{\textwidth}
+Consider Listing~\ref{lst:booktabs-table}, which produces the following output.
+
+\begin{center}
+	\begin{tabular}{lll}
+		\toprule
+		         & Passive sentences & Active sentences \\ \midrule
+		Adults   & 99\%              & 98\%             \\
+		Children & 56\%              & 87\%             \\
+		\bottomrule
+	\end{tabular}
+\end{center}
+
+\end{minipage}
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{latex}
+\documentclass{article}
+\usepackage{booktabs}
+\begin{document}
+
+\begin{tabular}{lll}
+\toprule
+         & Passive sentences & Active sentences \\ \midrule
+Adults   & 99\%              & 98\%             \\
+Children & 56\%              & 87\%             \\
+\bottomrule
+\end{tabular}
+
+\end{document}
+	\end{minted}
+	\caption{A table in \LaTeX{} using the package \Package{booktabs}}
+	\label{lst:booktabs-table}
+\end{listing}
+
+\subsection{Floats}
+\label{subsec:floats}
+
+Typesetting a table is great and all, but we want to be able to number it.
+This is what floats are for.
+In addition to automagically numbering tables and allowing us to provide a caption, \LaTeX{} has a special way of treating floats.
+Suffice it to say, it's rather complicated.%
+\footnote{%
+You can read more about it \href{http://tex.stackexchange.com/q/39017/32888}{here} if you're interested.
+}
+All you need to know is that \LaTeX{} has a special algorithm for placing floats in the best possible spot, according to general typographical standards.
+
+These places are usually one of four places: right where they are written in the source document, the top of a page, the bottom of a page, or on their own separate page.
+These four places correspond to four optional arguments that you can pass to a float environment, \mintinline{text}|htbp|, respectively.
+
+It is generally best practice to pass all four options to a float, at least initially.
+Only when you finish writing the document should you fiddle with the placement of floats if you think \LaTeX's algorithm has not done a good job.
+However, while you're writing a document, leave all four options and let \LaTeX{} decide where floats should be placed.
+
+If you would prefer to increase the likelihood that the float will show up in exactly the location that it is specified in the source \File{.tex} file, you can place a \mintinline{text}|!| after the \mintinline{text}|h|.
+If you really, really, really, really want the thing to just show up exactly where it is in the source document, you can use the package \Package{float}, which provides the option \mintinline{text}|H|.%
+\footnote{%
+Giving the \mintinline{text}|H| option to a float causes it to not be treated as a float, so there is a sense in which calling this a float is wrong.
+However, it still allows you to easily add a caption to the table while preventing \LaTeX{} from typesetting it as a float and thus rendering it exactly in place. 
+}
+
+The command \mintinline{latex}|\caption{}| allows you to give a caption to the table.
+\LaTeX{} will automagically number the tables in the correct order, so you don't have to worry about that.
+Semantic markup FTW!
+
+Take a look at two examples in Listing~\ref{lst:float-examples}.
+Try typesetting this yourself and see what the result is.
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{latex}
+\documentclass{article}
+\usepackage{booktabs}
+\usepackage{float}
+\begin{document}
+
+This is a table that is a float.
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{lll}
+\toprule
+         & Passive sentences & Active sentences \\ \midrule
+Adults   & 99\%              & 98\%             \\
+Children & 56\%              & 87\%             \\
+\bottomrule
+\end{tabular}
+\caption{Adult performance compared to child performance}
+\end{table}
+
+It might not actually show up in between these two sentences.
+
+This is a table that is not a float.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lll}
+\toprule
+            & Spanish speakers  & Portuguese speakers \\ \midrule
+Condition 1 & 99\%              & 98\%                \\
+Condition 2 & 56\%              & 87\%                \\
+\bottomrule
+\end{tabular}
+\caption{A half-baked pretend linguistic example of a table}
+\end{table}
+
+It is \emph{sure as hell} going to show up in between these two sentences.
+
+\end{document}
+	\end{minted}
+	\caption{Examples of (non-)floats in \LaTeX}
+	\label{lst:float-examples}
+\end{listing}
+
+\subsection{Images}
+\label{subsec:images}
+
+One thing you will often want to do is include images in a document.
+Like with tables, there is a float environment called \mintinline{text}|figure| for this.
+Also like with tables, the \mintinline{text}|figure| environment doesn't automatically insert an image for you.
+Recall from the previous subsection that the \mintinline{text}|tabular| environment actually typesets the table, whereas the \mintinline{text}|table| environment turns the table into a float, further allowing you to provide a caption.
+
+We have to do something similar for figures.
+The \mintinline{text}|figure| environment will turn an image into a float and allow you to provide a caption.
+But how do we get the image inside the document in the first place?
+This is what the package \Package{graphicx} is for.
+Let's look at the example in Listing~\ref{lst:figure-example}.
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{latex}
+\documentclass{article}
+\usepackage{graphicx}
+\graphicspath{ {figure/} }
+\begin{document}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.8\textwidth]{super-important-graph}
+\caption{Super scientificy graphy thingy}
+\end{figure}
+
+\end{document}
+	\end{minted}
+	\caption{An example of including an image inside of a float in \LaTeX}
+	\label{lst:figure-example}
+\end{listing}
+
+Notice that in the preamble of the document, we declared \mintinline{latex}|\graphicspath{ {figure/} }|.
+This means that the package \Package{graphicx} will look in the folder called \texttt{figure} for images.%
+\footnote{%
+You don't need to do this.
+If you prefer, you can just put the image file in the same folder as the \File{.tex} file.
+The working directory (\IE{} the folder that the \File{.tex} file is in) is a place that the engine will always search when typesetting a document.
+So if you're struggling with setting up a local \texttt{texmf} folder as described in \S\ref{subsec:local-files}, you can always just put files in the same folder as your \File{.tex} file for the time being.
+But anyway, a reason you might want to have a separate folder dedicated for figures is to avoid clutter.
+It's really up to you.
+}
+So, in order to get this \File{.tex} file to compile, you would want to save it in a folder; then, in that same folder, you would want to create a new folder called \texttt{figure}.
+Inside that folder, you should put the file \texttt{super-important-graph.pdf}.%
+\footnote{%
+The package \Package{graphicx} doesn't always play nicely with spaces and underscores in file names, so you should avoid using those things in the names of your image files.
+}
+Notice that the file extension is omitted in the call to \mintinline{latex}|\includegraphics{}|.
+This is a best practice because it allows \Package{graphicx} to try a bunch of different file extensions.
+
+Notice also that we passed an optional argument to \mintinline{latex}|\includegraphics{}| in the form of a \emph{key val list}.
+The key \textbf{width} can take a value that specifies what the width of the image that appears in the typeset document should be.
+You could give it a value of \mintinline{text}|6in| if you wanted, but it is often much more sensible to specify the width in terms of a dynamically defined value.
+In this case, the super important graph will always occupy 80\% of the space allocated to the text, even if we change the margins of the document.
+
+\subsection{Cross referencing}
+\label{subsec:cross-referencing}
+
+So automagically numbered floats are great and all, but how do I refer to those things in my document?
+One thing that is great about \LaTeX{} is that you can give things \mintinline{latex}|\label|s and \mintinline{latex}|\ref|er to them automagically as well.
+Let's modify Listing~\ref{lst:figure-example} a bit, as in the new Listing~\ref{lst:cross-referencing}.
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{latex}
+\documentclass{article}
+\usepackage{graphicx}
+\graphicspath{ {figure/} }
+\begin{document}
+
+As can be seen in Figure~\ref{fig:important-graph}, the results clearly show that I'm right.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.8\textwidth]{super-important-graph}
+\caption{Super scientificy graphy thingy}
+\label{fig:important-graph}
+\end{figure}
+
+\end{document}
+	\end{minted}
+	\caption{An example of including an image inside of a float in \LaTeX}
+	\label{lst:cross-referencing}
+\end{listing}
+
+There are a few things to say about cross-referencing.
+First, and of particularly important note is the fact that the \mintinline{latex}|\label| comes after the \mintinline{latex}|\caption|.
+If you try putting the \mintinline{latex}|\label| first, you will get the wrong number, because the command \mintinline{latex}|\caption| is what gives the float its number.
+
+Second, you will notice that I've put a non-breaking space between \mintinline{text}|Figure| and \mintinline{latex}|\ref|.
+This is generally a good practice because it prevents the number from being separated from the description of what it is.%
+\footnote{%
+If you really like automagic, you might want to check out the \href{http://ctan.org/pkg/cleveref}{\Package{cleveref}} package.
+}
+
+Third, you will also notice that I've given the label a prefix of \mintinline{text}|fig:|.
+This isn't strictly necessary, but it is good practice.
+Imagine that you had a table and a figure.
+The table contains specific values, and the figure is a graph of those values.
+It's the same data, so you presumably want to give them similar names.
+If you use prefixes like this, you could do \mintinline{latex}|\label{tab:super-important-results}| for the table and \mintinline{latex}|\label{fig:super-important-results}| for the graph.%
+\footnote{%
+Spaces are not allowed in the names of \mintinline{latex}|\label|s.
+}
+
+Fourth, and most importantly, is that you must compile your document twice in order for this to work.
+\LaTeX{} does its automagic by first processing the file and automagically generating all of the table and figure numbers for each float.
+Remember that you never manually gave each float a number, so \LaTeX{} has to figure this out.
+On the second compilation, it inserts the automagically generated numbers into the places where you \mintinline{latex}|\ref|erenced them.
+If something went wrong, you will see question marks instead of a number.
+This most likely means you either only compiled your document once or you have tried to refer to something that you never actually labeled.
+The most common example of this latter reason is just a simple misspelling of the label that you gave to whatever it is that you're trying to reference.
+
+\subsection{Those annoying files}
+\label{subsec:those-annoying-files}
+
+One thing you will quickly notice when you typeset a \File{.tex} file is that a lot of extra files are generated.
+People tend to initially find this annoying, but it is all of these extra files that allow \LaTeX{} to do its magic.
+For example, the auxiliary file (\File{.aux}) is integral for cross referencing.
+Without it, cross referencing just would not work.
+
+To avoid clutter, it's often a good idea to make a new, self-contained folder for each document that you typeset.
+
+One other thing worth noting about all of these extra files is that they sometimes lead to compilation errors.
+If you introduced an error in your document and you tried typesetting it, it's possible that the extra files got messed up.
+So, if you tried typesetting your document, received a compilation error, figured out what caused the error, and you're like 110\% sure that you fixed the problem in your source document, but you're still getting a compilation error, try deleting all of these extra files and compiling the document again.
+
+\subsection{Bibliographies}
+\label{subsec:bibliographies}
+
+Getting a bibliography to work with \LaTeX{} is often one of the big hurdles of learning \LaTeX, but once you've figured it out, it's really, really, really frikken nice.
+
+\textsc{remains to be written \ldots}
+
+\subsection{Paragraphs}
+\label{subsec:paragraphs}
+
+Let's end this section with paragraphs.
+Let's do this for two reasons.
+First, because semantic markup is awesome.
+And second, because a very common \emph{really bad practice} of \LaTeX{} beginners is to insert line breaks all over the place.
+
+Recall from \S\ref{subsec:latex-philosophy} that \LaTeX{} is all about semantic markup.
+This goes for paragraphs, too.
+People who are used to Word are used to pressing ENTER on the keyboard once in order separate paragraphs.
+Perhaps unsurprisingly, then, many new \LaTeX{} users will often do stuff like what is shown in Listing~\ref{lst:bad-practice-with-line-breaks}.
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{latex}
+\documentclass{article}
+\begin{document}
+This is my first awesome paragraph.\\
+This is my second paragraph, which is infinitely less awesome because of the line break.
+\end{document}
+	\end{minted}
+	\caption{Really bad practice for separating paragraphs}
+	\label{lst:bad-practice-with-line-breaks}
+\end{listing}
+
+The command \mintinline{latex}|\\| does a line break, but it does \emph{not} introduce a new paragraph.
+In other words, the (first part of the) second sentence is false.
+In \LaTeX{}'s eyes, the sentence ``This is my first awesome paragraph.'' is in the \emph{same paragraph} as the sentence ``This is my second paragraph, which is infinitely less awesome because of the line break.''.
+
+Instead, one should use a command for paragraphs so that we can manipulate the semantics of paragraphs in the preamble of the document in the same way that we manipulated the semantics of sections.
+The command for separating one paragraph from another paragraph is \mintinline{latex}|\par|.
+This would get really annoying to type in between all of your paragraphs, so, luckily, \LaTeX{} treats an empty line as equivalent to \mintinline{latex}|\par|.
+
+Listing~\ref{lst:good-practice-for-paragraphs} exemplifies \emph{good practice} for typesetting paragraphs.
+This good practice allows us to manipulate the semantics of paragraphs in the preamble, so we can typeset them as we like, without having to modify each individual paragraph.
+
+There's generally no need to modify the default semantics for paragraphs.
+However, in Listing~\ref{lst:good-practice-for-paragraphs}, I've given the same semantics that are used to typeset the paragraphs in this document, which are intended to be much more handout-y and much less essay-y.
+Try typesetting Listing~\ref{lst:good-practice-for-paragraphs} yourself and see what happens.
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{latex}
+\documentclass{article}
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1ex}
+\begin{document}
+
+This is the first paragraph.
+Wasn't that a great topic sentence?
+
+Next paragraph please.
+Paragraph number two is the best.
+\par
+The third paragraph will rule them all.
+Sorry about the Lord of the Rings reference.
+
+This concludes my five paragraph essay. As you can see, my conclusion definitely follows.
+
+Yes I can count.
+Jeeze.
+
+\end{document}
+	\end{minted}
+	\caption{Good practice for typesetting paragraphs}
+	\label{lst:good-practice-for-paragraphs}
+\end{listing}
+
+Lastly, one thing you might notice is that I sometimes put sentences on their own line.
+\LaTeX{} treats these sentences as being in the same paragraph because there is no blank line or \mintinline{latex}|\par| between them.
+This isn't strictly necessary; you're more than welcome to put all of the sentences in a paragraph on one line, like I did in paragraph `five'.
+
+However, there are two main reasons why it might be nice to put each sentence on its own line.
+First, having shorter lines might be easier to read, depending on how your editor is set up.
+Second, if you keep your \File{.tex} file under version control, it makes for cleaner diffs.%
+\footnote{%
+Explaining what exactly a version control system (VCS) is, is quite beyond the scope of this workshop.
+Basically, it's a way to keep a history of all of the changes that have been made to a document.
+If you delve any further into learning \LaTeX{} or learning to program, you will probably also want to learn a VCS at some point.
+The most popular one is \mintinline{sh}|git|.
+Also, hopefully you now understand this \href{https://xkcd.com/1285/}{joke}.
+}
+
+\section{Useful stuff for linguists}
+\label{sec:useful-stuff-for-linguists}
+
+\subsection{\Package{fontspec} and Unicode}
+\label{subsec:fontspec-and-unicode}
+
+
+
+\subsection{Examples}
+\label{subsec:examples}
+
+
+
+\subsection{Typesetting trees}
+\label{subsec:typesetting-trees}
+
+
+
+\subsection{Typesetting OT tableaux}
+\label{subsec:typesetting-OT-tableaux}
+
+\section{Getting help}
+\label{sec:getting-help}
+
+As already mentioned, there is \href{http://tex.stackexchange.com/}{TeX.SX}.
+Don't forget to try searching the site before you ask your question.
+Chances are that somebody has already asked it.
+But we are generally pretty friendly and nice on TeX.SX, so don't hesitate to ask if you can't find an answer!
+We don't bite.
+
+There's also the \href{https://en.wikibooks.org/wiki/LaTeX}{\LaTeX{} Wikibook}, which is generally pretty good.
+
+If you're struggling with a particular package, try reading the documentation.
+Unlike most open-source software projects, \LaTeX{} packages generally have \emph{really good} documentation.
+You can find package documentation in a few places.
+
+First, it's always on \href{http://ctan.org/}{CTAN}.
+
+CTAN isn't always the easiest to navigate, so two folks---Stefan Kottwitz and Paulo Cereda---have set up \href{http://texdoc.net/}{TeXDoc Online}, which allows you to easily search for package documentation by the name of the package.
+
+TeXDoc Online is effectively just an online version of the command line tool, \mintinline{sh}{texdoc}, which is part of TeX Live.
+If your distribution is TeX Live, you can just open a terminal and type \mintinline{sh}{texdoc <package name>}.
+
+And, of course, there are also some good books for learning \LaTeX.
+There's a free one called the \href{http://texdoc.net/texmf-dist/doc/latex/lshort-english/lshort.pdf}{\emph{The Not So Short Introduction to \LaTeXe}}.%
+\footnote{%
+If you have TeX Live installed, you can find this book on your system by typing \mintinline{sh}{texdoc lshort} at a terminal.
+}
+There's also \href{http://www.amazon.com/LaTeX-Companion-Techniques-Computer-Typesetting/dp/0201362996}{\emph{The \LaTeX{} Companion}}.
+
+\end{document}
