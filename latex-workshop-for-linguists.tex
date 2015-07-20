@@ -1097,7 +1097,7 @@ First, the markup is more semantic because \mintinline{latex}|exe| is singular; 
 Second, and more practically, it makes moving examples around a lot easier, either within the document or from one document to another.
 }
 Try typesetting these examples yourself and see what the result is.
-Notice in particular that you can give the examples \mintinline{latex}|\label|s and \mintinline{latex}|\ref|er to them inline just like with floats.
+Notice in particular that you can give the examples \mintinline{latex}|\label|s and \mintinline{latex}|\ref|er to them inline just like with captioned things.
 
 \begin{listing}[htbp]
 	\centering
@@ -1318,10 +1318,13 @@ The second option ensures that the branches of the tree connect at the bottom of
 
 There are two options that I would recommend for typesetting OT tableaux.
 One package is called \href{http://sanders.phonologist.org/OTtablx/}{\Package{OTtablx}}, which is in beta and not yet on CTAN.
-Thus, in order to use it, you need to put it in either the same directory as your \File{.tex} file or put it in a local folder that your \TeX{} distribution can see (cf.~\S\ref{subsec:local-files}).
-Furthermore, it also relies on the package called \Package{pstricks}, which requires compiling things in a particular way that I haven't told you about.
+Thus, in order to use it, you need to put the \File{.sty} file in either the same directory as your \File{.tex} file or put it in a local folder that your \TeX{} distribution can see (cf.~\S\ref{subsec:local-files}).%
+\footnote{%
+Note that if you do decide to try \Package{OTtablx} at some point, it must first be compiled to DVI format and then PDF format because it relies on the package \Package{pstricks}.
+If you compile things with \hologo{XeLaTeX} things should work fine, but it will not work with \hologo{pdfLaTeX}.
+}
 
-For this reason, we will instead use the package called \Package{ot-tableau}, which is available on CTAN and does not require a special compilation sequence.
+To avoid this complication for the sake of an introductory workshop, we will instead use the package called \Package{ot-tableau}, which is available on CTAN (\IE{} it is part of any good \TeX{} distribution, such as TeX Live or \hologo{MiKTeX}).
 An example of how to typeset a tableau is given in Listing~\ref{lst:example-tableau}.
 This code will produce the result in (\ref{ex:example-tableau}).%
 \footnote{%
