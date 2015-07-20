@@ -1151,10 +1151,13 @@ However, pronouns cannot c-command their binders.
 With \Package{gb4e}, you can also gloss examples.
 An example is shown in Listing~\ref{lst:glossed-example}.%
 \footnote{%
-Recall from above that I said using a command like \mintinline{latex}|\textsc| in your document is bad practice.
-It is.
-Don't do this.
-For a much better way of typesetting common linguistic gloss abbreviations, check out the \href{http://ctan.org/pkg/leipzig}{\Package{leipzig}} package.
+I'm a bit loathe to recommend this because the package currently has a bug, but it's really a great package.
+For even a better way of typesetting common linguistic gloss abbreviations than what you see in Listing~\ref{lst:glossed-example}, check out the \href{http://ctan.org/pkg/leipzig}{\Package{leipzig}} package.
+If you use \Package{leipzig} \emph{without} the \Package{glossaries} package, you shouldn't run into any trouble.
+However, if you use \Package{leipzig} in conjunction with the \Package{glossaries} package---which is a really great thing to do because it can then automagically generate a list of all glosses that you've used in your document---you will run into problems.
+There is a really hacky workaround \href{http://tex.stackexchange.com/a/204615/32888}{here}, but it's a bug that should ultimately be fixed in the \Package{leipzig} package.
+I've tried contacting the maintainer of the package, but I haven't gotten a response.
+I plan to try contacting her again soon, so hopefully the bug will be fixed at some point.
 }
 
 \begin{listing}[htbp]
