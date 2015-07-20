@@ -1117,13 +1117,8 @@ Notice in particular that you can give the examples \mintinline{latex}|\label|s 
 \noautomath % you should always declare this after loading gb4e
 
 \begin{document}
-(\ref{ex:bad-English}) is an unacceptable sentence in English.
 (\ref{ex:questionable-English}) is marginally acceptable.
 
-\begin{exe}
-    \ex[*]{What\Sub{i} did the man that stole t\Sub{i} was caught?}
-    \label{ex:bad-English}
-\end{exe}
 \begin{exe}
     \ex[?]{His\Sub{i} mother loves every\Sub{i} boy no matter what.}
     \label{ex:questionable-English}
@@ -1314,7 +1309,7 @@ This will produce what you see in (\ref{ex:typesetting-trees}).
 A few comments about what you see in Listing~\ref{lst:typesetting-trees}.
 
 First, \Package{forest} is designed to typeset trees as compactly as possible.
-Sometimes when you want to show movement, you will therefore need to increase the distance between siblings so that arrows don't overlap something else.
+Sometimes when you want to show movement, you will therefore need to increase the distance between siblings so that arrows don't overlap with something else.
 This is what \mintinline{latex}|s sep+=| allows you to do.
 You can manually set the sibling separation with just \mintinline{latex}|s sep=|, whereas \mintinline{latex}|s sep+=| allows you to increase the default sibling separation value by a certain amount.
 
@@ -1322,11 +1317,20 @@ If you want to draw an arrow from one leaf in a tree to another leaf, you need t
 
 If you want to have spaces in a node in a tree, you will need to surround the content in braces, like what I did with \mintinline{latex}|{Egyptian cotton shirts}| in Listing~\ref{lst:typesetting-trees}.
 
-If you want to have a line break in the content of a node in the tree, you will need to set \mintinline{latex}|align| to either \mintinline{latex}|left|, \mintinline{latex}|right|, or \mintinline{latex}|center|.
+Finally, you will most likely want all of your trees to be typeset using both \mintinline{latex}|baseline| and \mintinline{latex}|qtree|.
+By declaring \mintinline{latex}|\forestset{.style={qtree,baseline}}| in your preamble, you tell \Package{forest} to typeset all of your trees like this.
 
-Finally, you will want to pass both the \mintinline{latex}|baseline| and \mintinline{latex}|sn edges| options to the \mintinline{latex}|forest| environment.
-The first option ensures that the baseline of the typeset object is the top of the tree, rather than the bottom of the tree.
-The second option ensures that the branches of the tree connect at the bottom of each node.
+The first option, \mintinline{latex}|baseline|, ensures that the baseline of the typeset object is the top of the tree, rather than the bottom of the tree.
+This means that ``TP'' will be typeset as aligned with the example number (if you put it inside of an example environment) rather than ``Egyptian cotton shirts''.
+
+The second option, \mintinline{latex}|qtree|, is a style that mimics the \Package{qtree} package style for trees.%
+\footnote{%
+Note that this style is not defined by \Package{forest}.
+We must define it ourselves.
+}
+This is the style that is standard for typesetting trees.
+Specifically, it ensures that the branches of the tree connect at the bottom of each node.
+Try typesetting a tree without using the \mintinline{latex}|qtree| option to see what happens.
 
 \subsection{Typesetting OT tableaux}
 \label{subsec:typesetting-OT-tableaux}
