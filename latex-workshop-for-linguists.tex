@@ -548,17 +548,14 @@ When you load, \Package{ulem} be \emph{sure} to pass it the argument \mintinline
 
 One important thing to note about all of the foregoing commands is that using them directly in your document is \emph{not} good practice.
 They are not semantic commands.
-For example, many people use italic text for emphasis, so you might think to use the \mintinline{latex}|\textit{}| command.
+Let's consider an example.
+Being a linguist, you will probably want to typeset certain glossed features in small caps, like \Nom, for instance.
+You might think to write \mintinline{latex}|\textsc{nom}|.
 
 This is \emph{bad practice}.
-Instead, you should use the \mintinline{latex}|\emph{}| command.
-That is, you should give everything that you want to be emphasized in the same document the same semantics so that you can easily change it in the preamble if you want to.
-
-This is quite relevant in the case of linguistics.
-It is common practice in our field to use italics for inline examples.
-You might therefore want to distinguish emphasized text from inline examples by doing bold emphasis instead of italic emphasis.
-If you had used the command \mintinline{latex}|\textit{}| throughout your document, you would have to go through the document and change every instance of this to \mintinline{latex}|\textbf{}|.
-Instead, if you use the command \mintinline{latex}|\emph{}|, you can change the behavior of \mintinline{latex}|\emph{}| just once in the preamble of your document, saving yourself a lot of time.
+Instead, you should give glossed abbreviations like this a semantics, since you will presumably want to typeset them all the same way.
+To do this, you could declare \mintinline{latex}|\newcommand*[1]{\Gls}{\textsc{#1}}| in your preamble.
+Then, you would be able to write \mintinline{latex}|\Gls{nom}| instead of \mintinline{latex}|\textsc{nom}|.
 
 A further example can be seen if you look at the source code for this handout.
 You will notice that I typeset all the names of packages in a mono-spaced font.
