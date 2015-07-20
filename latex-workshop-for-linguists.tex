@@ -1090,7 +1090,12 @@ However, this workshop will only focus on \Package{gb4e}.
 \subsubsection{Basic linguistic example}
 \label{subsubsec:basic-linguistic-example}
 
-Listing~\ref{lst:basic-linguistic-example} gives an example of how to typeset some basic examples.
+Listing~\ref{lst:basic-linguistic-example} gives an example of how to typeset some basic examples.%
+\footnote{%
+Note that it is not strictly necessary to put each example in its own \mintinline{latex}|exe| environment, but it is a good practice to do so, for at least two reasons.
+First, the markup is more semantic because \mintinline{latex}|exe| is singular; it refers to \emph{an} example, not a series of examples.
+Second, and more practically, it makes moving examples around a lot easier, either within the document or from one document to another.
+}
 Try typesetting these examples yourself and see what the result is.
 Notice in particular that you can give the examples \mintinline{latex}|\label|s and \mintinline{latex}|\ref|er to them inline just like with floats.
 
@@ -1101,6 +1106,9 @@ Notice in particular that you can give the examples \mintinline{latex}|\label|s 
 
 \usepackage{textglos}
 
+%\usepackage{fixltx2e} % only needed if you have TeX Live < 2015
+\newcommand*{\Sub}[1]{\textsubscript{#1}}
+
 \usepackage{gb4e}
 \noautomath % you should always declare this after loading gb4e
 
@@ -1109,14 +1117,18 @@ Notice in particular that you can give the examples \mintinline{latex}|\label|s 
 (\ref{ex:questionable-English}) is marginally acceptable.
 
 \begin{exe}
-    \ex[*]{What$_{i}$ did the man that stole $t_{i}$ was caught?}
+    \ex[*]{What\Sub{i} did the man that stole t\Sub{i} was caught?}
     \label{ex:bad-English}
-    \ex[?]{His$_{i}$ mother loves every$_{i}$ boy no matter what.}
+\end{exe}
+\begin{exe}
+    \ex[?]{His\Sub{i} mother loves every\Sub{i} boy no matter what.}
     \label{ex:questionable-English}
+\end{exe}
+\begin{exe}
     \ex[]{Strong crossover
         \begin{xlist}
-            \ex[*]{He$_{i}$ loves everyone$_{i}$}
-            \ex[*]{She$_{i}$ thinks everyone$_{i}$ is smart}
+            \ex[*]{He\Sub{i} loves everyone\Sub{i}}
+            \ex[*]{She\Sub{i} thinks everyone\Sub{i} is smart}
             \label{ex:everyone-is-smart}
         \end{xlist}
     }
