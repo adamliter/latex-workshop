@@ -26,8 +26,18 @@
 
 \usepackage{forest}
 \forestset{
-sn edges/.style={for tree={parent anchor=south, child anchor=north}},
-nice empty nodes/.style={for tree={calign=fixed edge angles},delay={where content={}{shape=coordinate,for parent={for children={anchor=north}}}{}}}
+	qtree/.style={
+		for tree={
+			parent anchor=south,
+			child anchor=north,
+			align=center,
+			inner sep=1pt
+		}
+	},
+	.style={
+		qtree,
+		baseline
+	}
 }
 \usetikzlibrary{positioning}
 \usetikzlibrary{matrix}
@@ -1023,11 +1033,9 @@ However, you should be able to search for instructions online and pretty easily 
 	\centering
 	\begin{minted}{latex}
 \documentclass{article}
-
 \usepackage{fontspec}
 \setmainfont[Ligatures=TeX]{Times New Roman}
 \newfontfamily\phonetic[]{Doulos SIL}
-
 \usepackage{textglos} % this package provides semantic markup for inline linguistic examples
 
 \begin{document}
@@ -1050,16 +1058,12 @@ If you download and install this font on your machine, then you can do something
 	\centering
 	\begin{minted}{latex}
 \documentclass{article}
-
 \usepackage{fontspec}
 \setmainfont[Ligatures=TeX]{CMU Serif Roman}
-
 \usepackage{textglos}
-
 \begin{document}
 
 The English word \xv{cat} is underlyingly /kæt/.
-
 Also, look at the cool stuff that I can do in the same font: ášçëû!
 
 \end{document}
@@ -1209,24 +1213,24 @@ This will produce what you see in (\ref{ex:typesetting-trees}).
 
 \begin{exe}
     \ex[]{
-        \begin{forest} baseline, sn edges
+        \begin{forest}
         [TP
             [DP
-                [D\\he, align=center, name=DP2]
+                [D\\he, name=DP2]
             ]
             [T$'$
-                [T\\PRES, align=center]
+                [T\\PRES]
                 [\emph{v}P, s sep+=20pt
                     [DP, name=DP1]
                     [\emph{v}$'$
                         [\emph{v}
-                            [V\\loves, align=center, name=V2]
+                            [V\\loves, name=V2]
                             [\emph{v}]
                         ]
                         [VP, s sep+=20pt
-                            [V, align=center, name=V1]
-                            [DP
-                                [D\\{ø}, align=center]
+                            [V, name=V1]
+                            [DP, s sep+=30pt
+                                [D\\ø]
                                 [NP
                                     [{Egyptian cotton shirts}, triangle]
                                 ]
@@ -1249,7 +1253,18 @@ This will produce what you see in (\ref{ex:typesetting-trees}).
 \documentclass{article}
 \usepackage{forest}
 \forestset{
-sn edges/.style={for tree={parent anchor=south, child anchor=north}}
+    qtree/.style={ % define a style that imitates the qtree package
+        for tree={
+            parent anchor=south,
+            child anchor=north,
+            align=center,
+            inner sep=1pt
+        }
+    },
+    .style={ % declare styles to apply to all forest environments
+        qtree,
+        baseline
+    }
 }
 \usepackage{gb4e}
 \noautomath
@@ -1257,24 +1272,24 @@ sn edges/.style={for tree={parent anchor=south, child anchor=north}}
 
 \begin{exe}
     \ex[]{
-        \begin{forest} baseline, sn edges
+        \begin{forest}
         [TP
             [DP
-                [D\\he, align=center, name=DP2]
+                [D\\he, name=DP2]
             ]
             [T$'$
-                [T\\PRES, align=center]
+                [T\\PRES]
                 [\emph{v}P, s sep+=20pt
                     [DP, name=DP1]
                     [\emph{v}$'$
                         [\emph{v}
-                            [V\\loves, align=center, name=V2]
+                            [V\\loves, name=V2]
                             [\emph{v}]
                         ]
                         [VP, s sep+=20pt
-                            [V, align=center, name=V1]
-                            [DP
-                                [D\\{ø}, align=center]
+                            [V, name=V1]
+                            [DP, s sep+=30pt
+                                [D\\ø]
                                 [NP
                                     [{Egyptian cotton shirts}, triangle]
                                 ]
