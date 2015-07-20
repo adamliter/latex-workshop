@@ -103,6 +103,9 @@ auto/
 *.mtc0
 
 ### minted
+*.mintedcmd
+*.mintedmd5
+*.pyg
 *.pygtex
 *.pygstyle
 
