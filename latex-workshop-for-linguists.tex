@@ -1183,48 +1183,6 @@ Try typesetting (\ref{ex:try-glossed-example}) yourself, giving it a \mintinline
 	%
 \end{exe}
 
-\subsubsection{Redundant examples}
-\label{subsubsec:redundant-examples}
-
-This is something that you might find useful.
-We won't worry much about how this actually works.
-But if you ever have a need for this, feel free to copy and paste.
-
-\begin{minipage}{\textwidth}
-
-Listing~\ref{lst:redundant-examples} shows you how you can typeset multiple examples in the same example number.
-It will produce the result in (\ref{ex:redundant-examples}).
-
-\begin{exe}
-	%
-	\ex[\#]{\CurlyBrackets{A cat\\Seven dogs\\Mary} \CurlyBrackets{is\\are} widespread.}
-	\label{ex:redundant-examples}
-	%
-\end{exe}
-
-\end{minipage}
-
-\begin{listing}[htbp]
-	\centering
-	\begin{minted}{latex}
-\documentclass{article}
-\usepackage{gb4e}
-\noautomath
-\newcommand{\CurlyBrackets}[1]{%
-    $\left\{\begin{tabular}{@{}l@{}}#1\end{tabular}\right\}$%
-}
-\begin{document}
-
-\begin{exe}
-    \ex[\#]{\CurlyBrackets{A cat\\Seven dogs\\Mary} \CurlyBrackets{is\\are} widespread.}
-\end{exe}
-
-\end{document}
-	\end{minted}
-	\caption{Typesetting multiple examples in the same example number}
-	\label{lst:redundant-examples}
-\end{listing}
-
 \subsection{Typesetting trees}
 \label{subsec:typesetting-trees}
 
