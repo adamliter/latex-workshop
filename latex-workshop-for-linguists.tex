@@ -1160,9 +1160,14 @@ For a much better way of typesetting common linguistic gloss abbreviations, chec
 \begin{listing}[htbp]
 	\centering
 	\begin{minted}{latex}
+\documentclass{article}
+\newcommand*{\Gls}[1]{\textsc{#1}}
+\usepackage{gb4e}
+\noautomath
+\begin{document}
 \begin{exe}
     \ex[]{\gll Der Apfel würde gegessen.\\
-    The.\textsc{msc}.\textsc{sg}.\textsc{nom} apple was eaten\\
+    The.\Gls{msc}.\Gls{sg}.\Gls{nom} apple was eaten\\
     \trans `The apple was eaten'
     }
 \end{exe}
