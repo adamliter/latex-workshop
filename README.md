@@ -1,6 +1,6 @@
 # LaTeX Workshop for Linguists
 
-This repository contains materials for an impromptu workshop on LaTeX at the 2015 Chicago LSA Institute.
+This repository contains materials for an impromptu workshop on LaTeX at the 2015 Chicago LSA Institute. A PDF of the compiled handout can be found [here][handout].
 
 Feel free to fork this repository and open a pull request if you see ways that these materials could be improved.
 
@@ -17,6 +17,7 @@ In order to compile the file `latex-workshop-for-linguists.tex`, you will need t
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 
+[handout]: http://adamliter.org/content/LaTeX/latex-workshop-for-linguists.pdf
 [minted]: http://texdoc.net/texmf-dist/doc/latex/minted/minted.pdf
 [cm-unicode]: http://sourceforge.net/projects/cm-unicode/
 [leipzig-mod]: https://raw.githubusercontent.com/adamliter/TeXnology/master/TEXMFHOME/tex/generic/leipzig-mod.sty
