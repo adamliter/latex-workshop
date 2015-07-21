@@ -124,6 +124,8 @@ This document already has enough footnotes as it is, but you're welcome to look 
 
 \newcommand*{\TitleText}[1]{\textit{#1}}
 
+\newcommand*{\Constr}[1]{\textsc{#1}}
+
 \newcommand*{\IE}{\emph{i.e.},}
 
 \newcommand{\CurlyBrackets}[1]{%
@@ -208,7 +210,7 @@ It is both short and useful.
 				\draw [left brace] (M-1-1.south west) -- (M-3-1.north west) node [midway, left=1em] {preamble};
 				\draw [left brace] (M-3-1.south west) -- (M-5-1.north west) node [midway, left=1em] {content};
 			\end{tikzpicture}
-			\caption{Schematic document structure of a \LaTeX{} document}
+			\caption{Schematic structure of a \LaTeX{} document}
 			\label{fig:document-structure}
 		\end{figure}
 	
@@ -260,7 +262,7 @@ Instead, you should \href{http://tex.stackexchange.com/q/1092/32888}{install a `
 
 The easiest thing to install on Windows is \hologo{MiKTeX},%
 \footnote{%
-Disclaimer: I know \emph{very} little about Windows and \hologo{MiKTeX}.
+Disclaimer: I know very little about Windows and \hologo{MiKTeX}.
 } %
 which is a different distribution than TeX Live.
 \hologo{MiKTeX} doesn't install every package but instead installs a minimal distribution and allows you to install packages on the fly when compiling your document if the requisite package is not already installed.
@@ -400,7 +402,7 @@ If you're on a Mac, you're in luck, because Alan Munn has written an \href{https
 If you're on Linux, you can do what is shown in Listing~\ref{lst:make-TEXMFHOME}.%
 \footnote{%
 This will also work on a Mac.
-Note that it will \emph{only} work after TeX Live has been installed, because the command line tool \mintinline{sh}|kpsewhich| is part of TeX Live.
+Note, however, that it will only work after TeX Live has been installed, because the command line tool \mintinline{sh}|kpsewhich| is part of TeX Live.
 }
 
 \begin{listing}[htbp]
@@ -555,7 +557,7 @@ To underline something, don't.%
 Underlining is really frowned upon in the typography community.
 I also personally do not like it.
 However, if you have a really, really, really, really, really (really) good reason, then I suppose you can use \mintinline{latex}|\uline| from the \Package{ulem} package.
-When you load, \Package{ulem} be \emph{sure} to pass it the argument \mintinline{latex}|normalem|, like \mintinline{latex}|\usepackage[normalem]{ulem}|.
+When you load, \Package{ulem} be sure to pass it the optional argument \mintinline{latex}|normalem|.
 }
 
 One important thing to note about all of the foregoing commands is that using them directly in your document is \emph{not} good practice.
@@ -566,13 +568,13 @@ You might think to write \mintinline{latex}|\textsc{nom}|.
 
 This is \emph{bad practice}.
 Instead, you should give glossed abbreviations like this a semantics, since you will presumably want to typeset them all the same way.
-To do this, you could declare \mintinline{latex}|\newcommand*[1]{\Gls}{\textsc{#1}}| in your preamble.
+To do this, you could declare \mintinline{latex}|\newcommand*{\Gls}[1]{\textsc{#1}}| in your preamble.
 Then, you would be able to write \mintinline{latex}|\Gls{nom}| instead of \mintinline{latex}|\textsc{nom}|.
 
 A further example can be seen if you look at the source code for this handout.
 You will notice that I typeset all the names of packages in a mono-spaced font.
 Rather than writing, for example, \mintinline{latex}|\texttt{forest}|, I have written \mintinline{latex}|\Package{forest}|.
-In my preamble, I defined the \mintinline{latex}|\Package{}| command in the following way: \mintinline{latex}|\newcommand*[1]{\Package}{\texttt{#1}}|.
+In my preamble, I defined the \mintinline{latex}|\Package{}| command in the following way: \mintinline{latex}|\newcommand*{\Package}[1]{\texttt{#1}}|.
 If I ever wanted to change how the name of every package is typeset in this document, I would only need to change it once in my preamble.
 
 \subsection{Footnotes}
@@ -749,7 +751,7 @@ This is a best practice because it allows \Package{graphicx} to try a bunch of d
 
 Notice also that we passed an optional argument to \mintinline{latex}|\includegraphics{}| in the form of a \textit{key val list}.
 The key \KEY{width} can take a value that specifies what the width of the image that appears in the typeset document should be.
-You could give it a value of \mintinline{text}|6in| if you wanted, but it is often much more sensible to specify the width in terms of a dynamically defined value.
+You could give it a value of \mintinline{latex}|6in| if you wanted, but it is often much more sensible to specify the width in terms of a dynamically defined value.
 In this case, the super important graph will always occupy 80\% of the space allocated to the text, even if we change the margins of the document.
 
 \subsection{Captioning and numbering}
@@ -892,14 +894,14 @@ You can put a \mintinline{latex}|tabular| environment directly inside such an ex
 
 So automagically numbered tables and images are great and all, but how do I refer to those things in my document?
 One thing that is great about \LaTeX{} is that you can give things \mintinline{latex}|\label|s and \mintinline{latex}|\ref|er to them automagically as well.
-Consider the Listing~\ref{lst:cross-referencing}.
+
+Consider Listing~\ref{lst:cross-referencing}.
 
 \begin{listing}[htbp]
 	\centering
 	\begin{minted}{latex}
 \documentclass{article}
 \usepackage{graphicx}
-\graphicspath{ {figure/} }
 \begin{document}
 
 As can be seen in Figure~\ref{fig:important-graph}, the results clearly show that I'm right.
@@ -957,7 +959,7 @@ To avoid clutter, it's often a good idea to make a new, self-contained folder fo
 
 One other thing worth noting about all of these extra files is that they sometimes lead to compilation errors.
 If you introduced an error in your document and you tried typesetting it, it's possible that the extra files got messed up.
-So, if you tried typesetting your document, received a compilation error, figured out what caused the error, and you're like 110\% sure that you fixed the problem in your source document, but you're still getting a compilation error, try deleting all of these extra files and compiling the document again.
+So, if you tried typesetting your document, received a compilation error, figured out what caused the error, and you're like 110\% sure that you fixed the problem in your \File{.tex} file, but you're still getting a compilation error, try deleting all of these extra files and compiling the document again.
 
 \subsection{Bibliographies}
 \label{subsec:bibliographies}
@@ -980,7 +982,7 @@ And second, because a very common \emph{really bad practice} of \LaTeX{} beginne
 Recall from \S\ref{subsec:latex-philosophy} that \LaTeX{} is all about semantic markup.
 This goes for paragraphs, too.
 People who are used to Word are used to pressing ENTER on the keyboard once in order to separate paragraphs.
-Perhaps unsurprisingly, then, many new \LaTeX{} users will often do stuff like what is shown in Listing~\ref{lst:bad-practice-with-line-breaks}.
+Perhaps unsurprisingly then, many new \LaTeX{} users will often do stuff like what is shown in Listing~\ref{lst:bad-practice-with-line-breaks}.
 
 \begin{listing}[htbp]
 	\centering
@@ -1197,8 +1199,8 @@ However, pronouns cannot c-command their binders.
 With \Package{gb4e}, you can also gloss examples.
 An example is shown in Listing~\ref{lst:glossed-example}.%
 \footnote{%
-I'm a bit loathe to recommend this because the package currently has a bug, but it's really a great package.
-For even a better way of typesetting common linguistic gloss abbreviations than what you see in Listing~\ref{lst:glossed-example}, check out the \href{http://ctan.org/pkg/leipzig}{\Package{leipzig}} package.
+I'm a bit loathe to recommend this because the package currently has a bug, but it's a really great package.
+For an even better way of typesetting common linguistic gloss abbreviations than what you see in Listing~\ref{lst:glossed-example}, check out the \href{http://ctan.org/pkg/leipzig}{\Package{leipzig}} package.
 If you use \Package{leipzig} \emph{without} the \Package{glossaries} package, you shouldn't run into any trouble.
 However, if you use \Package{leipzig} in conjunction with the \Package{glossaries} package---which is a really great thing to do because it can then automagically generate a list of all glosses that you've used in your document---you will run into problems.
 There is a really hacky workaround \href{http://tex.stackexchange.com/a/204615/32888}{here}, but it's a bug that should ultimately be fixed in the \Package{leipzig} package.
@@ -1385,7 +1387,7 @@ One package is called \href{http://sanders.phonologist.org/OTtablx/}{\Package{OT
 Thus, in order to use it, you need to put the \File{.sty} file in either the same directory as your \File{.tex} file or put it in a local folder that your \TeX{} distribution can see (cf.~\S\ref{subsec:local-files}).%
 \footnote{%
 Note that if you do decide to try \Package{OTtablx} at some point, it must first be compiled to DVI format and then PDF format because it relies on the package \Package{pstricks}.
-If you compile things with \hologo{XeLaTeX} things should work fine, but it will not work with \hologo{pdfLaTeX}.
+If you compile with \hologo{XeLaTeX}, things should work fine, but it will not work with \hologo{pdfLaTeX}.
 }
 
 To avoid this complication for the sake of an introductory workshop, we will instead use the package called \Package{ot-tableau}, which is available on CTAN (\IE{} it is part of any good \TeX{} distribution, such as TeX Live or \hologo{MiKTeX}).
@@ -1399,7 +1401,7 @@ Disclaimer: I'm not a phonologist.
     %
     \ex[]{
         \begin{tableau}{c|c|c}
-            \inp{/bad/}          \const{*Voiced-Coda}  \const*{\textsc{Ident-IO}(voice)}  \const*{*[+voi,--son]}
+            \inp{/bad/}          \const{*Voiced-Coda}  \const*{\Constr{Ident-IO}(voice)}  \const*{*[+voi,--son]}
             \cand{bad}           \vio{*!}              \vio{}                             \vio{**}
             \cand[\Optimal]{bat} \vio{}                \vio{*}                            \vio{*}
             \cand{pat}           \vio{}                \vio{**!}                          \vio{}
@@ -1414,7 +1416,6 @@ Disclaimer: I'm not a phonologist.
 	\centering
 	\begin{minted}{latex}
 \documentclass{article}
-
 \usepackage[
     shadedcells,
     notipa
@@ -1422,12 +1423,14 @@ Disclaimer: I'm not a phonologist.
 \usepackage{gb4e}
 \noautomath
 
+\newcommand*{\Constr}[1]{\textsc{#1}}
+
 \begin{document}
 
 \begin{exe}
 \ex[]{
 \begin{tableau}{c|c|c}
-\inp{/bad/}          \const{*Voiced-Coda} \const*{\textsc{Ident-IO}(voice)} \const*{*[+voi,--son]}
+\inp{/bad/}          \const{*Voiced-Coda} \const*{\Constr{Ident-IO}(voice)} \const*{*[+voi,--son]}
 \cand{bad}           \vio{*!}             \vio{}                            \vio{**}
 \cand[\Optimal]{bat} \vio{}               \vio{*}                           \vio{*}
 \cand{pat}           \vio{}               \vio{**!}                         \vio{}
