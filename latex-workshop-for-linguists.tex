@@ -261,11 +261,7 @@ If you're on a Mac, you should install \href{https://tug.org/mactex/}{{Mac\TeX}}
 \label{subsubsec:tex-distro:linux}
 
 Do \emph{not} install TeX Live on Linux via your package manager!
-Since Linux package managers largely only install precompiled binaries, the \TeX{} distribution that you will get will most likely be horrendously out of date.
-
-Admittedly, it's not as bad as it used to be.
-On a new version of Ubuntu, I think you will get TeX Live 2013, for example.
-But, that is still two years out of date.
+The \TeX{} distribution that you will get from your package manager will most likely be out of date, which will preclude you from being able to update packages.
 
 Instead, you should \href{http://tex.stackexchange.com/q/1092/32888}{install a ``vanilla'' version of TeX Live}.
 
@@ -434,7 +430,7 @@ I don't know anything about the Windows Command Prompt, so the only thing I can 
 \subsubsection{\hologo{MiKTeX}}
 \label{subsubsec:local-files:miktex}
 
-\hologo{MiKTeX} is different from TeX Live in that it allows users to directly select certain directories to be used for storing local files, rather than having a variable that maps to such a directory.
+\hologo{MiKTeX} is different from TeX Live in that it allows users to select directories to be used for storing local files through a graphical user interface, rather than having an environment variable that maps to such a directory.
 
 In order to get things set up on \hologo{MiKTeX}, you will want to first set up a TDS-compliant directory somewhere on your computer.
 \hologo{MiKTeX} recommends making the directory at \Directory{C:\textbackslash Local TeX Files}.
@@ -579,9 +575,9 @@ Being a linguist, you will probably want to typeset certain glossed features in 
 You might think to write \mintinline{latex}|\textsc{nom}|.
 
 This is \emph{bad practice}.
-Instead, you should give glossed abbreviations like this a semantics, since you will presumably want to typeset them all the same way.
-To do this, you could declare \mintinline{latex}|\newcommand*{\Gls}[1]{\textsc{#1}}| in your preamble.
-Then, you would be able to write \mintinline{latex}|\Gls{nom}| instead of \mintinline{latex}|\textsc{nom}|.
+Instead, you should give glossed feature abbreviations like this a semantics, since you will presumably want to typeset them all the same way.
+To do this, you could declare \mintinline{latex}|\newcommand*{\Fts}[1]{\textsc{#1}}| in your preamble.
+Then, you would be able to write \mintinline{latex}|\Fts{nom}| instead of \mintinline{latex}|\textsc{nom}|.
 
 A further example can be seen if you look at the source code for this handout.
 You will notice that I typeset all the names of packages in a mono-spaced font.
@@ -1172,7 +1168,7 @@ Notice in particular that you can give the examples \mintinline{latex}|\label|s 
 \usepackage{textglos}
 
 %\usepackage{fixltx2e} % only needed if you have TeX Live < 2015
-\newcommand*{\Sub}[1]{\textsubscript{#1}}
+\newcommand*{\Ind}[1]{\textsubscript{#1}}
 
 \usepackage{gb4e}
 \noautomath % you should always declare this after loading gb4e
@@ -1181,14 +1177,14 @@ Notice in particular that you can give the examples \mintinline{latex}|\label|s 
 (\ref{ex:questionable-English}) is marginally acceptable.
 
 \begin{exe}
-    \ex[?]{His\Sub{i} mother loves every\Sub{i} boy no matter what.}
+    \ex[?]{His\Ind{i} mother loves every\Ind{i} boy no matter what.}
     \label{ex:questionable-English}
 \end{exe}
 \begin{exe}
     \ex[]{Strong crossover
         \begin{xlist}
-            \ex[*]{He\Sub{i} loves everyone\Sub{i}}
-            \ex[*]{She\Sub{i} thinks everyone\Sub{i} is smart}
+            \ex[*]{He\Ind{i} loves everyone\Ind{i}}
+            \ex[*]{She\Ind{i} thinks everyone\Ind{i} is smart}
             \label{ex:everyone-is-smart}
         \end{xlist}
     }
@@ -1224,13 +1220,13 @@ I plan to try contacting her again soon, so hopefully the bug will be fixed at s
 	\centering
 	\begin{minted}{latex}
 \documentclass{article}
-\newcommand*{\Gls}[1]{\textsc{#1}}
+\newcommand*{\Fts}[1]{\textsc{#1}}
 \usepackage{gb4e}
 \noautomath
 \begin{document}
 \begin{exe}
     \ex[]{\gll Der Apfel würde gegessen.\\
-    The.\Gls{m}.\Gls{sg}.\Gls{nom} apple was eaten\\
+    The.\Fts{m}.\Fts{sg}.\Fts{nom} apple was eaten\\
     \trans `The apple was eaten'
     }
 \end{exe}
@@ -1264,8 +1260,59 @@ For further discussion, see \href{http://tex.stackexchange.com/q/5447/32888}{thi
 The syntax for both of these is almost the same, and \Package{forest} is a lot more powerful.
 However, you don't need to know its internals to do the basic stuff.
 
-An example is given in Listing~\ref{lst:typesetting-trees}.
-This will produce what you see in (\ref{ex:typesetting-trees}).
+Let's start with a very basic example, given in Listing~\ref{lst:basic-forest-example}, which will produce what you see in (\ref{ex:basic-forest-example}).
+
+Try typesetting this yourself.
+
+\begin{exe}
+	\ex[]{
+		\begin{forest}
+		[VP
+			[V]
+			[DP]
+		]
+		\end{forest}
+	}
+	\label{ex:basic-forest-example}
+\end{exe}
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{latex}
+\documentclass{article}
+\usepackage{forest}
+\begin{document}
+
+\begin{forest}
+[VP
+    [V]
+    [DP]
+]
+\end{forest}
+
+\end{document}
+	\end{minted}
+	\caption{A very basic example with \Package{forest}}
+	\label{lst:basic-forest-example}
+\end{listing}
+
+There are a few things to note about this basic example.
+
+First, line breaks are not necessary.
+You could have produced the same output by writing \mintinline{latex}|[VP [V] [DP] ]|.
+Nonetheless, spacing things across lines is generally a good practice because it makes your code much more readable, which also in turn makes it much easier to debug if you are getting errors when trying to compile your file.
+
+Second, you will see that this tree does not occur inside of a numbered example.
+This is something you will almost always want to do, as it is a standard in the field.
+Given what you learned in \S\ref{subsec:examples}, you should be able to imagine how to do this.
+And we will see an explicit example of how to do this below.
+
+Third, you will notice that the branches do not actually connect at the bottom of the ``VP'' node.
+Having the branches connect at the bottom of their parent node is the standard style in syntax.
+We will see how to draw a tree with this style below as well.
+
+With that in mind, let's take a look at a slightly more complicated example, given in Listing~\ref{lst:typesetting-trees}, which will address some of these issues.
+The code in Listing~\ref{lst:typesetting-trees} will produce what you see in (\ref{ex:typesetting-trees}).
 
 \begin{exe}
     \ex[]{
@@ -1365,7 +1412,7 @@ This will produce what you see in (\ref{ex:typesetting-trees}).
 	\label{lst:typesetting-trees}
 \end{listing}
 
-A few comments about what you see in Listing~\ref{lst:typesetting-trees}.
+A few comments about what you see in Listing~\ref{lst:typesetting-trees} are in order.
 
 First, \Package{forest} is designed to typeset trees as compactly as possible.
 Sometimes when you want to show movement, you will therefore need to increase the distance between siblings so that arrows don't overlap with something else.
