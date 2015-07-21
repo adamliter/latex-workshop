@@ -35,7 +35,6 @@
 		}
 	},
 	.style={
-		qtree,
 		baseline
 	}
 }
@@ -119,6 +118,9 @@ This document already has enough footnotes as it is, but you're welcome to look 
 \newcommand*{\File}[1]{\texttt{#1}}
 \newcommand*{\Package}[1]{\texttt{#1}}
 \newcommand*{\Directory}[1]{\texttt{#1}}
+
+\newcommand*{\KEY}[1]{\textbf{#1}}
+\newcommand*{\Semantics}[1]{\textbf{#1}}
 
 \newcommand*{\TitleText}[1]{\textit{#1}}
 
@@ -449,7 +451,7 @@ This means that if you want \LaTeX{} to format things that are similar in nature
 
 Alan gives the example of section headings.
 The proper way to make a section heading in \LaTeX{} is to write it like \mintinline{latex}|\section{Section title}|.
-The command \mintinline{latex}|\section{}| gives the content ``Section title'' the semantics of being a \textbf{section}.
+The command \mintinline{latex}|\section{}| gives the content ``Section title'' the semantics of being a \Semantics{section}.
 Then, if you want to change anything about how your sections are formatted, you can change this in the preamble of your document.
 This contrasts with how many folks use Word where they would change this for each individual section heading.%
 \footnote{%
@@ -704,12 +706,63 @@ Consider Listing~\ref{lst:booktabs-table}, which produces the following output.
 	\label{lst:booktabs-table}
 \end{listing}
 
-\subsection{Floats}
-\label{subsec:floats}
+\subsection{Images}
+\label{subsec:images}
 
-Typesetting a table is great and all, but we want to be able to number it.
-This is what floats are for.
-In addition to automagically numbering tables and allowing us to provide a caption, \LaTeX{} has a special way of treating floats.
+One thing you will often want to do is include images in a document.
+This is what the package \Package{graphicx} is for.
+Let's look at the example in Listing~\ref{lst:image-example}.
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{latex}
+\documentclass{article}
+\usepackage{graphicx}
+\graphicspath{ {figure/} }
+\begin{document}
+
+\includegraphics[width=.8\textwidth]{super-important-graph}
+
+\end{document}
+	\end{minted}
+	\caption{An example of including an image in a document}
+	\label{lst:image-example}
+\end{listing}
+
+Notice that in the preamble of the document, we declared \mintinline{latex}|\graphicspath{ {figure/} }|.
+This means that the package \Package{graphicx} will look in the folder called \texttt{figure} for images.%
+\footnote{%
+You don't need to do this.
+If you prefer, you can just put the image file in the same folder as the \File{.tex} file.
+The working directory (\IE{} the folder that the \File{.tex} file is in) is a place that the engine will always search when typesetting a document.
+So if you're struggling with setting up a local \Directory{texmf} folder as described in \S\ref{subsec:local-files}, you can always just put files in the same folder as your \File{.tex} file for the time being.
+But anyway, a reason you might want to have a separate folder dedicated for figures is to avoid clutter.
+It's really up to you.
+}
+So, in order to get this \File{.tex} file to compile, you would want to save it in a folder; then, in that same folder, you would want to create a new folder called \Directory{figure}.
+Inside that folder, you should put the file \File{super-important-graph.pdf}.%
+\footnote{%
+The package \Package{graphicx} doesn't always play nicely with spaces and underscores in file names, so you should avoid using those things in the names of your image files.
+}
+Notice that the file extension is omitted in the call to \mintinline{latex}|\includegraphics{}|.
+This is a best practice because it allows \Package{graphicx} to try a bunch of different file extensions.
+
+Notice also that we passed an optional argument to \mintinline{latex}|\includegraphics{}| in the form of a \textit{key val list}.
+The key \KEY{width} can take a value that specifies what the width of the image that appears in the typeset document should be.
+You could give it a value of \mintinline{text}|6in| if you wanted, but it is often much more sensible to specify the width in terms of a dynamically defined value.
+In this case, the super important graph will always occupy 80\% of the space allocated to the text, even if we change the margins of the document.
+
+\subsection{Captioning and numbering}
+\label{subsec:captioning-and-numbering}
+
+Typesetting a table and including an image is great and all, but we want to be able to caption and number them.
+One common way to do this is to use floats.
+
+\subsubsection{Floats}
+\label{subsubsec:floats}
+
+In addition to automagically numbering tables and figures, floats also allow us to provide a caption.
+One thing to know about floats is that \LaTeX{} has a special way of handling how they are typeset.
 Suffice it to say, it's rather complicated.%
 \footnote{%
 You can read more about it \href{http://tex.stackexchange.com/q/39017/32888}{here} if you're interested.
@@ -724,14 +777,9 @@ Only when you finish writing the document should you fiddle with the placement o
 However, while you're writing a document, leave all four options and let \LaTeX{} decide where floats should be placed.
 
 If you would prefer to increase the likelihood that the float will show up in exactly the location that it is specified in the source \File{.tex} file, you can place a \mintinline{text}|!| after the \mintinline{text}|h|.
-If you really, really, really, really want the thing to just show up exactly where it is in the source document, you can use the package \Package{float}, which provides the option \mintinline{text}|H|.%
-\footnote{%
-Giving the \mintinline{text}|H| option to a float causes it to not be treated as a float, so there is a sense in which calling this a float is wrong.
-However, it still allows you to easily add a caption to the table while preventing \LaTeX{} from typesetting it as a float and thus rendering it exactly in place. 
-}
 
-The command \mintinline{latex}|\caption{}| allows you to give a caption to the table.
-\LaTeX{} will automagically number the tables in the correct order, so you don't have to worry about that.
+The command \mintinline{latex}|\caption{}| allows you to give a caption to the table or figure.
+\LaTeX{} will automagically number the tables and figures in the correct order, so you don't have to worry about that.
 Semantic markup FTW!
 
 Take a look at two examples in Listing~\ref{lst:float-examples}.
@@ -741,8 +789,8 @@ Try typesetting this yourself and see what the result is.
 	\centering
 	\begin{minted}{latex}
 \documentclass{article}
+\usepackage{graphicx}
 \usepackage{booktabs}
-\usepackage{float}
 \begin{document}
 
 This is a table that is a float.
@@ -756,96 +804,95 @@ This is a table that is a float.
         Children & 56\%              & 87\%             \\
         \bottomrule
     \end{tabular}
-\caption{Adult performance compared to child performance}
+    \caption{Adult performance compared to child performance}
 \end{table}
 
 It might not actually show up in between these two sentences.
 
-This is a table that is not a float.
+This is a figure that is a float.
 
-\begin{table}[H]
+\begin{figure}[htbp]
     \centering
-    \begin{tabular}{lll}
-        \toprule
-                    & Spanish speakers  & Portuguese speakers \\ \midrule
-        Condition 1 & 99\%              & 98\%                \\
-        Condition 2 & 56\%              & 87\%                \\
-        \bottomrule
-    \end{tabular}
-    \caption{A half-baked pretend linguistic example of a table}
-\end{table}
+    \includegraphics[width=.8\textwidth]{example-image-a}
+    \caption{Super scientificy graphy thingy}
+\end{figure}
 
-It is \emph{sure as hell} going to show up in between these two sentences.
+It might not actually show up in between these two sentences.
 
 \end{document}
 	\end{minted}
-	\caption{Examples of (non-)floats in \LaTeX}
+	\caption{Examples of floats in \LaTeX}
 	\label{lst:float-examples}
 \end{listing}
 
-\subsection{Images}
-\label{subsec:images}
+\subsubsection{Non-float options}
+\label{subsubsec:non-float-options}
 
-One thing you will often want to do is include images in a document.
-Like with tables, there is a float environment called \mintinline{text}|figure| for this.
-Also like with tables, the \mintinline{text}|figure| environment doesn't automatically insert an image for you.
-Recall from the previous subsection that the \mintinline{text}|tabular| environment actually typesets the table, whereas the \mintinline{text}|table| environment turns the table into a float, further allowing you to provide a caption.
+It is worth mentioning some non-float options for tables and images.
+One of the reasons that it is worth mentioning these options is because there is a common misconception that tables must go inside \mintinline{latex}|table| environments and images must go inside \mintinline{latex}|figure| environments.
+This is not true.
 
-We have to do something similar for figures.
-The \mintinline{text}|figure| environment will turn an image into a float and allow you to provide a caption.
-But how do we get the image inside the document in the first place?
-This is what the package \Package{graphicx} is for.
-Let's look at the example in Listing~\ref{lst:figure-example}.
+When you're writing a paper, it is best to use floats because \LaTeX{} will use its algorithm to place the floats in the best environment.
+However, it is not always appropriate to use floats.
+
+One example of when you probably don't want to use floats is when you're making a handout.
+In a handout, you usually want the image or the table to show up exactly where you place the code in the source document.
+
+Nonetheless, in this case you might still want to be able to number and caption the figure or table.
+The package \Package{capt-of} allows you to do this.
+An example is given in Listing~\ref{lst:capt-of-example}.
+Note that you will want to put things inside of an enclosing group, such as \mintinline{latex}|\begin{center}...\end{center}|.
 
 \begin{listing}[htbp]
 	\centering
 	\begin{minted}{latex}
 \documentclass{article}
 \usepackage{graphicx}
-\graphicspath{ {figure/} }
+\usepackage{booktabs}
+\usepackage{capt-of}
 \begin{document}
 
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=.8\textwidth]{super-important-graph}
-    \caption{Super scientificy graphy thingy}
-\end{figure}
+This is a table that is not a float.
+
+\begin{center}
+    \begin{tabular}{lll}
+        \toprule
+                 & Passive sentences & Active sentences \\ \midrule
+        Adults   & 99\%              & 98\%             \\
+        Children & 56\%              & 87\%             \\
+        \bottomrule
+    \end{tabular}
+    \captionof{table}{Adult performance compared to child performance}
+\end{center}
+
+It will show up in between these two sentences no matter what.
+
+This is a figure that is not a float.
+
+\begin{center}
+    \includegraphics[width=.8\textwidth]{example-image-a}
+    \captionof{figure}{Super scientificy graphy thingy}
+\end{center}
+
+It will show up in between these two sentences no matter what.
 
 \end{document}
 	\end{minted}
-	\caption{An example of including an image inside of a float in \LaTeX}
-	\label{lst:figure-example}
+	\caption{Examples of tables and images as non-floats}
+	\label{lst:capt-of-example}
 \end{listing}
 
-Notice that in the preamble of the document, we declared \mintinline{latex}|\graphicspath{ {figure/} }|.
-This means that the package \Package{graphicx} will look in the folder called \texttt{figure} for images.%
-\footnote{%
-You don't need to do this.
-If you prefer, you can just put the image file in the same folder as the \File{.tex} file.
-The working directory (\IE{} the folder that the \File{.tex} file is in) is a place that the engine will always search when typesetting a document.
-So if you're struggling with setting up a local \Directory{texmf} folder as described in \S\ref{subsec:local-files}, you can always just put files in the same folder as your \File{.tex} file for the time being.
-But anyway, a reason you might want to have a separate folder dedicated for figures is to avoid clutter.
-It's really up to you.
-}
-So, in order to get this \File{.tex} file to compile, you would want to save it in a folder; then, in that same folder, you would want to create a new folder called \texttt{figure}.
-Inside that folder, you should put the file \texttt{super-important-graph.pdf}.%
-\footnote{%
-The package \Package{graphicx} doesn't always play nicely with spaces and underscores in file names, so you should avoid using those things in the names of your image files.
-}
-Notice that the file extension is omitted in the call to \mintinline{latex}|\includegraphics{}|.
-This is a best practice because it allows \Package{graphicx} to try a bunch of different file extensions.
-
-Notice also that we passed an optional argument to \mintinline{latex}|\includegraphics{}| in the form of a \emph{key val list}.
-The key \textbf{width} can take a value that specifies what the width of the image that appears in the typeset document should be.
-You could give it a value of \mintinline{text}|6in| if you wanted, but it is often much more sensible to specify the width in terms of a dynamically defined value.
-In this case, the super important graph will always occupy 80\% of the space allocated to the text, even if we change the margins of the document.
+Another case where you might want to not put a table inside of a float is when you're making a table for a particular morphological paradigm.
+In linguistics, we usually number such tables just like we number other examples.
+In \S\ref{subsec:examples}, we will see how to make numbered examples.
+You can put a \mintinline{latex}|tabular| environment directly inside such an example.
 
 \subsection{Cross referencing}
 \label{subsec:cross-referencing}
 
-So automagically numbered floats are great and all, but how do I refer to those things in my document?
+So automagically numbered tables and images are great and all, but how do I refer to those things in my document?
 One thing that is great about \LaTeX{} is that you can give things \mintinline{latex}|\label|s and \mintinline{latex}|\ref|er to them automagically as well.
-Let's modify Listing~\ref{lst:figure-example} a bit, as in the new Listing~\ref{lst:cross-referencing}.
+Consider the Listing~\ref{lst:cross-referencing}.
 
 \begin{listing}[htbp]
 	\centering
@@ -859,7 +906,7 @@ As can be seen in Figure~\ref{fig:important-graph}, the results clearly show tha
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=.8\textwidth]{super-important-graph}
+    \includegraphics[width=.8\textwidth]{example-image-a}
     \caption{Super scientificy graphy thingy}
     \label{fig:important-graph}
 \end{figure}
@@ -1208,7 +1255,7 @@ This will produce what you see in (\ref{ex:typesetting-trees}).
 
 \begin{exe}
     \ex[]{
-        \begin{forest}
+        \begin{forest} qtree
         [TP
             [DP
                 [D\\he, name=DP2]
@@ -1264,7 +1311,6 @@ This will produce what you see in (\ref{ex:typesetting-trees}).
 \usepackage{gb4e}
 \noautomath
 \begin{document}
-
 \begin{exe}
     \ex[]{
         \begin{forest}
@@ -1299,7 +1345,6 @@ This will produce what you see in (\ref{ex:typesetting-trees}).
         \end{forest}
     }
 \end{exe}
-
 \end{document}
 	\end{minted}
 	\caption{An example of typesetting a syntax tree using \Package{forest}}
