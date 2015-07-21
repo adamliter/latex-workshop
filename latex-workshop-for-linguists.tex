@@ -38,10 +38,8 @@
 		baseline
 	}
 }
-\usetikzlibrary{positioning}
 \usetikzlibrary{matrix}
 \usetikzlibrary{decorations.pathreplacing}
-\usepackage{fixltx2e}
 
 \definecolor{fblue}{RGB}{92,144,192}
 
@@ -82,13 +80,22 @@
 \usepackage{xcolor}
 \definecolor{darkred}{HTML}{B22613}
 
-\usepackage[colorlinks]{hyperref}
-\hypersetup{linkcolor=darkred,citecolor=gray,urlcolor=cyan}
+\usepackage[
+	colorlinks
+]{hyperref}
+\hypersetup{
+	linkcolor=darkred,
+	citecolor=gray,
+	urlcolor=cyan
+}
 
 \usepackage{hologo}
 
 \usepackage{textglos}
-\usepackage[nomain,nostyles]{glossaries}
+\usepackage[
+	nomain,
+	nostyles
+]{glossaries}
 \usepackage{glossary-inline}
 \usepackage{leipzig-mod}
 \makeglossaries
@@ -109,8 +116,8 @@
 There are a few dependencies and oddities that might prevent you from actually being able to compile it yourself on your machine.
 (It definitely won't compile on one of the online editors because you need to enable shell escape.)
 Anyway, it's not worth explaining these things any further in a footnote.
-This document already has enough footnotes as it is, but you're welcome to look at the source code of the document to get an idea of how to write something in \LaTeX.
-}
+This document already has enough footnotes as it is, but you're welcome to look at the source code of the document to get an idea of how to write something in \LaTeX.%
+}%
 }
 \author{\begin{tabular}{cc}Adam Liter\\\href{mailto:adam.liter@gmail.com}{\nolinkurl{adam.liter@gmail.com}}\end{tabular}}
 \date{July 22, 2015}
@@ -128,10 +135,6 @@ This document already has enough footnotes as it is, but you're welcome to look 
 
 \newcommand*{\IE}{\emph{i.e.},}
 
-\newcommand{\CurlyBrackets}[1]{%
-	$\left\{\begin{tabular}{@{}l@{}}#1\end{tabular}\right\}$%
-}
-
 \begin{document}
 
 \maketitle
@@ -142,7 +145,7 @@ This document already has enough footnotes as it is, but you're welcome to look 
 This section is largely a brief recap of \S1 of Alan Munn's \TitleText{A Beginner's Guide to \LaTeX{} (on the Mac)}.%
 \footnote{%
 A PDF of this is available at \url{https://www.msu.edu/~amunn/latex/nano-companion.pdf}.
-If you have trouble accessing it, try refreshing the page a few times. The web servers at Michigan State University can sometimes be sort of shitty.
+If you have trouble accessing it, try refreshing the page a few times. The web servers at Michigan State University can sometimes be sort of shitty.%
 }
 But you should really just read that whole PDF (and ignore the parts specific to Mac if you're not on a Mac).
 It is both short and useful.
@@ -158,7 +161,7 @@ It is both short and useful.
 		For discussion of the differences between \hologo{MiKTeX} and TeX Live, see \url{http://tex.stackexchange.com/q/20036/32888}.
 		If you're on Linux, do \emph{not} install TeX Live via your package manager!!!
 		You should instead install a ``vanilla'' version of TeX Live. See \url{http://tex.stackexchange.com/q/1092/32888}.
-		See also \S\ref{subsec:installing-a-tex-distro} of this handout.
+		See also \S\ref{subsec:installing-a-tex-distro} of this handout.%
 		}
 	}
 	
@@ -191,7 +194,16 @@ It is both short and useful.
 			\begin{tikzpicture}
 				[
 					baseline,
-					left brace/.style={semithick,decorate,decoration={brace,raise=2mm,amplitude=3pt,mirror}}
+					left brace/.style={
+						semithick,
+						decorate,
+						decoration={
+							brace,
+							raise=2mm,
+							amplitude=3pt,
+							mirror
+						}
+					}
 				]
 				\matrix(M)[
 					matrix of nodes,
@@ -262,7 +274,7 @@ Instead, you should \href{http://tex.stackexchange.com/q/1092/32888}{install a `
 
 The easiest thing to install on Windows is \hologo{MiKTeX},%
 \footnote{%
-Disclaimer: I know very little about Windows and \hologo{MiKTeX}.
+Disclaimer: I know very little about Windows and \hologo{MiKTeX}.%
 } %
 which is a different distribution than TeX Live.
 \hologo{MiKTeX} doesn't install every package but instead installs a minimal distribution and allows you to install packages on the fly when compiling your document if the requisite package is not already installed.
@@ -270,7 +282,7 @@ which is a different distribution than TeX Live.
 At one point, there were security concerns about \hologo{MiKTeX} and thus it was preferable to install TeX Live.
 However, these security concerns seem to have been mitigated, and it's not clear that there is a huge reason to prefer a TeX Live installation on Windows.%
 \footnote{%
-See \href{http://tex.stackexchange.com/q/20036/32888}{this question and its answers on TeX.SX} for discussion.
+See \href{http://tex.stackexchange.com/q/20036/32888}{this question and its answers on TeX.SX} for discussion.%
 }
 Moreover, it is not as straightforward to install TeX Live as it is to install \hologo{MiKTeX}.
 Nonetheless, if you wish to do so, see \href{http://www.tug.org/texlive/acquire-netinstall.html}{here}.
@@ -287,7 +299,7 @@ One thing that is also great about \LaTeX, in stark contradistinction to Word, i
 That is, even if package authors introduce new features, they will make sure that any document you previously typeset using their package will be something that you can still typeset using the new updated version of their package.
 If package authors do decide to break backwards compatibility, they will usually create a new package with an entirely new name, which effectively maintains backward compatibility because the old package will always be available for use.
 On the other hand, with Word, you're lucky if you can open a file from last year's version of Word with this year's version of Word, much less have the formatting look even remotely the same.
-With \LaTeX, you could typeset a \LaTeX{} file written in 1739 and the output you get would be identical to the output you got in 1739.
+With \LaTeX, you could typeset a \LaTeX{} file written in 1739 and the output you get would be identical to the output you got in 1739.%
 }
 
 In addition to periodically updating the packages, you will also want to periodically update the entire distribution.
@@ -311,7 +323,7 @@ What is common to both cases, however, is that the directory must conform to the
 A minimal example of a directory structure that conforms to this standard is given in Figure~\ref{fig:TDS}.%
 \footnote{%
 There are even more folders in a maximal TDS directory, but the ones depicted in Figure~\ref{fig:TDS} are probably enough for most use cases.
-If you're interested in reading more about TDS, you can do so at \url{https://www.tug.org/tds/tds.pdf}.
+If you're interested in reading more about TDS, you can do so at \url{https://www.tug.org/tds/tds.pdf}.%
 }
 
 \begin{figure}[htbp]
@@ -378,12 +390,12 @@ TEXMFHOME usually refers to the path \Directory{\textasciitilde/Library/texmf} o
 TEXMFHOME and TEXMFLOCAL have the same semantics; that is to say, they are both places where users can put their own files that are not part of TeX Live. However, TEXMFLOCAL will be overwritten every time you install a new version of TeX Live.
 For this reason, it is probably best to keep all of your local files in TEXMFHOME.%
 \footnote{%
-For discussion, see \url{http://www.tex.ac.uk/FAQ-what-TDS.html}.
+For discussion, see \url{http://www.tex.ac.uk/FAQ-what-TDS.html}.%
 }
 
 As mentioned above, the default value for TEXMFHOME on a Mac is \Directory{\textasciitilde/Library/texmf}, the default value on Linux is \Directory{\textasciitilde/texmf}, and the default value on Windows is \Directory{C:\textbackslash Users\textbackslash <user name>\textbackslash texmf}.%
 \footnote{%
-If you're still on Windows XP, it should be \Directory{C:\textbackslash Documents and Settings\textbackslash <user name>\textbackslash texmf} instead of \Directory{C:\textbackslash Users\textbackslash <user name>\textbackslash texmf}.
+If you're still on Windows XP, it should be \Directory{C:\textbackslash Documents and Settings\textbackslash <user name>\textbackslash texmf} instead of \Directory{C:\textbackslash Users\textbackslash <user name>\textbackslash texmf}.%
 }
 
 If you are unsure what the value of TEXMFHOME is, you can check it by going to the command line and running \mintinline{sh}|kpsewhich -var-value TEXMFHOME|.
@@ -391,7 +403,7 @@ If you are unsure what the value of TEXMFHOME is, you can check it by going to t
 If, for example, you're on a Mac and haven't changed the default setting, this should return the following file path: \Directory{/Users/<user name>/Library/texmf}.%
 \footnote{%
 The `\Directory{\textasciitilde}' is used as shorthand for a user's home directory.
-That is to say, `\Directory{\textasciitilde/Library/texmf}' is the same as `\Directory{/Users/<user name>/Library/texmf}' on a Mac.
+That is to say, `\Directory{\textasciitilde/Library/texmf}' is the same as `\Directory{/Users/<user name>/Library/texmf}' on a Mac.%
 }
 
 Even though the variable TEXMFHOME has a value, the folder might not exist.
@@ -402,7 +414,7 @@ If you're on a Mac, you're in luck, because Alan Munn has written an \href{https
 If you're on Linux, you can do what is shown in Listing~\ref{lst:make-TEXMFHOME}.%
 \footnote{%
 This will also work on a Mac.
-Note, however, that it will only work after TeX Live has been installed, because the command line tool \mintinline{sh}|kpsewhich| is part of TeX Live.
+Note, however, that it will only work after TeX Live has been installed, because the command line tool \mintinline{sh}|kpsewhich| is part of TeX Live.%
 }
 
 \begin{listing}[htbp]
@@ -430,7 +442,7 @@ Once you create the folder \Directory{Local TeX Files} in the \Directory{C:\text
 \footnote{%
 Note that in this case the folder called \Directory{Local TeX Files} is the same as the \Directory{texmf} folder depicted in Figure~\ref{fig:TDS}.
 You should \emph{not} put a folder called \Directory{texmf} inside of \Directory{Local TeX Files}.
-Instead, treat \Directory{Local TeX Files} as the \Directory{texmf} folder.
+Instead, treat \Directory{Local TeX Files} as the \Directory{texmf} folder.%
 }
 
 After you have created all of these folders, you can follow \href{http://docs.miktex.org/manual/localadditions.html#id601919}{these steps}.
@@ -459,7 +471,7 @@ This contrasts with how many folks use Word where they would change this for eac
 \footnote{%
 Note that Word also allows for semantic markup despite the fact that most people do not use it.
 If you cannot convince your Word-using friends and family to switch to \LaTeX, you should at least try to get them to use semantic markup in Word if they don't already do so.
-\texttt{:)}
+\texttt{:)}%
 }
 For example, if you want the number preceding all of your section headings to be blue, you can change this at the beginning of the document, like in Listing~\ref{lst:blue-sections}.
 
@@ -557,7 +569,7 @@ To underline something, don't.%
 Underlining is really frowned upon in the typography community.
 I also personally do not like it.
 However, if you have a really, really, really, really, really (really) good reason, then I suppose you can use \mintinline{latex}|\uline| from the \Package{ulem} package.
-When you load, \Package{ulem} be sure to pass it the optional argument \mintinline{latex}|normalem|.
+When you load, \Package{ulem} be sure to pass it the optional argument \mintinline{latex}|normalem|.%
 }
 
 One important thing to note about all of the foregoing commands is that using them directly in your document is \emph{not} good practice.
@@ -595,7 +607,7 @@ If you wish to render the character `\texttt{\textbackslash}' you can use the co
 Two further exceptions are \mintinline{text}|^| and \mintinline{text}|~|.
 Preceding these two characters with `\texttt{\textbackslash}' is used for appending diacritics in \LaTeX{} (though see \S\ref{subsec:fontspec-and-unicode} for a better way of doing this).
 If you wish to print these characters, you will need to do \mintinline{latex}|\^{}| and \mintinline{latex}|\~{}|, respectively (though see \href{http://tex.stackexchange.com/q/312/32888}{this post on TeX.SX} for suggestions of better ways to typeset a tilde).
-\label{fn:diacritics}
+\label{fn:diacritics}%
 }
 
 The character `\mintinline{text}|#|' is used for passing arguments to macros.
@@ -627,7 +639,7 @@ For linguists, math mode is something that is mostly useful for typesetting sema
 This is a bit of an overstatement.
 There are other use cases.
 Typesetting feature bundles in morphosyntax is one such use case, for example.
-However, for the purposes of an introductory workshop, you should really just know what math mode is.
+However, for the purposes of an introductory workshop, you should really just know what math mode is.%
 }
 For example, \mintinline{latex}|$\lambda x$| will produce $\lambda x$.
 
@@ -739,12 +751,12 @@ If you prefer, you can just put the image file in the same folder as the \File{.
 The working directory (\IE{} the folder that the \File{.tex} file is in) is a place that the engine will always search when typesetting a document.
 So if you're struggling with setting up a local \Directory{texmf} folder as described in \S\ref{subsec:local-files}, you can always just put files in the same folder as your \File{.tex} file for the time being.
 But anyway, a reason you might want to have a separate folder dedicated for figures is to avoid clutter.
-It's really up to you.
+It's really up to you.%
 }
 So, in order to get this \File{.tex} file to compile, you would want to save it in a folder; then, in that same folder, you would want to create a new folder called \Directory{figure}.
 Inside that folder, you should put the file \File{super-important-graph.pdf}.%
 \footnote{%
-The package \Package{graphicx} doesn't always play nicely with spaces and underscores in file names, so you should avoid using those things in the names of your image files.
+The package \Package{graphicx} doesn't always play nicely with spaces and underscores in file names, so you should avoid using those things in the names of your image files.%
 }
 Notice that the file extension is omitted in the call to \mintinline{latex}|\includegraphics{}|.
 This is a best practice because it allows \Package{graphicx} to try a bunch of different file extensions.
@@ -767,7 +779,7 @@ In addition to automagically numbering tables and figures, floats also allow us 
 One thing to know about floats is that \LaTeX{} has a special way of handling how they are typeset.
 Suffice it to say, it's rather complicated.%
 \footnote{%
-You can read more about it \href{http://tex.stackexchange.com/q/39017/32888}{here} if you're interested.
+You can read more about it \href{http://tex.stackexchange.com/q/39017/32888}{here} if you're interested.%
 }
 All you need to know is that \LaTeX{} has a special algorithm for placing floats in the best possible spot, according to general typographical standards.
 
@@ -926,7 +938,7 @@ If you try putting the \mintinline{latex}|\label| first, you will get the wrong 
 Second, you will notice that I've put a non-breaking space between \mintinline{text}|Figure| and \mintinline{latex}|\ref|.
 This is generally a good practice because it prevents the number from being separated from the description of what it is.%
 \footnote{%
-If you really like automagic, you might want to check out the \href{http://ctan.org/pkg/cleveref}{\Package{cleveref}} package.
+If you really like automagic, you might want to check out the \href{http://ctan.org/pkg/cleveref}{\Package{cleveref}} package.%
 }
 
 Third, you will also notice that I've given the label a prefix of \mintinline{text}|fig:|.
@@ -936,7 +948,7 @@ The table contains specific values, and the figure is a graph of those values.
 It's the same data, so you presumably want to give them similar names.
 If you use prefixes like this, you could do \mintinline{latex}|\label{tab:super-important-results}| for the table and \mintinline{latex}|\label{fig:super-important-results}| for the graph.%
 \footnote{%
-Spaces are not allowed in the names of \mintinline{latex}|\label|s.
+Spaces are not allowed in the names of \mintinline{latex}|\label|s.%
 }
 
 Fourth, and most importantly, is that you must compile your document twice in order for this to work.
@@ -1052,7 +1064,7 @@ Explaining what exactly a version control system (VCS) is, is quite beyond the s
 Basically, it's a way to keep a history of all of the changes that have been made to a document.
 If you delve any further into learning \LaTeX{} or learning to program, you will probably also want to learn a VCS at some point.
 The most popular one is \mintinline{sh}|git|.
-Also, hopefully you now understand this \href{https://xkcd.com/1285/}{joke}.
+Also, hopefully you now understand this \href{https://xkcd.com/1285/}{joke}.%
 }
 
 \section{Useful stuff for linguists}
@@ -1075,7 +1087,7 @@ A complete example of what Alan suggests is given in Listing~\ref{lst:phonetic-f
 See also \href{http://tex.stackexchange.com/q/25249/32888}{this question and its answers on TeX.SX}.
 Note that in order for the example in Listing~\ref{lst:phonetic-font} to actually compile, you will need to have the font Doulos SIL installed on your machine.
 Covering how to install a font on your machine is beyond the scope of this workshop, since it is very specific to the type of operating system that you are running.
-However, you should be able to search for instructions online and pretty easily figure out how to do it.
+However, you should be able to search for instructions online and pretty easily figure out how to do it.%
 }
 
 \begin{listing}[htbp]
@@ -1134,7 +1146,7 @@ There are two main packages that I would recommend for typesetting linguistic ex
 \footnote{%
 There is also the package called \Package{linguex}.
 I don't know much about it.
-I've always avoided it because, as Alan points out in \TitleText{A Beginner's Guide to \LaTeX{} (on the Mac)}, its markup is not all that semantic.
+I've always avoided it because, as Alan points out in \TitleText{A Beginner's Guide to \LaTeX{} (on the Mac)}, its markup is not all that semantic.%
 }
 The \Package{gb4e} package works well in most cases.
 For more complicated use cases, you might want to learn \Package{ExPex}.
@@ -1147,7 +1159,7 @@ Listing~\ref{lst:basic-linguistic-example} gives an example of how to typeset so
 \footnote{%
 Note that it is not strictly necessary to put each example in its own \mintinline{latex}|exe| environment, but it is a good practice to do so, for at least two reasons.
 First, the markup is more semantic because \mintinline{latex}|exe| is singular; it refers to \emph{an} example, not a series of examples.
-Second, and more practically, it makes moving examples around a lot easier, either within the document or from one document to another.
+Second, and more practically, it makes moving examples around a lot easier, either within the document or from one document to another.%
 }
 Try typesetting these examples yourself and see what the result is.
 Notice in particular that you can give the examples \mintinline{latex}|\label|s and \mintinline{latex}|\ref|er to them inline just like with captioned things.
@@ -1205,7 +1217,7 @@ If you use \Package{leipzig} \emph{without} the \Package{glossaries} package, yo
 However, if you use \Package{leipzig} in conjunction with the \Package{glossaries} package---which is a really great thing to do because it can then automagically generate a list of all glosses that you've used in your document---you will run into problems.
 There is a really hacky workaround \href{http://tex.stackexchange.com/a/204615/32888}{here}, but it's a bug that should ultimately be fixed in the \Package{leipzig} package.
 I've tried contacting the maintainer of the package, but I haven't gotten a response.
-I plan to try contacting her again soon, so hopefully the bug will be fixed at some point.
+I plan to try contacting her again soon, so hopefully the bug will be fixed at some point.%
 }
 
 \begin{listing}[htbp]
@@ -1247,7 +1259,7 @@ There are two main packages that are useful for typesetting linguistics trees, \
 Both are built on top of the package, \Package{tikz}.
 I would recommend using \Package{forest}.%
 \footnote{%
-For further discussion, see \href{http://tex.stackexchange.com/q/5447/32888}{this question and its answers on TeX.SX}.
+For further discussion, see \href{http://tex.stackexchange.com/q/5447/32888}{this question and its answers on TeX.SX}.%
 }
 The syntax for both of these is almost the same, and \Package{forest} is a lot more powerful.
 However, you don't need to know its internals to do the basic stuff.
@@ -1373,7 +1385,7 @@ This means that ``TP'' will be typeset as aligned with the example number (if yo
 The second option, \mintinline{latex}|qtree|, is a style that mimics the \Package{qtree} package style for trees.%
 \footnote{%
 Note that this style is not defined by \Package{forest}.
-We must define it ourselves.
+We must define it ourselves.%
 }
 This is the style that is standard for typesetting trees.
 Specifically, it ensures that the branches of the tree connect at the bottom of each node.
@@ -1387,14 +1399,14 @@ One package is called \href{http://sanders.phonologist.org/OTtablx/}{\Package{OT
 Thus, in order to use it, you need to put the \File{.sty} file in either the same directory as your \File{.tex} file or put it in a local folder that your \TeX{} distribution can see (cf.~\S\ref{subsec:local-files}).%
 \footnote{%
 Note that if you do decide to try \Package{OTtablx} at some point, it must first be compiled to DVI format and then PDF format because it relies on the package \Package{pstricks}.
-If you compile with \hologo{XeLaTeX}, things should work fine, but it will not work with \hologo{pdfLaTeX}.
+If you compile with \hologo{XeLaTeX}, things should work fine, but it will not work with \hologo{pdfLaTeX}.%
 }
 
 To avoid this complication for the sake of an introductory workshop, we will instead use the package called \Package{ot-tableau}, which is available on CTAN (\IE{} it is part of any good \TeX{} distribution, such as TeX Live or \hologo{MiKTeX}).
 An example of how to typeset a tableau is given in Listing~\ref{lst:example-tableau}.
 This code will produce the result in (\ref{ex:example-tableau}).%
 \footnote{%
-Disclaimer: I'm not a phonologist.
+Disclaimer: I'm not a phonologist.%
 }
 
 \begin{exe}
@@ -1472,7 +1484,7 @@ If your distribution is TeX Live, you can just open a terminal and type \mintinl
 And, of course, there are also some good books for learning \LaTeX.
 There's a free one called the \href{http://texdoc.net/texmf-dist/doc/latex/lshort-english/lshort.pdf}{\emph{The Not So Short Introduction to \LaTeXe}}.%
 \footnote{%
-If you have TeX Live installed, you can find this book on your system by typing \mintinline{sh}{texdoc lshort} at a terminal.
+If you have TeX Live installed, you can find this book on your system by typing \mintinline{sh}{texdoc lshort} at a terminal.%
 }
 There's also \href{http://www.amazon.com/LaTeX-Companion-Techniques-Computer-Typesetting/dp/0201362996}{\emph{The \LaTeX{} Companion}}.
 
