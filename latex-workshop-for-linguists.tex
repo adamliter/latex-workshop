@@ -1424,7 +1424,11 @@ If you want to draw an arrow from one leaf in a tree to another leaf, you need t
 If you want to have spaces in a node in a tree, you will need to surround the content in braces, like what I did with \mintinline{latex}|{Egyptian cotton shirts}| in Listing~\ref{lst:typesetting-trees}.
 
 Finally, you will most likely want all of your trees to be typeset using both \mintinline{latex}|baseline| and \mintinline{latex}|qtree|.
-By declaring \mintinline{latex}|\forestset{.style={qtree,baseline}}| in your preamble, you tell \Package{forest} to typeset all of your trees like this.
+By declaring \mintinline{latex}|\forestset{.style={qtree,baseline}}| in your preamble, you tell \Package{forest} to typeset all of your trees like this.%
+\footnote{%
+The method for declaring default styles is going to change in a future version of \Package{forest}.
+I will update this handout when it does change.
+}
 
 The first option, \mintinline{latex}|baseline|, ensures that the baseline of the typeset object is the top of the tree, rather than the bottom of the tree.
 This means that ``TP'' will be typeset as aligned with the example number (if you put it inside of an example environment) rather than ``Egyptian cotton shirts''.
