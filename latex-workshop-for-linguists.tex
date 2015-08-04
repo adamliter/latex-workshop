@@ -9,18 +9,42 @@
 \setmainfont{CMU Serif Roman}
 
 \usepackage[
+	margin=0.75in
+]{geometry}
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1ex}
+
+\usepackage[
+	%mark,% put \gitMark inside of \cfoot of fancyhdr instead
+	missing={master}
+]{gitinfo2}
+
+\usepackage{lastpage}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\@fancyhead}{\rlap}{\color{gray}\small\sffamily\rlap}{}{}
+\patchcmd{\@fancyfoot}{\rlap}{\color{gray}\small\sffamily\rlap}{}{}
+\makeatother
+
+\renewcommand{\headrulewidth}{0pt}
+\lhead{}
+\chead{}
+\rhead{}
+\lfoot{}
+\cfoot{\gitMark}
+\rfoot{\thepage/\pageref*{LastPage}}
+
+\usepackage[
 	justification=centering
 ]{caption}
 \usepackage{booktabs}
 
 \usepackage{minted}
 \setminted{frame=single}
-
-\usepackage[
-	margin=0.75in
-]{geometry}
-\setlength{\parindent}{0em}
-\setlength{\parskip}{1ex}
 
 \usepackage{calc}
 
@@ -146,6 +170,7 @@ Pull requests and/or suggested changes to the document are definitely welcome, t
 \begin{document}
 
 \maketitle
+\thispagestyle{fancy}
 
 \section{Terminology}
 \label{sec:terminology}
