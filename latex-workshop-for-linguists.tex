@@ -111,16 +111,24 @@
 \usepackage{gb4e}
 \noautomath
 
-\title{Impromptu \LaTeX{} workshop at the 2015 Chicago LSA Institute%
-\thanks{The \File{.tex} file that produced this PDF is available at \url{https://github.com/adamliter/latex-workshop}.
+\title{\LaTeX{} workshop (for linguists)%
+\thanks{%
+This handout was originally used as the basis for an impromptu \LaTeX{} workshop that I gave at the 2015 Chicago Linguistic Institute.
+Since then, I have updated the PDF, and I will continue to periodically keep it up to date.
+If you use this handout, I encourage you to occasionally check for a more up-to-date version of it because things do change.
+The most recent version of this PDF can be found at \url{https://bit.ly/latex-workshop}.
+Furthermore, the \File{.tex} file that produced this PDF is available at \url{https://github.com/adamliter/latex-workshop}.
 There are a few dependencies and oddities that might prevent you from actually being able to compile it yourself on your machine.
 (It definitely won't compile on one of the online editors because you need to enable shell escape.)
 Anyway, it's not worth explaining these things any further in a footnote.
-This document already has enough footnotes as it is, but you're welcome to look at the source code of the document to get an idea of how to write something in \LaTeX.%
+This document already has enough footnotes as it is, but you're welcome to look at the source code of the document to get an idea of how to write something in \LaTeX.
+Pull requests and/or suggested changes to the document are definitely welcome, too!%
 }%
 }
-\author{\begin{tabular}{cc}Adam Liter\\\href{mailto:adam.liter@gmail.com}{\nolinkurl{adam.liter@gmail.com}}\end{tabular}}
-\date{July 22, 2015}
+\author{\begin{tabular}{cc}Adam Liter\\\Email{adam.liter@gmail.com}\end{tabular}}
+\date{Last updated: \today}
+
+\newcommand*{\Email}[1]{\href{mailto:#1}{\nolinkurl{#1}}}
 
 \newcommand*{\File}[1]{\texttt{#1}}
 \newcommand*{\Package}[1]{\texttt{#1}}
