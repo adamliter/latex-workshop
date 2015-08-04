@@ -329,35 +329,40 @@ If you're interested in reading more about TDS, you can do so at \url{https://ww
 			for tree={
 				parent anchor=south,
 				child anchor=north,
-				node options={inner sep=11pt},
+				node options={
+					inner sep=11pt
+				},
 				l sep=25pt,
-				s sep=40pt
-				} 
-			[\myfolder{texmf}
-				[\myfolder{bibtex}
-					[\myfolder{bib}]
-					[\myfolder{bst}]
+				s sep=40pt,
+				delay={
+					content=\myfolder{#1}
+				}
+			}
+			[texmf
+				[bibtex
+					[bib]
+					[bst]
 				]
-				[\myfolder{doc}]
-				[\myfolder{fonts}, l sep+=60pt 
-					[\myfolder{afm}]
-					[\myfolder{map}]
-					[\myfolder{misc}]
-					[\myfolder{pk}]
-					[\myfolder{source}]
-					[\myfolder{tfm}]
-					[\myfolder{type1}]
+				[doc]
+				[fonts, l sep+=60pt 
+					[afm]
+					[map]
+					[misc]
+					[pk]
+					[source]
+					[tfm]
+					[type1]
 				]
-				[\myfolder{generic}]
-				[\myfolder{scripts}]
-				[\myfolder{source}]
-				[\myfolder{tex}
-					[\myfolder{context}]
-					[\myfolder{generic}]
-					[\myfolder{latex}]
-					[\myfolder{plain}]
-					[\myfolder{xelatex}]
-					[\myfolder{xetex}]
+				[generic]
+				[scripts]
+				[source]
+				[tex
+					[context]
+					[generic]
+					[latex]
+					[plain]
+					[xelatex]
+					[xetex]
 				]
 			]
 		\end{forest}
