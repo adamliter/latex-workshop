@@ -399,7 +399,12 @@ If you're interested in reading more about TDS, you can do so at \url{https://ww
 				[tex
 					[context]
 					[generic]
-					[latex]
+					[latex
+						[biblatex
+							[bbx]
+							[cbx]
+						]
+					]
 					[plain]
 					[xelatex]
 					[xetex]
@@ -439,7 +444,7 @@ As mentioned above, the default value for TEXMFHOME on a Mac is \Directory{\text
 If you're still on Windows XP, it should be \Directory{C:\textbackslash Documents and Settings\textbackslash <user name>\textbackslash texmf} instead of \Directory{C:\textbackslash Users\textbackslash <user name>\textbackslash texmf}.%
 }
 
-If you are unsure what the value of TEXMFHOME is, you can check it by going to the command line and running \mintinline{sh}|kpsewhich -var-value TEXMFHOME|.
+If you are unsure what the value of TEXMFHOME is, you can check it by going to the command line and running \mintinline{sh}|kpsewhich -var-value=TEXMFHOME|.
 
 If, for example, you're on a Mac and haven't changed the default setting, this should return the following file path: \Directory{/Users/<user name>/Library/texmf}.%
 \footnote{%
@@ -461,10 +466,11 @@ Note, however, that it will only work after TeX Live has been installed, because
 \begin{listing}[htbp]
 	\centering
 	\begin{minted}{sh}
-mkdir -p $(kpsewhich -var-value TEXMFHOME)/{doc,generic,scripts,source}
-mkdir -p $(kpsewhich -var-value TEXMFHOME)/bibtex/{bib,bst}
-mkdir -p $(kpsewhich -var-value TEXMFHOME)/fonts/{afm,map,misc,pk,source,tfm,type1}
-mkdir -p $(kpsewhich -var-value TEXMFHOME)/tex/{context,generic,latex,plain,xelatex,xetex}
+mkdir -p $(kpsewhich -var-value=TEXMFHOME)/{doc,generic,scripts,source}
+mkdir -p $(kpsewhich -var-value=TEXMFHOME)/bibtex/{bib,bst}
+mkdir -p $(kpsewhich -var-value=TEXMFHOME)/fonts/{afm,map,misc,pk,source,tfm,type1}
+mkdir -p $(kpsewhich -var-value=TEXMFHOME)/tex/{context,generic,latex,plain,xelatex,xetex}
+mkdir -p $(kpsewhich -var-value=TEXMFHOME)/tex/latex/biblatex/{bbx,cbx}
 	\end{minted}
 	\caption{Make a minimal TDS-compliant directory at TEXMFHOME}
 	\label{lst:make-TEXMFHOME}
