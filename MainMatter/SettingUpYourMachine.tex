@@ -293,7 +293,8 @@ FOR %d IN (bib, bst) DO mkdir /S bibtex\%d & ^
 FOR %d IN (afm, map, misc, pk, source, tfm, type1) DO mkdir /S fonts\%d & ^
 FOR %d IN (context, generic, latex, plain, xelatex, xetex) DO mkdir /S tex\%d & ^
 FOR %d IN (bbx, cbx) DO mkdir /S tex\latex\biblatex\%d & ^
-FOR /F "delims=" %i IN ('kpsewhich -var-value=TEXMFHOME') DO mklink /J %i %HOMEPATH%\Dropbox\texmf
+FOR /F "delims=" %i IN ('kpsewhich -var-value=TEXMFHOME') DO ^
+mklink /J %i %HOMEPATH%\Dropbox\texmf
 	\end{minted}
 	\caption{Make a TDS-compliant directory in Dropbox and symlink it into TEXMFHOME on Windows}
 	\label{lst:Windows-make-TEXMFHOME-in-Dropbox}
