@@ -38,6 +38,38 @@
 \cfoot{\gitMark}
 \rfoot{\thepage/\pageref*{LastPage}}
 
+\usepackage{titlesec}
+\titleclass{\subsubsubsection}{straight}[\subsection]
+
+\newcounter{subsubsubsection}[subsubsection]
+\renewcommand\thesubsubsubsection{\thesubsubsection.\arabic{subsubsubsection}}
+\renewcommand\theparagraph{\thesubsubsubsection.\arabic{paragraph}} % optional; useful if paragraphs are to be numbered
+
+\titleformat{\subsubsubsection}
+  {\normalfont\normalsize\bfseries}{\thesubsubsubsection}{1em}{}
+\titlespacing*{\subsubsubsection}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+\makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{5}{\z@}%
+  {3.25ex \@plus1ex \@minus.2ex}%
+  {-1em}%
+  {\normalfont\normalsize\bfseries}}
+\renewcommand\subparagraph{\@startsection{subparagraph}{6}{\parindent}%
+  {3.25ex \@plus1ex \@minus .2ex}%
+  {-1em}%
+  {\normalfont\normalsize\bfseries}}
+\def\toclevel@subsubsubsection{4}
+\def\toclevel@paragraph{5}
+\def\toclevel@paragraph{6}
+\def\l@subsubsubsection{\@dottedtocline{4}{7em}{4em}}
+\def\l@paragraph{\@dottedtocline{5}{10em}{5em}}
+\def\l@subparagraph{\@dottedtocline{6}{14em}{6em}}
+\makeatother
+
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+
 \usepackage[
 	justification=centering
 ]{caption}
@@ -186,7 +218,7 @@ It is both short and useful.
 
 \begin{description}
 
-	\item[\TeX{} Distribution]{
+	\item[\TeX{} Distribution]{%
 		Contains all of the programs and packages that will be used to process and compile your \File{.tex} file.
 		There are two main distributions: TeX Live and \hologo{MiKTeX}.
 		There is also a distribution called {Mac\TeX}, which is a wrapper around TeX Live that does some stuff to make it work nicely on a Mac.
@@ -199,26 +231,26 @@ It is both short and useful.
 		}
 	}
 	
-	\item[Engines]{
-		There are a few different engines that are standardly used to process a \File{.tex} file and turn it into a PDF, including \hologo{pdfLaTeX}, \hologo{XeLaTeX}, and \hologo{LuaLaTeX}.
+	\item[Engines]{%
+		There are a few different engines that are standardly used to process a \File{.tex} file and turn it into a PDF, including \hologo{pdfLaTeX}, \hologo{XeLaTeX}, and \hologo{LuaLaTeX}.%
 	}
 	
-	\item[Editor]{
+	\item[Editor]{%
 		The application that is used to write the \File{.tex} file.
-		See \href{http://tex.stackexchange.com/q/339/32888}{here} for a long list of editors to choose from.
+		See \href{http://tex.stackexchange.com/q/339/32888}{here} for a long list of editors to choose from.%
 	}
 	
-	\item[Previewer]{
+	\item[Previewer]{%
 		An application for viewing the output of compiling the \File{.tex} file with an engine.
-		Many editors integrate a previewer into the editor.
+		Many editors integrate a previewer into the editor.%
 	}
 	
-	\item[Compiling]{
+	\item[Compiling]{%
 		The act of processing a \File{.tex} file with an engine to produce (most likely) a PDF.
-		Can sometimes loosely be used interchangeably with ``typesetting''.
+		Can sometimes loosely be used interchangeably with ``typesetting''.%
 	}
 	
-	\item[Preamble]{
+	\item[Preamble]{%
 		Refers to the part of the document between \mintinline{latex}|\documentclass| and \mintinline{latex}|\begin{document}|.
 		It is where you can load packages and define new commands, among other things.
 		See Figure~\ref{fig:document-structure}.
@@ -259,15 +291,15 @@ It is both short and useful.
 			\caption{Schematic structure of a \LaTeX{} document}
 			\label{fig:document-structure}
 		\end{figure}
-	
+	%
 	}
 	
-	\item[TeX.SX]{
+	\item[TeX.SX]{%
 		Throughout this document, you will probably see numerous references to TeX.SX.
 		This is short for \href{http://tex.stackexchange.com/}{TeX Stack Exchange}.
 		If you're not familiar with the \href{http://stackexchange.com/sites#traffic}{family of Stack Exchange websites}, you should really check them out.
 		Each site is a Q\&A website for a specific topic, but the sites are intended to be repositories of knowledge in addition to Q\&A sites, so they aren't like your normal web forum.
-		Most sites go with the suffix of .SE, but the folks that use TeX Stack Exchange are a bit idiosyncratic and generally prefer the suffix .SX.
+		Most sites go with the suffix of .SE, but the folks that use TeX Stack Exchange are a bit idiosyncratic and generally prefer the suffix .SX.%
 	}
 
 \end{description}
@@ -436,53 +468,139 @@ In TeX Live, engines are set up to look in certain places for files that your \F
 TeX Live specifically provides two places for users to put their own files, such as style files or bibliography files.
 These two places are identified by their variable names, TEXMFHOME and TEXMFLOCAL.
 
-You can change the values of these variables.
-TEXMFHOME usually refers to the path \Directory{\textasciitilde/Library/texmf} on Mac, the path \Directory{\textasciitilde/texmf} on Linux, and the path \Directory{C:\textbackslash Users\textbackslash <user name>\textbackslash texmf} on Windows, but you could change the variable TEXMFHOME to point to \Directory{\textasciitilde/Dropbox/texmf} instead, if you wanted to.
-
-TEXMFHOME and TEXMFLOCAL have the same semantics; that is to say, they are both places where users can put their own files that are not part of TeX Live. However, TEXMFLOCAL will be overwritten every time you install a new version of TeX Live.
+TEXMFHOME and TEXMFLOCAL have the same semantics; that is to say, they are both places where users can put their own files that are not part of TeX Live.
+However, TEXMFLOCAL will be overwritten every time you install a new version of TeX Live.
 For this reason, it is probably best to keep all of your local files in TEXMFHOME.%
 \footnote{%
 For discussion, see \url{http://www.tex.ac.uk/FAQ-what-TDS.html}.%
 }
 
-As mentioned above, the default value for TEXMFHOME on a Mac is \Directory{\textasciitilde/Library/texmf}, the default value on Linux is \Directory{\textasciitilde/texmf}, and the default value on Windows is \Directory{C:\textbackslash Users\textbackslash <user name>\textbackslash texmf}.%
+TEXMFHOME usually refers to the path \Directory{\textasciitilde/Library/texmf} on Mac, the path \Directory{\textasciitilde/texmf} on Linux, and the path \Directory{C:\textbackslash Users\textbackslash <user name>\textbackslash texmf} on Windows.%
 \footnote{%
 If you're still on Windows XP, it should be \Directory{C:\textbackslash Documents and Settings\textbackslash <user name>\textbackslash texmf} instead of \Directory{C:\textbackslash Users\textbackslash <user name>\textbackslash texmf}.%
 }
 
 If you are unsure what the value of TEXMFHOME is, you can check it by going to the command line and running \mintinline{sh}|kpsewhich -var-value=TEXMFHOME|.
-
-If, for example, you're on a Mac and haven't changed the default setting, this should return the following file path: \Directory{/Users/<user name>/Library/texmf}.%
+If, for example, you're on a Mac and haven't changed the default setting, this should return the following directory path: \Directory{/Users/<user name>/Library/texmf}.%
 \footnote{%
 The `\Directory{\textasciitilde}' is used as shorthand for a user's home directory.
 That is to say, `\Directory{\textasciitilde/Library/texmf}' is the same as `\Directory{/Users/<user name>/Library/texmf}' on a Mac.%
 }
 
 Even though the variable TEXMFHOME has a value, the folder might not exist.
-In order to make use of the ability to maintain your own personal bibliographic and style files, you need to make a TDS-compliant directory at the location of TEXMFHOME.
+You need to create it.
+There are two options for doing this.
+You can create the folder in that exact location, or you can create the folder in a different location and make a symbolic link (symlink) at the location of TEXMFHOME that points to where the folder is actually located on your computer.
 
-If you're on a Mac, you're in luck, because Alan Munn has written an \href{https://www.msu.edu/~amunn/latex/make-local-texmf.zip}{app that will do this automagically for you}.
-
-If you're on Linux, you can do what is shown in Listing~\ref{lst:make-TEXMFHOME}.%
+I would highly recommend the second option.
+If you do the second option, you could keep your texmf folder in the cloud with \href{https://dropbox.com/}{Dropbox}, for example, which would allow you to have a backup of the folder as well as allow you to sync the folder across multiple machines.%
 \footnote{%
-This will also work on a Mac.
-Note, however, that it will only work after TeX Live has been installed, because the command line tool \mintinline{sh}|kpsewhich| is part of TeX Live.%
+Actually, what I would really recommend is keeping your local texmf folder under version control using, for example, \mintinline{sh}|git|, and keeping it on \href{https://github.com/}{GitHub} or \href{https://bitbucket.org/}{Bitbucket}.
+However, explaining how to use a version control system is beyond the scope of this document.
+If you know how to use one, I assume you can extrapolate from the setup instructions given in \S\ref{subsubsubsec:symlink-texmf-folder-into-TEXMFHOME}.%
+}
+\S\ref{subsubsubsec:create-a-texmf-folder-at-TEXMFHOME} explains the first option, and \S\ref{subsubsubsec:symlink-texmf-folder-into-TEXMFHOME} explains the second option.
+
+\subsubsubsection{Create a texmf folder at TEXMFHOME}
+\label{subsubsubsec:create-a-texmf-folder-at-TEXMFHOME}
+
+Note that this method is discouraged.
+Instead, I suggest creating the folder somewhere else and making a symlink to it at TEXMFHOME.
+See \S\ref{subsubsubsec:symlink-texmf-folder-into-TEXMFHOME}.
+
+\paragraph{OSX/Linux}
+
+If you're on a Mac or Linux, you can open a terminal and copy and paste the commands that are shown in Listing~\ref{lst:OSX-Linux-make-TEXMFHOME} and hit ENTER.%
+\footnote{%
+Note that this will only work after TeX Live has been installed, because the command line tool \mintinline{sh}|kpsewhich| is part of TeX Live.%
 }
 
 \begin{listing}[htbp]
 	\centering
 	\begin{minted}{sh}
-mkdir -p $(kpsewhich -var-value=TEXMFHOME)/{doc,generic,scripts,source}
-mkdir -p $(kpsewhich -var-value=TEXMFHOME)/bibtex/{bib,bst}
-mkdir -p $(kpsewhich -var-value=TEXMFHOME)/fonts/{afm,map,misc,pk,source,tfm,type1}
-mkdir -p $(kpsewhich -var-value=TEXMFHOME)/tex/{context,generic,latex,plain,xelatex,xetex}
+mkdir -p $(kpsewhich -var-value=TEXMFHOME)/{doc,generic,scripts,source} && \
+mkdir -p $(kpsewhich -var-value=TEXMFHOME)/bibtex/{bib,bst} && \
+mkdir -p $(kpsewhich -var-value=TEXMFHOME)/fonts/{afm,map,misc,pk,source,tfm,type1} && \
+mkdir -p $(kpsewhich -var-value=TEXMFHOME)/tex/{context,generic,latex,plain,xelatex,xetex} && \
 mkdir -p $(kpsewhich -var-value=TEXMFHOME)/tex/latex/biblatex/{bbx,cbx}
 	\end{minted}
-	\caption{Make a minimal TDS-compliant directory at TEXMFHOME}
-	\label{lst:make-TEXMFHOME}
+	\caption{Make a minimal TDS-compliant directory at TEXMFHOME on OSX or Linux}
+	\label{lst:OSX-Linux-make-TEXMFHOME}
 \end{listing}
 
-I don't know anything about the Windows Command Prompt, so the only thing I can suggest is creating the folders manually using File Explorer.
+\paragraph{Windows}
+
+If you're on Windows, you can copy and paste the commands shown in Listing~\ref{lst:Windows-make-TEXMFHOME} into the Command Prompt and hit enter.
+(Note that this is currently untested, since I do not have a Windows machine.
+If this works for you, please let me know so that I can remove this disclaimer.)
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{bat}
+FOR /F "delims=" %i IN ('kpsewhich -var-value=TEXMFHOME') DO ^
+FOR %d IN (doc, generic, scripts, source) DO mkdir /S %i\%d & ^
+FOR %d IN (bib, bst) DO mkdir /S %i\bibtex\%d & ^
+FOR %d IN (afm, map, misc, pk, source, tfm, type1) DO mkdir /S %i\fonts\%d & ^
+FOR %d IN (context, generic, latex, plain, xelatex, xetex) DO mkdir /S %i\tex\%d & ^
+FOR %d IN (bbx, cbx) DO mkdir /S %i\tex\latex\biblatex\%d
+	\end{minted}
+	\caption{Make a minimal TDS-compliant directory at TEXMFHOME on Windows}
+	\label{lst:Windows-make-TEXMFHOME}
+\end{listing}
+
+\subsubsubsection{Symlink texmf folder into TEXMFHOME}
+\label{subsubsubsec:symlink-texmf-folder-into-TEXMFHOME}
+
+An alternative to creating the texmf folder in the precise location that the variable TEXMFHOME points to is to instead create the folder in an alternative location, and then create a symlink at the value of TEXMFHOME that points to the texmf folder.
+
+I would recommend this method because it allows you to create the texmf folder inside of your Dropbox folder, for example, which makes a backup of the texmf folder in the cloud and also allows you to sync your texmf folder across multiple machines.
+
+In what follows, I give instructions for how to do this with Dropbox.
+If you wish to make the folder somewhere other than inside of your Dropbox folder, just replace the relevant bits of the directory paths in the commands that are given below.
+
+\paragraph{OSX/Linux}
+
+If you're on a Mac or Linux, the default location of your Dropbox folder should be \Directory{\textasciitilde/Dropbox}.
+Therefore, you can open a terminal and copy and paste the commands shown in Listing~\ref{lst:OSX-Linux-make-TEXMFHOME-in-Dropbox} and hit ENTER.
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{sh}
+mkdir -p ~/Dropbox/texmf && \
+cd ~/Dropbox/texmf && \
+mkdir -p {doc,generic,scripts,source} && \
+mkdir -p bibtex/{bib,bst} && \
+mkdir -p fonts/{afm,map,misc,pk,source,tfm,type1} && \
+mkdir -p tex/{context,generic,latex,plain,xelatex,xetex} && \
+mkdir -p tex/latex/biblatex/{bbx,cbx} && \
+ln -s ~/Dropbox/texmf $(kpsewhich -var-value=TEXMFHOME)
+	\end{minted}
+	\caption{Make a TDS-compliant directory in Dropbox and symlink it into TEXMFHOME on OSX or Linux}
+	\label{lst:OSX-Linux-make-TEXMFHOME-in-Dropbox}
+\end{listing}
+
+\paragraph{Windows}
+
+If you're on Windows Vista or up, you can copy and paste the commands shown in Listing~\ref{lst:Windows-make-TEXMFHOME-in-Dropbox} into the Command Prompt and hit ENTER.
+If you're on Windows XP, why are you still running Windows XP?
+(Note that this is currently untested, since I do not have a Windows machine.
+If this works for you, please let me know so that I can remove this disclaimer.)
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{bat}
+mkdir %HOMEPATH%\Dropbox\texmf & ^
+chdir %HOMEPATH%\Dropbox\texmf & ^
+FOR %d IN (doc, generic, scripts, source) DO mkdir /S %d & ^
+FOR %d IN (bib, bst) DO mkdir /S bibtex\%d & ^
+FOR %d IN (afm, map, misc, pk, source, tfm, type1) DO mkdir /S fonts\%d & ^
+FOR %d IN (context, generic, latex, plain, xelatex, xetex) DO mkdir /S tex\%d & ^
+FOR %d IN (bbx, cbx) DO mkdir /S tex\latex\biblatex\%d & ^
+FOR /F "delims=" %i IN ('kpsewhich -var-value=TEXMFHOME') DO mklink /J %i %HOMEPATH%\Dropbox\texmf
+	\end{minted}
+	\caption{Make a TDS-compliant directory in Dropbox and symlink it into TEXMFHOME on Windows}
+	\label{lst:Windows-make-TEXMFHOME-in-Dropbox}
+\end{listing}
 
 \subsubsection{\hologo{MiKTeX}}
 \label{subsubsec:local-files:miktex}
@@ -491,14 +609,63 @@ I don't know anything about the Windows Command Prompt, so the only thing I can 
 
 In order to get things set up on \hologo{MiKTeX}, you will want to first set up a TDS-compliant directory somewhere on your computer.
 \hologo{MiKTeX} recommends making the directory at \Directory{C:\textbackslash Local TeX Files}.
-Once you create the folder \Directory{Local TeX Files} in the \Directory{C:\textbackslash} directory, then you will need to create the folders shown in Figure~\ref{fig:TDS}.%
+
+However, since it doesn't really matter, I would instead recommend creating the texmf folder inside of a Dropbox folder so that you can have a backup of your texmf folder in the cloud and also sync it across machines if you have multiple machines.
+
+To do this, you can copy and paste the following commands shown in Listing~\ref{lst:Windows-make-local-texmf-MiKTeX} into the Windows Command Prompt and hit ENTER.%
 \footnote{%
 Note that in this case the folder called \Directory{Local TeX Files} is the same as the \Directory{texmf} folder depicted in Figure~\ref{fig:TDS}.
 You should \emph{not} put a folder called \Directory{texmf} inside of \Directory{Local TeX Files}.
-Instead, treat \Directory{Local TeX Files} as the \Directory{texmf} folder.%
+Instead, treat \Directory{Local TeX Files} as the \Directory{texmf} folder.
+The commands given in Listing~\ref{lst:Windows-make-local-texmf-MiKTeX} will do this automagically for you.%
 }
+This will only work on Windows Vista and up.
+(Note that this is currently untested, since I do not have a Windows machine.
+If this works for you, please let me know so that I can remove this disclaimer.)
 
-After you have created all of these folders, you can follow \href{http://docs.miktex.org/manual/localadditions.html#id601919}{these steps}.
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{bat}
+mkdir "%HOMEPATH%\Dropbox\Local TeX Files" & ^
+chdir "%HOMEPATH%\Dropbox\Local TeX Files" & ^
+FOR %d IN (doc, generic, scripts, source) DO mkdir /S %d & ^
+FOR %d IN (bib, bst) DO mkdir /S bibtex\%d & ^
+FOR %d IN (afm, map, misc, pk, source, tfm, type1) DO mkdir /S fonts\%d & ^
+FOR %d IN (context, generic, latex, plain, xelatex, xetex) DO mkdir /S tex\%d & ^
+FOR %d IN (bbx, cbx) DO mkdir /S tex\latex\biblatex\%d
+	\end{minted}
+	\caption{Make a TDS-compliant directory in Dropbox for \hologo{MiKTeX} on Windows}
+	\label{lst:Windows-make-local-texmf-MiKTeX}
+\end{listing}
+
+After doing this, click Start → Programs → \hologo{MiKTeX} 2.9 → Maintenance → Settings to open the \hologo{MiKTeX} Options window.
+Do \emph{not} open Settings (Admin), just open Settings.%
+\footnote{%
+For a discussion of the differences between administrative and user mode in \hologo{MiKTeX}, see this \href{http://tex.stackexchange.com/q/67712/32888}{question and its answers on TeX.SX}.%
+}
+Next, click on the Roots tab.
+Click Add in order to add a local texmf folder.
+
+Navigate to \Directory{C:\textbackslash Users\textbackslash <user name>\textbackslash Dropbox\textbackslash Local TeX Files} and click OK.
+
+Next, click Apply.
+
+Then, click on the General tab.
+Click on Refresh FNDB.
+Then click OK.
+
+See also \href{http://docs.miktex.org/manual/localadditions.html#id584820}{here} and \href{http://docs.miktex.org/manual/configuring.html#fndbupdate}{here} for instructions with screenshots.
+
+\subsubsection{Using local files}
+\label{subsubsec:using-local-files}
+
+As mentioned above, this local texmf folder that you just created is only for local files that you want to be available for use in all of your \File{.tex} documents.
+For example, this texmf folder is where you would put local style or class files.
+
+The most important use case for the local texmf folder, however, is for maintaining a single master bibliography file that can be used for citations in all of your documents.
+This will be discussed in detail in \S\ref{subsec:bibliographies}.
+
+To reiterate, do \emph{not} put any of your \File{.tex} files in this texmf folder.
 
 \section{General \LaTeX{} stuff}
 \label{sec:general-latex-stuff}
