@@ -1,0 +1,622 @@
+% !TEX encoding = UTF-8 Unicode
+% !TEX root = ../latex-workshop-for-linguists.tex
+
+\section{General \LaTeX{} stuff}
+\label{sec:general-latex-stuff}
+
+\subsection{\LaTeX{} philosophy}
+\label{subsec:latex-philosophy}
+
+This subsection is very similar to \S3 of Alan Munn's \TitleText{A Beginner's Guide to \LaTeX{} (on the Mac)}.
+
+\LaTeX{} was designed with the intent of separating content from formatting.
+This is quite different from a what-you-see-is-what-you-get (WYSIWYG) editor like Word, where you see the output of your content formatted as you go along.
+
+Something that goes hand in hand with separating content from formatting is that formatting should be given a semantics.
+What does this mean?
+(Bahhhh duhhhh chhhh!)
+This means that if you want \LaTeX{} to format things that are similar in nature in the same way, then you should give them the same semantic meaning.
+
+Alan gives the example of section headings.
+The proper way to make a section heading in \LaTeX{} is to write it like \mintinline{latex}|\section{Section title}|.
+The command \mintinline{latex}|\section{}| gives the content ``Section title'' the semantics of being a \Semantics{section}.
+Then, if you want to change anything about how your sections are formatted, you can change this in the preamble of your document.
+This contrasts with how many folks use Word where they would change this for each individual section heading.%
+\footnote{%
+Note that Word also allows for semantic markup despite the fact that most people do not use it.
+If you cannot convince your Word-using friends and family to switch to \LaTeX, you should at least try to get them to use semantic markup in Word if they don't already do so.
+\texttt{:)}%
+}
+For example, if you want the number preceding all of your section headings to be blue, you can change this at the beginning of the document, like in Listing~\ref{lst:blue-sections}.
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{latex}
+\documentclass{article}
+
+\usepackage{color} % this package provides the command \color{}
+\renewcommand\thesection{\color{blue}\arabic{section}}
+
+\begin{document}
+
+\section{Introduction}
+
+Blah blah.
+
+\section{Experiment}
+
+Blah blah.
+
+\section{Conclusion}
+
+Blah blah.
+
+\end{document}
+	\end{minted}
+	\caption{Example of semantic markup in \LaTeX{} for section headings}
+	\label{lst:blue-sections}
+\end{listing}
+
+\subsection{Titles}
+\label{subsec:titles}
+
+To typeset a title, an author, and a date in a paper using the basic \Package{article} class, you can do what is shown in Listing~\ref{lst:basic-title}.
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{latex}
+\documentclass{article}
+
+\title{Super awesome title}
+\author{Best Author}
+\date{July 22, 2015}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+Blah blah.
+
+\end{document}
+	\end{minted}
+	\caption{A basic example of how to typeset the title of a paper using the \Package{article} class}
+	\label{lst:basic-title}
+\end{listing}
+
+\subsection{Quotes and dashes}
+\label{subsec:quotes-and-dashes}
+
+One idiosyncrasy of \LaTeX{} that you will have to get used to is how to typeset quotes and dashes.
+
+To typeset double open quotes, write \mintinline{latex}|``|.
+
+To typeset double close quotes, write \mintinline{latex}|''|.
+
+To typeset a single open quote, write \mintinline{latex}|`|.
+
+To typeset a single close quote, write \mintinline{latex}|'|.
+
+To typeset an en-dash, write \mintinline{latex}|--|.
+
+To typeset an em-dash, write \mintinline{latex}|---|.
+
+Note, however, that if you process your file with an engine that plays nicely with UTF-8 encoded documents (see \S\ref{subsec:fontspec-and-unicode}), you can enter these characters directly into your editor.
+
+Doing this has the advantage of making your documents more readable, but note that it \emph{only} works if you use UTF-8 encoding and a compatible engine.
+Also, it is good to know about the old way of typesetting these ligatures using \LaTeX{} since you will probably see many instances of this on the internet.
+
+\subsection{Formatting text}
+\label{subsec:formatting-text}
+
+To typeset something in bold, use \mintinline{latex}|\textbf{}|.
+
+To typeset something in italics, use \mintinline{latex}|\textit{}|.
+
+To typeset something in small caps, use \mintinline{latex}|\textsc{}|.
+
+To typeset something in a mono-spaced font, use \mintinline{latex}|\texttt{}|.
+
+To underline something, don't.%
+\footnote{%
+Underlining is really frowned upon in the typography community.
+I also personally do not like it.
+However, if you have a really, really, really, really, really (really) good reason, then I suppose you can use \mintinline{latex}|\uline| from the \Package{ulem} package.
+When you load, \Package{ulem} be sure to pass it the optional argument \mintinline{latex}|normalem|.%
+}
+
+One important thing to note about all of the foregoing commands is that using them directly in your document is \emph{not} good practice.
+They are not semantic commands.
+Let's consider an example.
+Being a linguist, you will probably want to typeset certain glossed features in small caps, like \Nom, for instance.
+You might think to write \mintinline{latex}|\textsc{nom}|.
+
+This is \emph{bad practice}.
+Instead, you should give glossed feature abbreviations like this a semantics, since you will presumably want to typeset them all the same way.
+To do this, you could declare \mintinline{latex}|\newcommand*{\Fts}[1]{\textsc{#1}}| in your preamble.
+Then, you would be able to write \mintinline{latex}|\Fts{nom}| instead of \mintinline{latex}|\textsc{nom}|.
+
+A further example can be seen if you look at the source code for this handout.
+You will notice that I typeset all the names of packages in a mono-spaced font.
+Rather than writing, for example, \mintinline{latex}|\texttt{forest}|, I have written \mintinline{latex}|\Package{forest}|.
+In my preamble, I defined the \mintinline{latex}|\Package{}| command in the following way: \mintinline{latex}|\newcommand*{\Package}[1]{\texttt{#1}}|.
+If I ever wanted to change how the name of every package is typeset in this document, I would only need to change it once in my preamble.
+
+\subsection{Footnotes}
+\label{subsec:footnotes}
+
+To typeset footnotes, use \mintinline{latex}|\footnote{}|.
+
+\subsection{Special characters}
+\label{subsec:special-characters}
+
+There are several characters that are treated as special characters in \LaTeX.
+These are \mintinline{text}|# $ % & ~ _ ^ \ { }|.
+
+If you ever want to print any of these characters in the output, you need to escape them with `\texttt{\textbackslash}'.%
+\footnote{%
+One exception to this is the escape character itself, `\texttt{\textbackslash}', because the sequence `\mintinline{text}|\\|' has a special meaning in \LaTeX, used for line breaks in tables.
+If you wish to render the character `\texttt{\textbackslash}' you can use the command \mintinline{latex}|\textbackslash|.
+Two further exceptions are \mintinline{text}|^| and \mintinline{text}|~|.
+Preceding these two characters with `\texttt{\textbackslash}' is used for appending diacritics in \LaTeX{} (though see \S\ref{subsec:fontspec-and-unicode} for a better way of doing this).
+If you wish to print these characters, you will need to do \mintinline{latex}|\^{}| and \mintinline{latex}|\~{}|, respectively (though see \href{http://tex.stackexchange.com/q/312/32888}{this post on TeX.SX} for suggestions of better ways to typeset a tilde).
+\label{fn:diacritics}%
+}
+
+The character `\mintinline{text}|#|' is used for passing arguments to macros.
+
+The character `\mintinline{text}|$|' is used for entering math mode (see \S\ref{subsec:math-mode}).
+
+The character `\mintinline{text}|%|' is used for writing comments in the source document (cf.~Listing~\ref{lst:blue-sections}).
+
+The character `\mintinline{text}|&|' is used for separating columns in a table (see \S\ref{subsec:tables}).
+
+The character `\mintinline{text}|~|' is a non-breaking space.
+
+The character `\mintinline{text}|_|' is used for subscripts in math mode.
+
+The character `\mintinline{text}|^|' is used for superscripts in math mode.
+
+The character `\mintinline{text}|\|' is the escape character.
+
+The characters `\mintinline{text}|{ }|' are used for delimiting the arguments to commands.
+
+\subsection{Math mode}
+\label{subsec:math-mode}
+
+One thing worth knowing about \LaTeX{} is that it has a distinct mode for typesetting math, creatively called math mode.
+There is inline math, triggered by \mintinline{latex}|$...$|, and display math, triggered by \mintinline{latex}|\[...\]|.
+
+For linguists, math mode is something that is mostly useful for typesetting semantics.%
+\footnote{%
+This is a bit of an overstatement.
+There are other use cases.
+Typesetting feature bundles in morphosyntax is one such use case, for example.
+However, for the purposes of an introductory workshop, you should really just know what math mode is.%
+}
+For example, \mintinline{latex}|$\lambda x$| will produce $\lambda x$.
+
+\subsection{Tables}
+\label{subsec:tables}
+
+Tables are admittedly a bit of a pain in the ass in \LaTeX.
+Typesetting them takes a while to get used to.
+Let's see an example of a basic table, such as the one in Listing~\ref{lst:basic-table}.
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{latex}
+\documentclass{article}
+\begin{document}
+
+\begin{tabular}{lcr}
+    Left-aligned column & Center-aligned column & Right-aligned column \\ \hline
+    56\%                & 75\%                  & 34\%                 \\
+\end{tabular}
+
+\end{document}
+	\end{minted}
+	\caption{A basic table in \LaTeX}
+	\label{lst:basic-table}
+\end{listing}
+
+\begin{minipage}{\textwidth}
+
+The code in Listing~\ref{lst:basic-table} will produce the following table.
+
+\begin{center}
+	\begin{tabular}{lcr}
+		Left-aligned column & Center-aligned column & Right-aligned column \\ \hline
+		56\%                & 75\%                  & 34\%                 \\
+	\end{tabular}
+\end{center}
+
+\end{minipage}
+
+One useful package for making aesthetically pleasing tables is the package called \Package{booktabs}.
+It provides commands called \mintinline{latex}|\toprule|, \mintinline{latex}|\bottomrule|, and \mintinline{latex}|\midrule| for nicer horizontal rules in a table.
+
+\begin{minipage}{\textwidth}
+
+Consider Listing~\ref{lst:booktabs-table}, which produces the following output.
+
+\begin{center}
+	\begin{tabular}{lll}
+		\toprule
+		         & Passive sentences & Active sentences \\ \midrule
+		Adults   & 99\%              & 98\%             \\
+		Children & 56\%              & 87\%             \\
+		\bottomrule
+	\end{tabular}
+\end{center}
+
+\end{minipage}
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{latex}
+\documentclass{article}
+\usepackage{booktabs}
+\begin{document}
+
+\begin{tabular}{lll}
+    \toprule
+             & Passive sentences & Active sentences \\ \midrule
+    Adults   & 99\%              & 98\%             \\
+    Children & 56\%              & 87\%             \\
+    \bottomrule
+\end{tabular}
+
+\end{document}
+	\end{minted}
+	\caption{A table in \LaTeX{} using the package \Package{booktabs}}
+	\label{lst:booktabs-table}
+\end{listing}
+
+\subsection{Images}
+\label{subsec:images}
+
+One thing you will often want to do is include images in a document.
+This is what the package \Package{graphicx} is for.
+Let's look at the example in Listing~\ref{lst:image-example}.
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{latex}
+\documentclass{article}
+\usepackage{graphicx}
+\graphicspath{ {figure/} }
+\begin{document}
+
+\includegraphics[width=.8\textwidth]{super-important-graph}
+
+\end{document}
+	\end{minted}
+	\caption{An example of including an image in a document}
+	\label{lst:image-example}
+\end{listing}
+
+Notice that in the preamble of the document, we declared \mintinline{latex}|\graphicspath{ {figure/} }|.
+This means that the package \Package{graphicx} will look in the folder called \texttt{figure} for images.%
+\footnote{%
+You don't need to do this.
+If you prefer, you can just put the image file in the same folder as the \File{.tex} file.
+The working directory (\IE{} the folder that the \File{.tex} file is in) is a place that the engine will always search when typesetting a document.
+So if you're struggling with setting up a local \Directory{texmf} folder as described in \S\ref{subsec:local-files}, you can always just put files in the same folder as your \File{.tex} file for the time being.
+But anyway, a reason you might want to have a separate folder dedicated for figures is to avoid clutter.
+It's really up to you.%
+}
+So, in order to get this \File{.tex} file to compile, you would want to save it in a folder; then, in that same folder, you would want to create a new folder called \Directory{figure}.
+Inside that folder, you should put the file \File{super-important-graph.pdf}.%
+\footnote{%
+The package \Package{graphicx} doesn't always play nicely with spaces and underscores in file names, so you should avoid using those things in the names of your image files.%
+}
+Notice that the file extension is omitted in the call to \mintinline{latex}|\includegraphics{}|.
+This is a best practice because it allows \Package{graphicx} to try a bunch of different file extensions.
+
+Notice also that we passed an optional argument to \mintinline{latex}|\includegraphics{}| in the form of a \textit{key val list}.
+The key \KEY{width} can take a value that specifies what the width of the image that appears in the typeset document should be.
+You could give it a value of \mintinline{latex}|6in| if you wanted, but it is often much more sensible to specify the width in terms of a dynamically defined value.
+In this case, the super important graph will always occupy 80\% of the space allocated to the text, even if we change the margins of the document.
+
+\subsection{Captioning and numbering}
+\label{subsec:captioning-and-numbering}
+
+Typesetting a table and including an image is great and all, but we want to be able to caption and number them.
+
+\subsubsection{Floats}
+\label{subsubsec:floats}
+
+One common way to do this is to use floats.
+In addition to automagically numbering tables and figures, floats also allow us to provide a caption.
+One thing to know about floats is that \LaTeX{} has a special way of handling how they are typeset.
+Suffice it to say, it's rather complicated.%
+\footnote{%
+You can read more about it \href{http://tex.stackexchange.com/q/39017/32888}{here} if you're interested.%
+}
+All you need to know is that \LaTeX{} has a special algorithm for placing floats in the best possible spot, according to general typographical standards.
+
+These places are usually one of four places: right where they are written in the source document, the top of a page, the bottom of a page, or on their own separate page.
+These four places correspond to four optional arguments that you can pass to a float environment, \mintinline{text}|htbp|, respectively.
+
+It is generally best practice to pass all four options to a float, at least initially.
+Only when you finish writing the document should you fiddle with the placement of floats if you think \LaTeX's algorithm has not done a good job.
+However, while you're writing a document, leave all four options and let \LaTeX{} decide where floats should be placed.
+
+If you would prefer to increase the likelihood that the float will show up in exactly the location that it is specified in the source \File{.tex} file, you can place a \mintinline{text}|!| after the \mintinline{text}|h|.
+
+The command \mintinline{latex}|\caption{}| allows you to give a caption to the table or figure.
+\LaTeX{} will automagically number the tables and figures in the correct order, so you don't have to worry about that.
+Semantic markup FTW!
+
+Take a look at two examples in Listing~\ref{lst:float-examples}.
+Try typesetting this yourself and see what the result is.
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{latex}
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\begin{document}
+
+This is a table that is a float.
+
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{lll}
+        \toprule
+                 & Passive sentences & Active sentences \\ \midrule
+        Adults   & 99\%              & 98\%             \\
+        Children & 56\%              & 87\%             \\
+        \bottomrule
+    \end{tabular}
+    \caption{Adult performance compared to child performance}
+\end{table}
+
+It might not actually show up in between these two sentences.
+
+This is a figure that is a float.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=.8\textwidth]{example-image-a}
+    \caption{Super scientificy graphy thingy}
+\end{figure}
+
+It might not actually show up in between these two sentences.
+
+\end{document}
+	\end{minted}
+	\caption{Examples of floats in \LaTeX}
+	\label{lst:float-examples}
+\end{listing}
+
+\subsubsection{Non-float options}
+\label{subsubsec:non-float-options}
+
+It is worth mentioning some non-float options for tables and images.
+One of the reasons that it is worth mentioning these options is because there is a common misconception that tables must go inside \mintinline{latex}|table| environments and images must go inside \mintinline{latex}|figure| environments.
+This is not true.
+
+When you're writing a paper, it is best to use floats because \LaTeX{} will use its algorithm to place the floats in the best environment.
+However, it is not always appropriate to use floats.
+
+One example of when you probably don't want to use floats is when you're making a handout.
+In a handout, you usually want the image or the table to show up exactly where you place the code in the source document.
+
+Nonetheless, in this case you might still want to be able to number and caption the figure or table.
+The package \Package{capt-of} allows you to do this.
+An example is given in Listing~\ref{lst:capt-of-example}.
+Note that you will want to put things inside of an enclosing group, such as \mintinline{latex}|\begin{center}...\end{center}|.
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{latex}
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{capt-of}
+\begin{document}
+
+This is a table that is not a float.
+
+\begin{center}
+    \begin{tabular}{lll}
+        \toprule
+                 & Passive sentences & Active sentences \\ \midrule
+        Adults   & 99\%              & 98\%             \\
+        Children & 56\%              & 87\%             \\
+        \bottomrule
+    \end{tabular}
+    \captionof{table}{Adult performance compared to child performance}
+\end{center}
+
+It will show up in between these two sentences no matter what.
+
+This is a figure that is not a float.
+
+\begin{center}
+    \includegraphics[width=.8\textwidth]{example-image-a}
+    \captionof{figure}{Super scientificy graphy thingy}
+\end{center}
+
+It will show up in between these two sentences no matter what.
+
+\end{document}
+	\end{minted}
+	\caption{Examples of tables and images as non-floats}
+	\label{lst:capt-of-example}
+\end{listing}
+
+Another case where you might want to not put a table inside of a float is when you're making a table for a particular morphological paradigm.
+In linguistics, we usually number such tables just like we number other examples.
+In \S\ref{subsec:examples}, we will see how to make numbered examples.
+You can put a \mintinline{latex}|tabular| environment directly inside such an example.
+
+\subsection{Cross referencing}
+\label{subsec:cross-referencing}
+
+So automagically numbered tables and images are great and all, but how do I refer to those things in my document?
+One thing that is great about \LaTeX{} is that you can give things \mintinline{latex}|\label|s and \mintinline{latex}|\ref|er to them automagically as well.
+
+Consider Listing~\ref{lst:cross-referencing}.
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{latex}
+\documentclass{article}
+\usepackage{graphicx}
+\begin{document}
+
+As can be seen in Figure~\ref{fig:important-graph}, the results clearly show that I'm right.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=.8\textwidth]{example-image-a}
+    \caption{Super scientificy graphy thingy}
+    \label{fig:important-graph}
+\end{figure}
+
+\end{document}
+	\end{minted}
+	\caption{An example of referencing a figure in \LaTeX}
+	\label{lst:cross-referencing}
+\end{listing}
+
+There are a few things to say about cross-referencing.
+First, and of particularly important note is the fact that the \mintinline{latex}|\label| comes after the \mintinline{latex}|\caption|.
+If you try putting the \mintinline{latex}|\label| first, you will get the wrong number, because the command \mintinline{latex}|\caption| is what gives the float its number.
+
+Second, you will notice that I've put a non-breaking space between \mintinline{text}|Figure| and \mintinline{latex}|\ref|.
+This is generally a good practice because it prevents the number from being separated from the description of what it is.%
+\footnote{%
+If you really like automagic, you might want to check out the \href{http://ctan.org/pkg/cleveref}{\Package{cleveref}} package.%
+}
+
+Third, you will also notice that I've given the label a prefix of \mintinline{text}|fig:|.
+This isn't strictly necessary, but it is good practice.
+Imagine that you had a table and a figure.
+The table contains specific values, and the figure is a graph of those values.
+It's the same data, so you presumably want to give them similar names.
+If you use prefixes like this, you could do \mintinline{latex}|\label{tab:super-important-results}| for the table and \mintinline{latex}|\label{fig:super-important-results}| for the graph.%
+\footnote{%
+Spaces are not allowed in the names of \mintinline{latex}|\label|s.%
+}
+
+Fourth, and most importantly, is that you must compile your document twice in order for this to work.
+\LaTeX{} does its automagic by first processing the file and automagically generating all of the table and figure numbers for each float.
+Remember that you never manually gave each float a number, so \LaTeX{} has to figure this out.
+On the second compilation, it inserts the automagically generated numbers into the places where you \mintinline{latex}|\ref|erenced them.
+If something went wrong, you will see question marks instead of a number.
+This most likely means you either only compiled your document once or you have tried to refer to something that you never actually labeled.
+The most common example of this latter reason is just a simple misspelling of the label that you gave to whatever it is that you're trying to reference.
+
+\subsection{Those annoying files}
+\label{subsec:those-annoying-files}
+
+One thing you will quickly notice when you typeset a \File{.tex} file is that a lot of extra files are generated.
+People tend to initially find this annoying, but it is all of these extra files that allow \LaTeX{} to do its magic.
+For example, the auxiliary file (\File{.aux}) is integral for cross referencing.
+Without it, cross referencing just would not work.
+
+To avoid clutter, it's often a good idea to make a new, self-contained folder for each document that you typeset.
+
+One other thing worth noting about all of these extra files is that they sometimes lead to compilation errors.
+If you introduced an error in your document and you tried typesetting it, it's possible that the extra files got messed up.
+So, if you tried typesetting your document, received a compilation error, figured out what caused the error, and you're like 110\% sure that you fixed the problem in your \File{.tex} file, but you're still getting a compilation error, try deleting all of these extra files and compiling the document again.
+
+\subsection{Bibliographies}
+\label{subsec:bibliographies}
+
+Getting a bibliography to work with \LaTeX{} is often one of the big hurdles of learning \LaTeX, but once you've figured it out, it's really, really, really frikken nice.
+
+\paragraph{Promissory note}
+
+Unfortunately, getting this set up properly requires going into how to install a \TeX{} distribution on your computer and how to properly set up a local TDS-compliant directory.
+If folks are interested, we could do a follow up workshop next Wednesday that goes into how to do this.
+
+\subsection{Paragraphs}
+\label{subsec:paragraphs}
+
+Let's end this section with paragraphs.
+Let's do this for two reasons.
+First, because semantic markup is awesome.
+And second, because a very common \emph{really bad practice} of \LaTeX{} beginners is to insert line breaks all over the place.
+
+Recall from \S\ref{subsec:latex-philosophy} that \LaTeX{} is all about semantic markup.
+This goes for paragraphs, too.
+People who are used to Word are used to pressing ENTER on the keyboard once in order to separate paragraphs.
+Perhaps unsurprisingly then, many new \LaTeX{} users will often do stuff like what is shown in Listing~\ref{lst:bad-practice-with-line-breaks}.
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{latex}
+\documentclass{article}
+\begin{document}
+This is my first awesome paragraph.\\
+This is my second paragraph, which is infinitely less awesome because of the line break.
+\end{document}
+	\end{minted}
+	\caption{Really bad practice for separating paragraphs}
+	\label{lst:bad-practice-with-line-breaks}
+\end{listing}
+
+The command \mintinline{latex}|\\| does a line break, but it does \emph{not} introduce a new paragraph.
+In other words, the (first part of the) second sentence is false.
+In \LaTeX{}'s eyes, the sentence ``This is my first awesome paragraph.'' is in the \emph{same paragraph} as the sentence ``This is my second paragraph, which is infinitely less awesome because of the line break.''.
+
+Instead, one should use a command for paragraphs so that we can manipulate the semantics of paragraphs in the preamble of the document in the same way that we manipulated the semantics of sections.
+The command for separating one paragraph from another paragraph is \mintinline{latex}|\par|.
+This would get really annoying to type in between all of your paragraphs, so, luckily, \LaTeX{} treats an empty line as equivalent to \mintinline{latex}|\par|.
+
+Listing~\ref{lst:good-practice-for-paragraphs} exemplifies \emph{good practice} for typesetting paragraphs.
+This good practice allows us to manipulate the semantics of paragraphs in the preamble, so we can typeset them as we like, without having to modify each individual paragraph.
+
+There's generally no need to modify the default semantics for paragraphs.
+However, in Listing~\ref{lst:good-practice-for-paragraphs}, I've given the same semantics that are used to typeset the paragraphs in this document, which are intended to be much more handout-y and much less essay-y.
+Try typesetting Listing~\ref{lst:good-practice-for-paragraphs} yourself and see what happens.
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{latex}
+\documentclass{article}
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1ex}
+\begin{document}
+
+This is the first paragraph.
+Wasn't that a great topic sentence?
+
+Next paragraph please.
+Paragraph number two is the best.
+\par
+The third paragraph will rule them all.
+Sorry about the Lord of the Rings reference.
+
+This concludes my five paragraph essay. As you can see, my conclusion definitely follows.
+
+Yes I can count.
+Jeeze.
+
+\end{document}
+	\end{minted}
+	\caption{Good practice for typesetting paragraphs}
+	\label{lst:good-practice-for-paragraphs}
+\end{listing}
+
+Lastly, one thing you might notice is that I sometimes put sentences on their own line.
+\LaTeX{} treats these sentences as being in the same paragraph because there is no blank line or \mintinline{latex}|\par| between them.
+This isn't strictly necessary; you're more than welcome to put all of the sentences in a paragraph on one line, like I did in paragraph `five'.
+
+However, there are two main reasons why it might be nice to put each sentence on its own line.
+First, having shorter lines might be easier to read, depending on how your editor is set up.
+Second, if you keep your \File{.tex} file under version control, it makes for cleaner diffs.%
+\footnote{%
+Explaining what exactly a version control system (VCS) is, is quite beyond the scope of this workshop.
+Basically, it's a way to keep a history of all of the changes that have been made to a document.
+If you delve any further into learning \LaTeX{} or learning to program, you will probably also want to learn a VCS at some point.
+The most popular one is \mintinline{sh}|git|.
+Also, hopefully you now understand this \href{https://xkcd.com/1285/}{joke}.%
+}

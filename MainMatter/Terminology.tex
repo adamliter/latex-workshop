@@ -1,0 +1,101 @@
+% !TEX encoding = UTF-8 Unicode
+% !TEX root = ../latex-workshop-for-linguists.tex
+
+\section{Terminology}
+\label{sec:terminology}
+
+This section is largely a brief recap of \S1 of Alan Munn's \TitleText{A Beginner's Guide to \LaTeX{} (on the Mac)}.%
+\footnote{%
+A PDF of this is available at \url{https://www.msu.edu/~amunn/latex/nano-companion.pdf}.
+If you have trouble accessing it, try refreshing the page a few times. The web servers at Michigan State University can sometimes be sort of shitty.%
+}
+But you should really just read that whole PDF (and ignore the parts specific to Mac if you're not on a Mac).
+It is both short and useful.
+
+\begin{description}
+
+	\item[\TeX{} Distribution]{%
+		Contains all of the programs and packages that will be used to process and compile your \File{.tex} file.
+		There are two main distributions: TeX Live and \hologo{MiKTeX}.
+		There is also a distribution called {Mac\TeX}, which is a wrapper around TeX Live that does some stuff to make it work nicely on a Mac.
+		\hologo{MiKTeX} is for Windows only, and it is not based on TeX Live.%
+		\footnote{%
+		For discussion of the differences between \hologo{MiKTeX} and TeX Live, see \url{http://tex.stackexchange.com/q/20036/32888}.
+		If you're on Linux, do \emph{not} install TeX Live via your package manager!!!
+		You should instead install a ``vanilla'' version of TeX Live. See \url{http://tex.stackexchange.com/q/1092/32888}.
+		See also \S\ref{subsec:installing-a-tex-distro} of this handout.%
+		}
+	}
+	
+	\item[Engines]{%
+		There are a few different engines that are standardly used to process a \File{.tex} file and turn it into a PDF, including \hologo{pdfLaTeX}, \hologo{XeLaTeX}, and \hologo{LuaLaTeX}.%
+	}
+	
+	\item[Editor]{%
+		The application that is used to write the \File{.tex} file.
+		See \href{http://tex.stackexchange.com/q/339/32888}{here} for a long list of editors to choose from.%
+	}
+	
+	\item[Previewer]{%
+		An application for viewing the output of compiling the \File{.tex} file with an engine.
+		Many editors integrate a previewer into the editor.%
+	}
+	
+	\item[Compiling]{%
+		The act of processing a \File{.tex} file with an engine to produce (most likely) a PDF.
+		Can sometimes loosely be used interchangeably with ``typesetting''.%
+	}
+	
+	\item[Preamble]{%
+		Refers to the part of the document between \mintinline{latex}|\documentclass| and \mintinline{latex}|\begin{document}|.
+		It is where you can load packages and define new commands, among other things.
+		See Figure~\ref{fig:document-structure}.
+		
+		\begin{figure}[htbp]
+			\centering
+			\begin{tikzpicture}
+				[
+					baseline,
+					left brace/.style={
+						semithick,
+						decorate,
+						decoration={
+							brace,
+							raise=2mm,
+							amplitude=3pt,
+							mirror
+						}
+					}
+				]
+				\matrix(M)[
+					matrix of nodes,
+					nodes={
+						align=left,
+						text width=3.5cm
+					}
+				]{
+					\mintinline{latex}|\documentclass{...}|\\
+					$\vdots$\\
+					\mintinline{latex}|\begin{document}|\\
+					$\vdots$\\
+					\mintinline{latex}|\end{document}|\\
+				};
+				\draw (M-1-1.north west) rectangle (M-5-1.south east);
+				\draw [left brace] (M-1-1.south west) -- (M-3-1.north west) node [midway, left=1em] {preamble};
+				\draw [left brace] (M-3-1.south west) -- (M-5-1.north west) node [midway, left=1em] {content};
+			\end{tikzpicture}
+			\caption{Schematic structure of a \LaTeX{} document}
+			\label{fig:document-structure}
+		\end{figure}
+	%
+	}
+	
+	\item[TeX.SX]{%
+		Throughout this document, you will probably see numerous references to TeX.SX.
+		This is short for \href{http://tex.stackexchange.com/}{TeX Stack Exchange}.
+		If you're not familiar with the \href{http://stackexchange.com/sites#traffic}{family of Stack Exchange websites}, you should really check them out.
+		Each site is a Q\&A website for a specific topic, but the sites are intended to be repositories of knowledge in addition to Q\&A sites, so they aren't like your normal web forum.
+		Most sites go with the suffix of .SE, but the folks that use TeX Stack Exchange are a bit idiosyncratic and generally prefer the suffix .SX.%
+	}
+
+\end{description}

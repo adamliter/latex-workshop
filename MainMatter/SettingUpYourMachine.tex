@@ -1,0 +1,365 @@
+% !TEX encoding = UTF-8 Unicode
+% !TEX root = ../latex-workshop-for-linguists.tex
+
+\section{Setting up your machine}
+\label{sec:setting-up-your-machine}
+
+\subsection{Installing a \TeX{} distribution}
+\label{subsec:installing-a-tex-distro}
+
+There are two relatively new and popular web editors for \LaTeX---namely, \href{https://www.sharelatex.com/}{ShareLaTeX} and \href{https://www.overleaf.com/}{Overleaf}.
+The web editors are useful tools for collaboratively working on a \LaTeX{} document.
+They are also useful because you do not have to bother with installing your own \TeX{} distribution on your computer.
+
+Nonetheless, there are several advantages to installing a \TeX{} distribution on your computer and being able to edit and compile \File{.tex} documents locally.
+The biggest advantage is being able to maintain a single master \File{.bib} file and use it in all of your \File{.tex} documents for references.
+For more on this, please read \S\ref{subsec:local-files} and \S\ref{subsec:bibliographies}.
+
+\subsubsection{Mac}
+\label{subsubsec:tex-distro:mac}
+
+If you're on a Mac, you should install \href{https://tug.org/mactex/}{{Mac\TeX}}.%
+\footnote{%
+If you upgrade to the new Mac operating system in the fall of 2015, please read Herbert Schulz's document \href{https://tug.org/mactex/UpdatingForElCapitan.pdf}{\TitleText{{Mac\TeX}-2015
+and El Capitan}}.
+If you do not follow the instructions in that document after you upgrade to El Capitan, you will run into problems.%
+}
+{Mac\TeX} is all TeX Live underneath with just a thin wrapper that makes things work smoothly on a Mac.
+{Mac\TeX} also installs two editors---TeXShop and TeXworks---and a program for managing a \File{.bib} file, called BibDesk.
+
+\subsubsection{Linux}
+\label{subsubsec:tex-distro:linux}
+
+Do \emph{not} install TeX Live on Linux via your package manager!
+The \TeX{} distribution that you will get from your package manager will most likely be out of date, which will preclude you from being able to update packages.
+
+Instead, you should \href{http://tex.stackexchange.com/q/1092/32888}{install a ``vanilla'' version of TeX Live}.
+
+\subsubsection{Windows}
+\label{subsubsec:tex-distro:windows}
+
+The easiest thing to install on Windows is \hologo{MiKTeX},%
+\footnote{%
+Disclaimer: I know very little about Windows and \hologo{MiKTeX}.%
+} %
+which is a different distribution than TeX Live.
+\hologo{MiKTeX} doesn't install every package but instead installs a minimal distribution and allows you to install packages on the fly when compiling your document if the requisite package is not already installed.
+
+At one point, there were security concerns about \hologo{MiKTeX} and thus it was preferable to install TeX Live.
+However, these security concerns seem to have been mitigated, and it's not clear that there is a huge reason to prefer a TeX Live installation on Windows.%
+\footnote{%
+See \href{http://tex.stackexchange.com/q/20036/32888}{this question and its answers on TeX.SX} for discussion.%
+}
+Moreover, it is not as straightforward to install TeX Live as it is to install \hologo{MiKTeX}.
+Nonetheless, if you wish to do so, see \href{http://www.tug.org/texlive/acquire-netinstall.html}{here}.
+
+\subsection{Keeping your \TeX{} distribution up to date}
+\label{subsec:keeping-your-tex-distro-up-to-date}
+
+It is good practice to periodically update your \TeX{} distribution.
+A \TeX{} distribution includes a bunch of packages, which are periodically edited by their maintainers.
+These packages are hosted on the \href{http://ctan.org/}{Comprehensive \TeX{} Archive Network (CTAN)}.
+You should thus periodically update things in case the maintainers of packages find a bug and fix that bug or in case they add new features to the package.%
+\footnote{%
+One thing that is also great about \LaTeX, in stark contradistinction to Word, is its backward compatibility.
+That is, even if package authors introduce new features, they will make sure that any document you previously typeset using their package will be something that you can still typeset using the new updated version of their package.
+If package authors do decide to break backwards compatibility, they will usually create a new package with an entirely new name, which effectively maintains backward compatibility because the old package will always be available for use.
+On the other hand, with Word, you're lucky if you can open a file from last year's version of Word with this year's version of Word, much less have the formatting look even remotely the same.
+With \LaTeX, you could typeset a \LaTeX{} file written in 1739 and the output you get would be identical to the output you got in 1739.%
+}
+
+In addition to periodically updating the packages, you will also want to periodically update the entire distribution.
+Just like with packages, new features are developed or bugfixes are sometimes made to the engines themselves and other binaries that are the core of a \TeX{} distribution.
+
+For TeX Live, there is a new distribution that is released every year.
+The current one is TeX Live 2015.
+
+When the new distribution is about to be released, the old one is ``frozen''.
+Once it is frozen, you will no longer be able to update packages, so you will want to install the newest version of TeX Live for any new features or bugfixes to the engines and other binaries as well as for the ability to continue to periodically update packages.
+
+\subsection{Local files}
+\label{subsec:local-files}
+
+One thing you will presumably also want to do at some point is set up a directory for local files that you want to be accessible to all of your \File{.tex} files, regardless of where that \File{.tex} file is actually stored on your machine.
+
+The most obvious use case for such a directory is for the purposes of maintaining a single master bibliography file on your computer that can be used for citations in all of your \File{.tex} files (see \S\ref{subsec:bibliographies}).
+
+Where and how to set up this directory depends on your distribution, TeX Live or \hologo{MiKTeX}.
+What is common to both cases, however, is that the directory must conform to the standard \TeX{} Directory Structure (TDS) hierarchy.
+A minimal example of a directory structure that conforms to this standard is given in Figure~\ref{fig:TDS}.%
+\footnote{%
+\label{fn:TDS}
+There are even more folders in a maximal TDS directory, but the ones depicted in Figure~\ref{fig:TDS} are probably enough for most use cases.
+If you're interested in reading more about TDS, you can do so at \url{https://www.tug.org/tds/tds.pdf}.%
+}
+
+\begin{figure}[htbp]
+	\centering
+	\scalebox{0.65}{
+		\begin{forest}
+			for tree={
+				parent anchor=south,
+				child anchor=north,
+				node options={
+					inner sep=11pt
+				},
+				l sep=25pt,
+				s sep=40pt,
+				delay={
+					content=\myfolder{#1}
+				}
+			}
+			[texmf
+				[bibtex
+					[bib]
+					[bst]
+				]
+				[doc]
+				[fonts, l sep+=60pt 
+					[afm]
+					[map]
+					[misc]
+					[pk]
+					[source]
+					[tfm]
+					[type1]
+				]
+				[generic]
+				[scripts]
+				[source]
+				[tex
+					[context]
+					[generic]
+					[latex
+						[biblatex
+							[bbx]
+							[cbx]
+						]
+					]
+					[plain]
+					[xelatex]
+					[xetex]
+				]
+			]
+		\end{forest}
+	}
+	\caption{A minimal directory that conforms to the TDS standard}
+	\label{fig:TDS}
+\end{figure}
+
+It is necessary to conform to this standard so that the engine you use to compile your \File{.tex} file can find certain types of files.
+For example, if you maintain a single master \File{.bib} file, it should be placed in the folder \Directory{texmf/bibtex/bib}.
+If you put it in any other folder, the engine you use to compile your document will not find it because it is only programmed to look for bibliography files inside the \Directory{texmf/bibtex/bib} folder.
+
+Note that you should \emph{only} put stuff in this directory that you want to be available to all of your \File{.tex} files, such as a master bibliography file, a custom package or style file that is not part of \href{http://ctan.org/}{CTAN}, \ETC.
+This directory is \emph{not} for your \File{.tex} files.
+If you wish to learn more, see fn.~\ref{fn:TDS}.
+
+In what follows, I describe how to set up a local TDS-compliant directory for both TeX Live and \hologo{MiKTeX}.
+For further discussion, see \href{http://tex.stackexchange.com/q/1137/32888}{this question and its answers on TeX.SX}.
+
+\subsubsection{TeX Live}
+\label{subsubsec:local-files:tex-live}
+
+In TeX Live, engines are set up to look in certain places for files that your \File{.tex} file might depend on.
+TeX Live specifically provides two places for users to put their own files, such as style files or bibliography files.
+These two places are identified by their variable names, TEXMFHOME and TEXMFLOCAL.
+
+TEXMFHOME and TEXMFLOCAL have the same semantics; that is to say, they are both places where users can put their own files that are not part of TeX Live.
+However, TEXMFLOCAL will be overwritten every time you install a new version of TeX Live.
+For this reason, it is probably best to keep all of your local files in TEXMFHOME.%
+\footnote{%
+For discussion, see \url{http://www.tex.ac.uk/FAQ-what-TDS.html}.%
+}
+
+TEXMFHOME usually refers to the path \Directory{\textasciitilde/Library/texmf} on Mac, the path \Directory{\textasciitilde/texmf} on Linux, and the path \Directory{C:\textbackslash Users\textbackslash <user name>\textbackslash texmf} on Windows.%
+\footnote{%
+If you're still on Windows XP, it should be \Directory{C:\textbackslash Documents and Settings\textbackslash <user name>\textbackslash texmf} instead of \Directory{C:\textbackslash Users\textbackslash <user name>\textbackslash texmf}.%
+}
+
+If you are unsure what the value of TEXMFHOME is, you can check it by going to the command line and running \mintinline{sh}|kpsewhich -var-value=TEXMFHOME|.
+If, for example, you're on a Mac and haven't changed the default setting, this should return the following directory path: \Directory{/Users/<user name>/Library/texmf}.%
+\footnote{%
+The `\Directory{\textasciitilde}' is used as shorthand for a user's home directory.
+That is to say, `\Directory{\textasciitilde/Library/texmf}' is the same as `\Directory{/Users/<user name>/Library/texmf}' on a Mac.%
+}
+
+Even though the variable TEXMFHOME has a value, the folder might not exist.
+You need to create it.
+There are two options for doing this.
+You can create the folder in that exact location, or you can create the folder in a different location and make a symbolic link (symlink) at the location of TEXMFHOME that points to where the folder is actually located on your computer.
+
+I would highly recommend the second option.
+If you do the second option, you could keep your texmf folder in the cloud with \href{https://dropbox.com/}{Dropbox}, for example, which would allow you to have a backup of the folder as well as allow you to sync the folder across multiple machines.%
+\footnote{%
+Actually, what I would really recommend is keeping your local texmf folder under version control using, for example, \mintinline{sh}|git|, and keeping it on \href{https://github.com/}{GitHub} or \href{https://bitbucket.org/}{Bitbucket}.
+However, explaining how to use a version control system is beyond the scope of this document.
+If you know how to use one, I assume you can extrapolate from the setup instructions given in \S\ref{subsubsubsec:symlink-texmf-folder-into-TEXMFHOME}.%
+}
+\S\ref{subsubsubsec:create-a-texmf-folder-at-TEXMFHOME} explains the first option, and \S\ref{subsubsubsec:symlink-texmf-folder-into-TEXMFHOME} explains the second option.
+
+\subsubsubsection{Create a texmf folder at TEXMFHOME}
+\label{subsubsubsec:create-a-texmf-folder-at-TEXMFHOME}
+
+Note that this method is discouraged.
+Instead, I suggest creating the folder somewhere else and making a symlink to it at TEXMFHOME.
+See \S\ref{subsubsubsec:symlink-texmf-folder-into-TEXMFHOME}.
+
+\paragraph{OSX/Linux}
+
+If you're on a Mac or Linux, you can open a terminal and copy and paste the commands that are shown in Listing~\ref{lst:OSX-Linux-make-TEXMFHOME} and hit ENTER.%
+\footnote{%
+Note that this will only work after TeX Live has been installed, because the command line tool \mintinline{sh}|kpsewhich| is part of TeX Live.%
+}
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{sh}
+mkdir -p $(kpsewhich -var-value=TEXMFHOME)/{doc,generic,scripts,source} && \
+mkdir -p $(kpsewhich -var-value=TEXMFHOME)/bibtex/{bib,bst} && \
+mkdir -p $(kpsewhich -var-value=TEXMFHOME)/fonts/{afm,map,misc,pk,source,tfm,type1} && \
+mkdir -p $(kpsewhich -var-value=TEXMFHOME)/tex/{context,generic,latex,plain,xelatex,xetex} && \
+mkdir -p $(kpsewhich -var-value=TEXMFHOME)/tex/latex/biblatex/{bbx,cbx}
+	\end{minted}
+	\caption{Make a minimal TDS-compliant directory at TEXMFHOME on OSX or Linux}
+	\label{lst:OSX-Linux-make-TEXMFHOME}
+\end{listing}
+
+\paragraph{Windows}
+
+If you're on Windows, you can copy and paste the commands shown in Listing~\ref{lst:Windows-make-TEXMFHOME} into the Command Prompt and hit enter.
+(Note that this is currently untested, since I do not have a Windows machine.
+If this works for you, please let me know so that I can remove this disclaimer.)
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{bat}
+FOR /F "delims=" %i IN ('kpsewhich -var-value=TEXMFHOME') DO ^
+FOR %d IN (doc, generic, scripts, source) DO mkdir /S %i\%d & ^
+FOR %d IN (bib, bst) DO mkdir /S %i\bibtex\%d & ^
+FOR %d IN (afm, map, misc, pk, source, tfm, type1) DO mkdir /S %i\fonts\%d & ^
+FOR %d IN (context, generic, latex, plain, xelatex, xetex) DO mkdir /S %i\tex\%d & ^
+FOR %d IN (bbx, cbx) DO mkdir /S %i\tex\latex\biblatex\%d
+	\end{minted}
+	\caption{Make a minimal TDS-compliant directory at TEXMFHOME on Windows}
+	\label{lst:Windows-make-TEXMFHOME}
+\end{listing}
+
+\subsubsubsection{Symlink texmf folder into TEXMFHOME}
+\label{subsubsubsec:symlink-texmf-folder-into-TEXMFHOME}
+
+An alternative to creating the texmf folder in the precise location that the variable TEXMFHOME points to is to instead create the folder in an alternative location, and then create a symlink at the value of TEXMFHOME that points to the texmf folder.
+
+I would recommend this method because it allows you to create the texmf folder inside of your Dropbox folder, for example, which makes a backup of the texmf folder in the cloud and also allows you to sync your texmf folder across multiple machines.
+
+In what follows, I give instructions for how to do this with Dropbox.
+If you wish to make the folder somewhere other than inside of your Dropbox folder, just replace the relevant bits of the directory paths in the commands that are given below.
+
+\paragraph{OSX/Linux}
+
+If you're on a Mac or Linux, the default location of your Dropbox folder should be \Directory{\textasciitilde/Dropbox}.
+Therefore, you can open a terminal and copy and paste the commands shown in Listing~\ref{lst:OSX-Linux-make-TEXMFHOME-in-Dropbox} and hit ENTER.
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{sh}
+mkdir -p ~/Dropbox/texmf && \
+cd ~/Dropbox/texmf && \
+mkdir -p {doc,generic,scripts,source} && \
+mkdir -p bibtex/{bib,bst} && \
+mkdir -p fonts/{afm,map,misc,pk,source,tfm,type1} && \
+mkdir -p tex/{context,generic,latex,plain,xelatex,xetex} && \
+mkdir -p tex/latex/biblatex/{bbx,cbx} && \
+ln -s ~/Dropbox/texmf $(kpsewhich -var-value=TEXMFHOME)
+	\end{minted}
+	\caption{Make a TDS-compliant directory in Dropbox and symlink it into TEXMFHOME on OSX or Linux}
+	\label{lst:OSX-Linux-make-TEXMFHOME-in-Dropbox}
+\end{listing}
+
+\paragraph{Windows}
+
+If you're on Windows Vista or up, you can copy and paste the commands shown in Listing~\ref{lst:Windows-make-TEXMFHOME-in-Dropbox} into the Command Prompt and hit ENTER.
+If you're on Windows XP, why are you still running Windows XP?
+(Note that this is currently untested, since I do not have a Windows machine.
+If this works for you, please let me know so that I can remove this disclaimer.)
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{bat}
+mkdir %HOMEPATH%\Dropbox\texmf & ^
+chdir %HOMEPATH%\Dropbox\texmf & ^
+FOR %d IN (doc, generic, scripts, source) DO mkdir /S %d & ^
+FOR %d IN (bib, bst) DO mkdir /S bibtex\%d & ^
+FOR %d IN (afm, map, misc, pk, source, tfm, type1) DO mkdir /S fonts\%d & ^
+FOR %d IN (context, generic, latex, plain, xelatex, xetex) DO mkdir /S tex\%d & ^
+FOR %d IN (bbx, cbx) DO mkdir /S tex\latex\biblatex\%d & ^
+FOR /F "delims=" %i IN ('kpsewhich -var-value=TEXMFHOME') DO mklink /J %i %HOMEPATH%\Dropbox\texmf
+	\end{minted}
+	\caption{Make a TDS-compliant directory in Dropbox and symlink it into TEXMFHOME on Windows}
+	\label{lst:Windows-make-TEXMFHOME-in-Dropbox}
+\end{listing}
+
+\subsubsection{\hologo{MiKTeX}}
+\label{subsubsec:local-files:miktex}
+
+\hologo{MiKTeX} is different from TeX Live in that it allows users to select directories to be used for storing local files through a graphical user interface, rather than having an environment variable that maps to such a directory.
+
+In order to get things set up on \hologo{MiKTeX}, you will want to first set up a TDS-compliant directory somewhere on your computer.
+\hologo{MiKTeX} recommends making the directory at \Directory{C:\textbackslash Local TeX Files}.
+
+However, since it doesn't really matter, I would instead recommend creating the texmf folder inside of a Dropbox folder so that you can have a backup of your texmf folder in the cloud and also sync it across machines if you have multiple machines.
+
+To do this, you can copy and paste the following commands shown in Listing~\ref{lst:Windows-make-local-texmf-MiKTeX} into the Windows Command Prompt and hit ENTER.%
+\footnote{%
+Note that in this case the folder called \Directory{Local TeX Files} is the same as the \Directory{texmf} folder depicted in Figure~\ref{fig:TDS}.
+You should \emph{not} put a folder called \Directory{texmf} inside of \Directory{Local TeX Files}.
+Instead, treat \Directory{Local TeX Files} as the \Directory{texmf} folder.
+The commands given in Listing~\ref{lst:Windows-make-local-texmf-MiKTeX} will do this automagically for you.%
+}
+This will only work on Windows Vista and up.
+(Note that this is currently untested, since I do not have a Windows machine.
+If this works for you, please let me know so that I can remove this disclaimer.)
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{bat}
+mkdir "%HOMEPATH%\Dropbox\Local TeX Files" & ^
+chdir "%HOMEPATH%\Dropbox\Local TeX Files" & ^
+FOR %d IN (doc, generic, scripts, source) DO mkdir /S %d & ^
+FOR %d IN (bib, bst) DO mkdir /S bibtex\%d & ^
+FOR %d IN (afm, map, misc, pk, source, tfm, type1) DO mkdir /S fonts\%d & ^
+FOR %d IN (context, generic, latex, plain, xelatex, xetex) DO mkdir /S tex\%d & ^
+FOR %d IN (bbx, cbx) DO mkdir /S tex\latex\biblatex\%d
+	\end{minted}
+	\caption{Make a TDS-compliant directory in Dropbox for \hologo{MiKTeX} on Windows}
+	\label{lst:Windows-make-local-texmf-MiKTeX}
+\end{listing}
+
+After doing this, click Start → Programs → \hologo{MiKTeX} 2.9 → Maintenance → Settings to open the \hologo{MiKTeX} Options window.
+Do \emph{not} open Settings (Admin), just open Settings.%
+\footnote{%
+For a discussion of the differences between administrative and user mode in \hologo{MiKTeX}, see this \href{http://tex.stackexchange.com/q/67712/32888}{question and its answers on TeX.SX}.%
+}
+Next, click on the Roots tab.
+Click Add in order to add a local texmf folder.
+
+Navigate to \Directory{C:\textbackslash Users\textbackslash <user name>\textbackslash Dropbox\textbackslash Local TeX Files} and click OK.
+
+Next, click Apply.
+
+Then, click on the General tab.
+Click on Refresh FNDB.
+Then click OK.
+
+See also \href{http://docs.miktex.org/manual/localadditions.html#id584820}{here} and \href{http://docs.miktex.org/manual/configuring.html#fndbupdate}{here} for instructions with screenshots.
+
+\subsubsection{Using local files}
+\label{subsubsec:using-local-files}
+
+As mentioned above, this local texmf folder that you just created is only for local files that you want to be available for use in all of your \File{.tex} documents.
+For example, this texmf folder is where you would put local style or class files.
+
+The most important use case for the local texmf folder, however, is for maintaining a single master bibliography file that can be used for citations in all of your documents.
+This will be discussed in detail in \S\ref{subsec:bibliographies}.
+
+To reiterate, do \emph{not} put any of your \File{.tex} files in this texmf folder.
