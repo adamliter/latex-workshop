@@ -165,7 +165,8 @@ Pull requests and/or suggested changes to the document are definitely welcome, t
 
 \newcommand*{\Constr}[1]{\textsc{#1}}
 
-\newcommand*{\IE}{\emph{i.e.},}
+\newcommand*{\IE}{\textit{i.e.},}
+\newcommand*{\ETC}{\textit{etc.}}
 
 \begin{document}
 
@@ -358,6 +359,7 @@ Where and how to set up this directory depends on your distribution, TeX Live or
 What is common to both cases, however, is that the directory must conform to the standard \TeX{} Directory Structure (TDS) hierarchy.
 A minimal example of a directory structure that conforms to this standard is given in Figure~\ref{fig:TDS}.%
 \footnote{%
+\label{fn:TDS}
 There are even more folders in a maximal TDS directory, but the ones depicted in Figure~\ref{fig:TDS} are probably enough for most use cases.
 If you're interested in reading more about TDS, you can do so at \url{https://www.tug.org/tds/tds.pdf}.%
 }
@@ -419,6 +421,10 @@ If you're interested in reading more about TDS, you can do so at \url{https://ww
 It is necessary to conform to this standard so that the engine you use to compile your \File{.tex} file can find certain types of files.
 For example, if you maintain a single master \File{.bib} file, it should be placed in the folder \Directory{texmf/bibtex/bib}.
 If you put it in any other folder, the engine you use to compile your document will not find it because it is only programmed to look for bibliography files inside the \Directory{texmf/bibtex/bib} folder.
+
+Note that you should \emph{only} put stuff in this directory that you want to be available to all of your \File{.tex} files, such as a master bibliography file, a custom package or style file that is not part of \href{http://ctan.org/}{CTAN}, \ETC.
+This directory is \emph{not} for your \File{.tex} files.
+If you wish to learn more, see fn.~\ref{fn:TDS}.
 
 In what follows, I describe how to set up a local TDS-compliant directory for both TeX Live and \hologo{MiKTeX}.
 For further discussion, see \href{http://tex.stackexchange.com/q/1137/32888}{this question and its answers on TeX.SX}.
