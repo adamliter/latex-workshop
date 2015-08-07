@@ -152,7 +152,7 @@ For example, if you maintain a single master \File{.bib} file, it should be plac
 If you put it in any other folder, the engine you use to compile your document will not find it because it is only programmed to look for bibliography files inside the \Directory{texmf/bibtex/bib} folder.
 
 Note that you should \emph{only} put stuff in this directory that you want to be available to all of your \File{.tex} files, such as a master bibliography file, a custom package or style file that is not part of \href{http://ctan.org/}{CTAN}, \ETC.
-This directory is \emph{not} for your \File{.tex} files.
+This directory is \emph{not} for your \File{.tex} documents.
 If you wish to learn more, see fn.~\ref{fn:TDS}.
 
 In what follows, I describe how to set up a local TDS-compliant directory for both TeX Live and \hologo{MiKTeX}.
@@ -190,20 +190,20 @@ There are two options for doing this.
 You can create the folder in that exact location, or you can create the folder in a different location and make a symbolic link (symlink) at the location of TEXMFHOME that points to where the folder is actually located on your computer.
 
 I would highly recommend the second option.
-If you do the second option, you could keep your texmf folder in the cloud with \href{https://dropbox.com/}{Dropbox}, for example, which would allow you to have a backup of the folder as well as allow you to sync the folder across multiple machines.%
+If you do the second option, you could keep your \Directory{texmf} folder in the cloud with \href{https://dropbox.com/}{Dropbox}, for example, which would allow you to have a backup of the folder as well as allow you to sync the folder across multiple machines.%
 \footnote{%
-Actually, what I would really recommend is keeping your local texmf folder under version control using, for example, \mintinline{sh}|git|, and keeping it on \href{https://github.com/}{GitHub} or \href{https://bitbucket.org/}{Bitbucket}.
+Actually, what I would really recommend is keeping your local \Directory{texmf} folder under version control using, for example, \mintinline{sh}|git|, and keeping it on \href{https://github.com/}{GitHub} or \href{https://bitbucket.org/}{Bitbucket}.
 However, explaining how to use a version control system is beyond the scope of this document.
-If you know how to use one, I assume you can extrapolate from the setup instructions given in \S\ref{subsubsubsec:symlink-texmf-folder-into-TEXMFHOME}.%
+If you know how to use one, I assume you can extrapolate from the setup instructions given in \S\ref{subsubsubsec:symlink-your-local-texmf-folder-into-TEXMFHOME}.%
 }
-\S\ref{subsubsubsec:create-a-texmf-folder-at-TEXMFHOME} explains the first option, and \S\ref{subsubsubsec:symlink-texmf-folder-into-TEXMFHOME} explains the second option.
+\S\ref{subsubsubsec:create-a-texmf-folder-at-TEXMFHOME} explains the first option, and \S\ref{subsubsubsec:symlink-your-local-texmf-folder-into-TEXMFHOME} explains the second option.
 
-\subsubsubsection{Create a texmf folder at TEXMFHOME}
+\subsubsubsection{Create a \Directory{texmf} folder at TEXMFHOME}
 \label{subsubsubsec:create-a-texmf-folder-at-TEXMFHOME}
 
 Note that this method is discouraged.
 Instead, I suggest creating the folder somewhere else and making a symlink to it at TEXMFHOME.
-See \S\ref{subsubsubsec:symlink-texmf-folder-into-TEXMFHOME}.
+See \S\ref{subsubsubsec:symlink-your-local-texmf-folder-into-TEXMFHOME} for instructions on how to do this.
 
 \paragraph{OSX/Linux}
 
@@ -227,7 +227,7 @@ mkdir -p $(kpsewhich -var-value=TEXMFHOME)/tex/latex/biblatex/{bbx,cbx}
 
 \paragraph{Windows}
 
-If you're on Windows, you can copy and paste the commands shown in Listing~\ref{lst:Windows-make-TEXMFHOME} into the Command Prompt and hit enter.
+If you're on Windows, you can copy and paste the commands shown in Listing~\ref{lst:Windows-make-TEXMFHOME} into the Command Prompt and hit ENTER.
 (Note that this is currently untested, since I do not have a Windows machine.
 If this works for you, please let me know so that I can remove this disclaimer.)
 
@@ -245,12 +245,12 @@ FOR %d IN (bbx, cbx) DO mkdir /S %i\tex\latex\biblatex\%d
 	\label{lst:Windows-make-TEXMFHOME}
 \end{listing}
 
-\subsubsubsection{Symlink texmf folder into TEXMFHOME}
-\label{subsubsubsec:symlink-texmf-folder-into-TEXMFHOME}
+\subsubsubsection{Symlink your local \Directory{texmf} folder into TEXMFHOME}
+\label{subsubsubsec:symlink-your-local-texmf-folder-into-TEXMFHOME}
 
-An alternative to creating the texmf folder in the precise location that the variable TEXMFHOME points to is to instead create the folder in an alternative location, and then create a symlink at the value of TEXMFHOME that points to the texmf folder.
+An alternative to creating the \Directory{texmf} folder in the precise location that the variable TEXMFHOME points to is to instead create the folder in an alternative location, and then create a symlink at the value of TEXMFHOME that points to the \Directory{texmf} folder.
 
-I would recommend this method because it allows you to create the texmf folder inside of your Dropbox folder, for example, which makes a backup of the texmf folder in the cloud and also allows you to sync your texmf folder across multiple machines.
+I would recommend this method because it allows you to create the \Directory{texmf} folder inside of your Dropbox folder, for example, which makes a backup of the \Directory{texmf} folder in the cloud and also allows you to sync your \Directory{texmf} folder across multiple machines.
 
 In what follows, I give instructions for how to do this with Dropbox.
 If you wish to make the folder somewhere other than inside of your Dropbox folder, just replace the relevant bits of the directory paths in the commands that are given below.
@@ -308,9 +308,9 @@ mklink /J %i %HOMEPATH%\Dropbox\texmf
 In order to get things set up on \hologo{MiKTeX}, you will want to first set up a TDS-compliant directory somewhere on your computer.
 \hologo{MiKTeX} recommends making the directory at \Directory{C:\textbackslash Local TeX Files}.
 
-However, since it doesn't really matter, I would instead recommend creating the texmf folder inside of a Dropbox folder so that you can have a backup of your texmf folder in the cloud and also sync it across machines if you have multiple machines.
+However, since it doesn't really matter, I would instead recommend creating the \Directory{texmf} folder inside of a Dropbox folder so that you can have a backup of your \Directory{texmf} folder in the cloud and also sync it across machines if you have multiple machines.
 
-To do this, you can copy and paste the following commands shown in Listing~\ref{lst:Windows-make-local-texmf-MiKTeX} into the Windows Command Prompt and hit ENTER.%
+To do this, you can copy and paste the commands shown in Listing~\ref{lst:Windows-make-local-texmf-MiKTeX} into the Windows Command Prompt and hit ENTER.%
 \footnote{%
 Note that in this case the folder called \Directory{Local TeX Files} is the same as the \Directory{texmf} folder depicted in Figure~\ref{fig:TDS}.
 You should \emph{not} put a folder called \Directory{texmf} inside of \Directory{Local TeX Files}.
@@ -342,7 +342,7 @@ Do \emph{not} open Settings (Admin), just open Settings.%
 For a discussion of the differences between administrative and user mode in \hologo{MiKTeX}, see this \href{http://tex.stackexchange.com/q/67712/32888}{question and its answers on TeX.SX}.%
 }
 Next, click on the Roots tab.
-Click Add in order to add a local texmf folder.
+Click Add in order to add a local \Directory{texmf} folder.
 
 Navigate to \Directory{C:\textbackslash Users\textbackslash <user name>\textbackslash Dropbox\textbackslash Local TeX Files} and click OK.
 
@@ -357,10 +357,10 @@ See also \href{http://docs.miktex.org/manual/localadditions.html#id584820}{here}
 \subsubsection{Using local files}
 \label{subsubsec:using-local-files}
 
-As mentioned above, this local texmf folder that you just created is only for local files that you want to be available for use in all of your \File{.tex} documents.
-For example, this texmf folder is where you would put local style or class files.
+As mentioned above, this local \Directory{texmf} folder that you just created is only for local files that you want to be available for use in all of your \File{.tex} documents.
+For example, this \Directory{texmf} folder is where you would put local style or class files.
 
-The most important use case for the local texmf folder, however, is for maintaining a single master bibliography file that can be used for citations in all of your documents.
+The most important use case for the local \Directory{texmf} folder, however, is for maintaining a single master bibliography file that can be used for citations in all of your documents.
 This will be discussed in detail in \S\ref{subsec:bibliographies}.
 
-To reiterate, do \emph{not} put any of your \File{.tex} files in this texmf folder.
+To reiterate, do \emph{not} put any of your \File{.tex} documents inside this \Directory{texmf} folder.
