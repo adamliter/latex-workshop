@@ -278,7 +278,11 @@ Consider Listing~\ref{lst:booktabs-table}, which produces the following output.
 \label{subsec:images}
 
 One thing you will often want to do is include images in a document.
-This is what the package \Package{graphicx} is for.
+This is what the package \Package{graphicx} is for.%
+\footnote{%
+Notice that the name of the package is \Package{graphicx} with an `x', not \Package{graphics}.
+The \Package{graphics} package is different from \Package{graphicx}, and the example in Listing~\ref{lst:image-example} will not work if you use the \Package{graphics} package by accident.%
+}
 Let's look at the example in Listing~\ref{lst:image-example}.
 
 \begin{listing}[htbp]
