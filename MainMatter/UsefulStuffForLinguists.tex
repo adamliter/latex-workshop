@@ -31,7 +31,9 @@ However, you should be able to search for instructions online and pretty easily 
 \usepackage{fontspec}
 \setmainfont[Ligatures=TeX]{Times New Roman}
 \newfontfamily\phonetic[]{Doulos SIL}
-\usepackage{textglos} % this package provides semantic markup for inline linguistic examples
+% if you have TeX Live or MacTeX, use the textglos package
+% instead of writing this custom command
+\newcommand*{\xv}[1]{\textit{#1}}
 
 \begin{document}
 
@@ -55,7 +57,9 @@ If you download and install this font on your machine, then you can do something
 \documentclass{article}
 \usepackage{fontspec}
 \setmainfont[Ligatures=TeX]{CMU Serif Roman}
-\usepackage{textglos}
+% if you have TeX Live or MacTeX, use the textglos package
+% instead of writing this custom command
+\newcommand*{\xv}[1]{\textit{#1}}
 \begin{document}
 
 The English word \xv{cat} is underlyingly /kæt/.
@@ -103,10 +107,12 @@ Notice in particular that you can give the examples \mintinline{latex}|\label|s 
 	\begin{minted}{latex}
 \documentclass{article}
 
-\usepackage{textglos}
+% if you have TeX Live or MacTeX, use the textglos package
+% instead of writing this custom command
+\newcommand*{\xv}[1]{\textit{#1}}
 
 %\usepackage{fixltx2e} % only needed if you have TeX Live < 2015
-\newcommand*{\Ind}[1]{\textsubscript{#1}}
+\newcommand*{\IND}[1]{\textsubscript{#1}}
 
 \usepackage{gb4e}
 \noautomath % you should always declare this after loading gb4e
@@ -115,14 +121,14 @@ Notice in particular that you can give the examples \mintinline{latex}|\label|s 
 (\ref{ex:questionable-English}) is marginally acceptable.
 
 \begin{exe}
-    \ex[?]{His\Ind{i} mother loves every\Ind{i} boy no matter what.}
+    \ex[?]{His\IND{i} mother loves every\IND{i} boy no matter what.}
     \label{ex:questionable-English}
 \end{exe}
 \begin{exe}
     \ex[]{Strong crossover
         \begin{xlist}
-            \ex[*]{He\Ind{i} loves everyone\Ind{i}}
-            \ex[*]{She\Ind{i} thinks everyone\Ind{i} is smart}
+            \ex[*]{He\IND{i} loves everyone\IND{i}}
+            \ex[*]{She\IND{i} thinks everyone\IND{i} is smart}
             \label{ex:everyone-is-smart}
         \end{xlist}
     }
