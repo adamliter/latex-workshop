@@ -1,6 +1,8 @@
 # LaTeX workshop (for linguists)
 
-This repository contains materials for an impromptu workshop on LaTeX at the 2015 Chicago LSA Institute. A PDF of the compiled handout can be found [here][handout].
+This handout was originally developed for an impromptu workshop on LaTeX that I gave at the 2015 Chicago Linguistic Institute.
+Since then, I have updated the handout and will continute to periodically keep it up to date.
+A compiled `.pdf` of the most recent version of the handout can be found [here][handout].
 
 Feel free to fork this repository and open a pull request if you see ways that these materials could be improved.
 
@@ -9,9 +11,9 @@ Feel free to fork this repository and open a pull request if you see ways that t
 In order to compile the file `latex-workshop-for-linguists.tex`, you will need to do the following things:
 
 * Install `Pygments`. If you have `pip` installed, you can just do `pip install Pygments`. See the [`minted` documentation][minted] documentation for more information.
-* You will need to compile the file with shell escape enabled. Also see the [`minted` documentation][minted] documentation for more information.
-* You will need to either change the font that the document uses or you will need to download and install the [Computer Modern Unicode][cm-unicode] font on your machine.
-* You will need to put the file [`leipzig-mod.sty`][leipzig-mod] in either the same directory as `latex-workshop-for-linguists.tex` or in `TEXMFHOME/tex/generic`.
+* Compile the file with shell escape enabled. Also see the [`minted` documentation][minted] documentation for more information.
+* Either change the font that the document uses or download and install the [Computer Modern Unicode][cm-unicode] font on your machine.
+* Put the file [`leipzig-mod.sty`][leipzig-mod] in either the same directory as `latex-workshop-for-linguists.tex` or in `texmf/tex/generic`.
 
 # License
 
