@@ -25,7 +25,7 @@ This contrasts with how many folks use Word where they would change this for eac
 \footnote{%
 Note that Word also allows for semantic markup despite the fact that most people do not use it.
 If you cannot convince your Word-using friends and family to switch to \LaTeX, you should at least try to get them to use semantic markup in Word if they don't already do so.
-\texttt{:)}%
+\ASCIIEmoji{:)}%
 }
 For example, if you want the number preceding all of your section headings to be blue, you can change this at the beginning of the document, like in Listing~\ref{lst:blue-sections}.
 
@@ -350,7 +350,7 @@ The command \mintinline{latex}|\caption{}| allows you to give a caption to the t
 \LaTeX{} will automagically number the tables and figures in the correct order, so you don't have to worry about that.
 Semantic markup FTW!
 
-Take a look at two examples in Listing~\ref{lst:float-examples}.
+Take a look at the two examples in Listing~\ref{lst:float-examples}.
 Try typesetting this yourself and see what the result is.
 
 \begin{listing}[htbp]
@@ -532,10 +532,542 @@ So, if you tried typesetting your document, received a compilation error, figure
 
 Getting a bibliography to work with \LaTeX{} is often one of the big hurdles of learning \LaTeX, but once you've figured it out, it's really, really, really frikken nice.
 
-\paragraph{Promissory note}
+In order for this to work correctly, you will first need to set up a local \Directory{texmf} folder.
+How you do this depends on which \TeX{} distribution you have.
+There are explicit instructions in \S\ref{subsec:local-files}.
+If you have not already set up a local \Directory{texmf} folder on your machine, go there and follow the instructions.
 
-Unfortunately, getting this set up properly requires going into how to install a \TeX{} distribution on your computer and how to properly set up a local TDS-compliant directory.
-If folks are interested, we could do a follow up workshop next Wednesday that goes into how to do this.
+\subsubsection{Overview}
+\label{subsubsec:overview}
+
+There are several components that are relevant to setting up your machine in order to be able to use a single master bibliography file (\File{.bib}) for all of your references in all of your \File{.tex} documents.
+
+\begin{description}
+
+	\item[The \File{.bib} file]{%
+		You need to create a bibliographic database that contains all of the information for all of the references that you wish to cite in your \File{.tex} documents.
+		This file is just a plain text file, but there are graphical user interfaces that can be used to edit the file, such as \href{http://jabref.sourceforge.net/}{JabRef} or \href{http://bibdesk.sourceforge.net/}{BibDesk}.%
+		\footnote{%
+		BibDesk is only available on a Mac.
+		It is installed by default when you install {Mac\TeX}, so it is probably already on your computer.%
+		}
+		How to manage this file and other relevant aspects will be discussed in detail in \S\ref{subsubsec:the-bib-file}.%
+	}
+	
+	\item[The citation package]{%
+		Strictly speaking, you do not need to use a citation package.
+		The base \hologo{LaTeX} format already provides the command \mintinline{latex}|\cite{...}|.
+		However, citation packages provide much more flexibility and many more features than what is offered by the base \hologo{LaTeX} format.
+		Citation packages are also great for easily changing the style that your references are printed in.
+		They also often provide more specific commands for inline citations and parenthetical citations.
+		Some examples of citation packages include \Package{cite}, \Package{apacite}, \Package{natbib}, and \Package{biblatex}.
+		For the purposes of linguistics at least, I would only recommend \Package{natbib} or \Package{biblatex}.
+		Both of these packages will be discussed in more detail in \S\ref{subsubsec:the-citation-package}.%
+	}
+	
+	\item[The backend processor]{%
+		In addition to using a citation package, you will also need to use a program for processing your \File{.aux} file.
+		Since you only start with your \File{.tex} file, using a \File{.bib} file for references involves a series of compilation steps.
+		You must first compile your \File{.tex} file to produce an \File{.aux} file.
+		Then you must process your \File{.aux} file with one of the two backend processors: \hologo{BibTeX} or Biber.
+		Doing this goes through and matches up the things that were cited in your \File{.tex} file with entries in your \File{.bib} file.
+		Then you need to compile your \File{.tex} document again in order to get the references to show up.
+		The differences between the two backend processors and the compilation steps that are necessary will be discussed in more detail in \S\ref{subsubsec:the-backend-processor}.%
+	}
+
+\end{description}
+
+\subsubsubsection{A terminological note}
+\label{subsubsubsec:a-terminological-note}
+
+Before proceeding any further, it's worth touching briefly upon a bit of history to hopefully avoid some terminological confusion.
+However, what is perhaps more likely, is that this brief excursion won't make any sense.
+If that's the case, don't worry.
+That's not your fault.
+The history of \TeX{} and the evolution of relevant terminology is complicated.
+
+Hopefully the terminology won't cause too much confusion, but I would nonetheless like to make note of it.
+If it doesn't make sense now, perhaps it will in 6 months.
+
+For a while, the only option for processing bibliography files was \hologo{BibTeX}.
+\hologo{BibTeX} was developed in the ancient days when memory and hard drive space were expensive, character encodings were limited, and dinosaurs still roamed the earth.
+
+Biblatex is a recent and modern alternative to \hologo{BibTeX}.
+People generally use Biblatex to refer to the combination of the citation package \Package{biblatex} and the backend processor Biber.
+I will adopt this practice of using Biblatex to refer to both of these things in combination, whereas \Package{biblatex} will only be used to refer to the citation package.
+
+What makes this practice particularly confusing, is that many people use Biblatex in contradistinction to \hologo{BibTeX}.
+The more accurate contrast, however, would be to contrast Biber with \hologo{BibTeX}.
+
+For better or worse, however, this terminological parlance is quite common among \TeX{} users and is probably here to stay.
+One thing that is actually useful about this seemingly confusing terminology, however, is that there are differences between how you write a \File{.bib} file that is intended to be used with Biblatex and how you write a \File{.bib} file that is intended to be used with \hologo{BibTeX}.
+In other words, it can actually be useful to distinguish Biblatex and \hologo{BibTeX} if you want to know how a \File{.bib} file was prepared, for example.
+Biblatex supports a wider range of entry types and a wider range of data fields and is thus much more flexible and versatile than \hologo{BibTeX}.%
+\footnote{%
+You will be introduced to entry types in \S\ref{subsubsubsec:entry-types} and data fields in \S\ref{subsubsubsec:data-fields}.%
+}
+Biblatex also plays much nicer with accented Latin characters and non-Latin alphabets than does \hologo{BibTeX}.
+
+A full discussion of these differences is beyond the scope of this document.
+Some of the differences will be briefly discussed below, but for further discussion, the reader is referred to the following resources.
+
+\begin{itemize}
+
+	\item{The question \href{http://tex.stackexchange.com/q/25701/32888}{bibtex vs.~biber and biblatex vs.~natbib} and its answers on TeX.SX}
+	
+	\item{The question \href{http://tex.stackexchange.com/q/5091/32888}{What to do to switch to biblatex?} and its answers on TeX.SX}
+	
+	\item{\S\S1--3 of the \href{http://texdoc.net/texmf-dist/doc/latex/biblatex/biblatex.pdf}{\Package{biblatex} documentation}}
+
+\end{itemize}
+
+\subsubsection{The \File{.bib} file}
+\label{subsubsec:the-bib-file}
+
+In order to get started, you need to create a \File{.bib} file.
+This is just a plain text file, but your life will probably be made much easier if you use a graphical user interface to edit the file.
+
+\href{http://jabref.sourceforge.net/}{JabRef} is a crossplatform option.
+Follow the link to download and install it.
+
+If you have a Mac, you can use \href{http://bibdesk.sourceforge.net/}{BibDesk}.
+It should already be installed if you installed {Mac\TeX}.
+
+Another thing that is nice about these graphical user interfaces is that they allow you to pair \File{.pdf} files to the entries in your database.
+If you pair a \File{.pdf} with an entry, then you can open JabRef or BibDesk and click on the link to the \File{.pdf} file in order to open it without having to find it on your computer.
+
+Before creating a database, you will want to make sure that you save the \File{.bib} file with UTF-8 encoding.
+For some reason, the default character encoding in JabRef (on Windows at least) is Cp1252.
+This will just give you a lot of headaches.
+Before you create your \File{.bib} file, go into the JabRef preferences and change the default character encoding to UTF-8.
+
+You should do the same with BibDesk.
+Before creating your \File{.bib} file, open BibDesk, go to preferences and set the default character encoding to UTF-8.
+
+If you have trouble finding these options in either BibDesk or JabRef, \href{https://xkcd.com/627/}{Google it}. \ASCIIEmoji{:p}
+
+Once you have changed the default encoding, create a new bibliography file (\File{.bib}).
+It is \emph{very important} that you save it in the correct location.
+It \emph{must} go inside your local \Directory{texmf} folder; specifically, it \emph{must} go inside \Directory{texmf/bibtex/bib}.
+If you do not have a local \Directory{texmf} folder set up, go read and follow the instructions in \S\ref{subsec:local-files}.
+
+Moreover, you will also save yourself a lot of pain if you do not use spaces in the name of the file.
+I would recommend something simple like \File{master.bib} or \File{linguistics.bib}.
+
+Now that you have your \File{.bib} file setup, you can start adding entries to it.
+
+\subsubsubsection{Entry types}
+\label{subsubsubsec:entry-types}
+
+There are various entry types, and the available entry types differ slightly depending on whether you use \Package{biblatex} or not.%
+\footnote{%
+\label{fn:entry-types-biblatex-vs-bibtex}
+Covering this in any detail is really beyond the scope of this document.
+For more information, please see the resources mentioned in \S\ref{subsubsubsec:a-terminological-note}.
+For the most part, however, you do not need to worry about it.
+A \File{.bib} file that was prepared for use with \hologo{BibTeX} will work just fine with Biblatex.
+You just will not be able to use some of the more flexible and versatile features of Biblatex (which you probably won't need anyway, except for complicated use cases).%
+}
+In general, you will probably mostly only need to use the entry types \EntryType{@article}, \EntryType{@book}, \EntryType{@incollection}, \EntryType{@inproceedings}, \EntryType{@misc}, and \EntryType{@unpublished}.
+
+\begin{description}
+
+	\item[\EntryType{@article}]{%
+		This entry type should be used for journal articles.%
+	}
+	
+	\item[\EntryType{@book}]{%
+		This entry type should be used for complete books.%
+	}
+	
+	\item[\EntryType{@incollection}]{%
+		This entry type should be used for chapters in edited volumes.
+		Do \emph{not} use the \EntryType{@inbook} entry type for this.%
+	}
+	
+	\item[\EntryType{@inproceedings}]{%
+		This entry type should be used for stuff that is published in conference proceedings.%
+	}
+	
+	\item[\EntryType{@misc}]{%
+		This entry type should be used for miscellaneous stuff, such as talks or posters presented at conferences (that aren't published in proceedings).
+		You can add something to the \DataField{howpublished} field that indicates where it was presented and whether it was a talk or a poster.
+		See \S\ref{subsubsubsec:data-fields} for more details.%
+	}
+	
+	\item[\EntryType{@unpublished}]{%
+		This entry type can be used for unpublished manuscripts.%
+	}
+
+\end{description}
+
+\subsubsubsection{Data fields}
+\label{subsubsubsec:data-fields}
+
+Inside of each entry, there are certain data fields that you need to fill out.
+The available data fields depend on which entry type you are using.%
+\footnote{%
+The available data fields also depend on whether you are preparing your \File{.bib} file for use with Biblatex or \hologo{BibTeX} (cf.~fn.~\ref{fn:entry-types-biblatex-vs-bibtex}).
+A full discussion of the many more data fields that Biblatex provides is much beyond the scope of this document.
+You largely do not need to worry about it unless you would like to use some of Biblatex's more advanced features.
+The data fields discussed here are for a \hologo{BibTeX} \File{.bib} file, but they will all work just fine if you use Biblatex instead of \hologo{BibTeX}.%
+}
+In general, the bare minimum that you need to fill in are the data fields \DataField{author}, \DataField{title}, and \DataField{year}.
+
+For each of the entry types mentioned above, here are the recommended data fields that I would minimally suggest filling in.
+
+\begin{multicols}{3}
+\begin{itemize}
+
+	\item{\EntryType{@article}
+		
+		\begin{itemize}
+		
+			\item{\DataField{author}}
+			
+			\item{\DataField{title}}
+			
+			\item{\DataField{journal}}
+			
+			\item{\DataField{year}}
+			
+			\item{\DataField{volume}}
+			
+			\item{\DataField{number}}
+			
+			\item{\DataField{pages}}
+			
+			\item{\DataField{doi}}
+		
+		\end{itemize}
+		
+	}
+	
+	\item{\EntryType{@book}
+	
+		\begin{itemize}
+		
+			\item{\DataField{author}}
+			
+			\item{\DataField{title}}
+			
+			\item{\DataField{publisher}}
+			
+			\item{\DataField{year}}
+			
+			\item{\DataField{address}}
+		
+		\end{itemize}
+	
+	}
+	
+	\item{\EntryType{@incollection}
+	
+		\begin{itemize}
+		
+			\item{\DataField{author}}
+			
+			\item{\DataField{title}}
+			
+			\item{\DataField{booktitle}}
+			
+			\item{\DataField{publisher}}
+			
+			\item{\DataField{year}}
+			
+			\item{\DataField{editor}}
+			
+			\item{\DataField{pages}}
+			
+			\item{\DataField{address}}
+		
+		\end{itemize}
+	
+	}
+	
+	\item{\EntryType{@inproceedings}
+	
+		\begin{itemize}
+		
+			\item{\DataField{author}}
+			
+			\item{\DataField{title}}
+			
+			\item{\DataField{booktitle}}
+			
+			\item{\DataField{publisher}}
+			
+			\item{\DataField{year}}
+			
+			\item{\DataField{pages}}
+			
+			\item{\DataField{address}}
+		
+		\end{itemize}
+	
+	}
+	
+	\item{\EntryType{@misc}
+	
+		\begin{itemize}
+
+			\item{\DataField{author}}
+
+			\item{\DataField{title}}
+	
+			\item{\DataField{howpublished}}
+
+			\item{\DataField{year}}
+
+		\end{itemize}
+	
+	}
+	
+	\item{\EntryType{@unpublished}
+	
+		\begin{itemize}
+		
+			\item{\DataField{author}}
+			
+			\item{\DataField{note}}
+			
+			\item{\DataField{title}}
+			
+			\item{\DataField{year}}
+		
+		\end{itemize}
+
+	}
+
+\end{itemize}
+\end{multicols}
+
+\paragraph{Keywords}
+
+Another useful data field is \DataField{keywords}.
+This can be used with every entry type, and I would highly recommend filling it in for every entry.
+
+You can make up the keywords that you use.
+Doing so allows you to easily sort and search through your \File{.bib} file.
+
+For example, you could put keywords in all of your entries for different subdisciplines, like syntax, or semantics, or phonology, \ETC.
+If you wanted to look through your \File{.bib} file for a certain syntax paper that you cannot remember, for example, then you could just look at all of the entries that contain syntax in the \DataField{keywords} data field.
+
+\paragraph{On names}
+
+The method for entering names into the \DataField{author} and \DataField{editor} data fields is a bit idiosyncratic, but it allows names to be typeset in a very fine-grained manner, so it is well worth it.
+
+There are four components to a name.
+
+\begin{enumerate}[label={(\roman*)}]
+
+	\item{First name (this includes any and all middle names)}
+	
+	\item{The ``von'' part (examples include ``von'', ``van'', ``de'', ``de la'', \ETC)}
+	
+	\item{The last name (does \emph{not} include the ``von'' part)}
+	
+	\item{The ``Jr'' part (examples include ``Jr.'', ``III'', \ETC)}
+
+\end{enumerate}
+
+There are three possible ways to enter names into a \File{.bib} database.
+
+\begin{enumerate}[label={(\roman*)}]
+
+	\item{``First von Last''}
+	
+	\item{``von Last, First''}
+	
+	\item{``von Last, Jr, First''}
+
+\end{enumerate}
+
+I would highly recommend always using either the second or third option.
+The first option does not work if an author has multiple \emph{last} names and no ``von'' part in their name.
+
+Finally, the last thing to know about names is that multiple authors or editors should be separated with \BibliographyData{and}.
+
+So, for example, if something you wish to cite has three authors, you should write the following in the \DataField{author} data field: \BibliographyData{Matthewson, Lisa and von Fintel, Kai and Smith, Jr., Mary}.
+
+\paragraph{On casing}
+
+Depending on the style that you use for your bibliography, you might see your titles being typeset in \href{https://en.wiktionary.org/wiki/sentence_case}{sentence casing} rather than \href{https://en.wiktionary.org/wiki/title_case}{title casing}.
+This is what's called for by the \href{http://celxj.org/downloads/UnifiedStyleSheet.pdf}{Unified Stylesheet for Linguistics Journals}, for example.
+
+Nonetheless, there might be certain things that ought to remain capitalized.
+In this case, you should surround these things with braces in the data field.
+
+For example, if you are adding an \EntryType{@incollection} type whose \DataField{title} is \TitleText{On the absence of certain quantifiers in Mohawk}, you should enter it into the \DataField{title} field as \BibliographyData{On the Absence of Certain Quantifiers in \{Mohawk\}}.
+Note that the braces should surround the entire word, \emph{not} just the letter M.
+If the braces do not surround the entire word, it will mess up the kerning.
+
+Note furthermore that the data field was written using title casing, but the output you see will be sentence casing, except for the word \xv{Mohawk}, because we surrounded it with braces.
+I would recommend always entering titles into the data fields using title casing.
+It is much easier to automagically convert title casing to sentence casing than it is to automagically convert sentence casing to title casing.
+Thus, you will save yourself much pain if you need to switch to a style that uses title casing.
+
+\paragraph{On cite keys}
+
+In addition to filling out all of the data fields, you will also need to give each entry a unique cite key.
+This is what you will use to cite the entry in one of your \File{.tex} documents.
+
+You can come up with your own algorithm for determining cite keys, but it is best to use some sort of algorithm rather than making up arbitrary cite keys as you go along.
+Here are two suggestions.
+
+\begin{enumerate}[label={(\roman*)}]
+
+	\item{\BibliographyData{lastnameYYYY}}
+	
+	\item{\BibliographyData{lastnameYYYY:informativewordfromtitle}}
+
+\end{enumerate}
+
+The first one is very basic.
+You could just use the last name of the first author and the four-digit year of the publication for the cite key.
+You will of course run into trouble when an author has multiple publications in the same year.
+In this case, you could do something like \BibliographyData{lastnameYYYYa} and \BibliographyData{lastnameYYYYb} to disambiguate the two publications.
+
+However, it might be preferable to do something like the second option instead.
+If you have to change the cite key after you've already added it and used it, then you would need to go back and change how you cited it in your \File{.tex} file.
+If you use the second suggested algorithm instead, it's very unlikely that you will run into a situation where you might have duplicate cite keys for distinct entries.
+
+\subsubsubsection{Lingbib}
+\label{subsubsubsec:lingbib}
+
+However, instead of going through all the trouble of maintaining your own bibliography file \ldots{} why not use and contribute to \href{https://github.com/lingbib/lingbib}{Lingbib}!?
+
+This is a (shameless plug for a) project that Kenneth Hanson and I are currently working on developing.
+We think it's rather wasteful that people individually create bibliography files and maintain them on their own.
+Instead, we could all use and contribute to one central bibliography file for the entire field.
+
+This has at least the following two advantages. First, it saves everyone time, and, second, it ensures greater accuracy in the \File{.bib} file since more eyes will be looking at it.
+
+The project isn't quite ready for use yet, but I will update this \File{.pdf} when it is ready to use.
+We would greatly appreciate it if you spread the word about this project, started using it, and perhaps even contributed! \ASCIIEmoji{:)}
+
+\subsubsection{The citation package}
+\label{subsubsec:the-citation-package}
+
+The two main options for citation packages that are recommended are \Package{natbib} and \Package{biblatex}.
+There are others, but they are nowhere near as versatile as these two.
+
+\subsubsubsection{\Package{natbib}}
+\label{subsubsubsec:natbib}
+
+\Package{natbib} is only compatible with using \hologo{BibTeX} as the backend processor for your \File{.aux} and \File{.bib} files (see \S\ref{subsubsec:the-backend-processor}).
+Since \hologo{BibTeX} was developed a long time ago, it does not play all that nicely with accented Latin characters and non-Latin alphabets.
+
+I would highly recommend using \Package{biblatex} and Biber instead of \Package{natbib} and \hologo{BibTeX}.
+However, it is worth noting that academic journals that accept \LaTeX{} submissions often require bibliographies that use \Package{natbib} and \hologo{BibTeX}.%
+\footnote{%
+A notable exception to this is \href{http://semprag.org/}{\Journal{Semantics \& Pragmatics}}, which accepts submissions that use \Package{biblatex} and Biber.%
+}
+
+\paragraph{Citation commands}
+
+There are two main commands for citations with \Package{natbib} that you ought to know about.
+You can use \mintinline{latex}|\citet[]{...}| for inline citations and \mintinline{latex}|\citep[][]{...}| for parenthetical citations.
+
+The first optional argument of \mintinline{latex}|\citet| can be used to specify page numbers.
+
+The first optional argument of \mintinline{latex}|\citep| can be used to specify a prenote, and the second optional argument can be used to specify page numbers.
+
+There is also a handy \href{http://merkel.zoneo.net/Latex/natbib.php}{\Package{natbib} reference sheet} that describes more of the citation commands.
+
+\paragraph{Styles}
+
+\Package{natbib} and \hologo{BibTeX} use \File{.bst} files to specify different bibliography styles.
+\File{.bst} files are awful.
+
+Thankfully, Bridget Samuels has gone through the trouble of creating one for us that conforms to the \href{http://celxj.org/downloads/UnifiedStyleSheet.pdf}{Unified Stylesheet for Linguistics Journals}.
+If you decide to use \Package{natbib} and \hologo{BibTeX}, you should download the file \href{http://celxj.org/downloads/unified.bst}{\File{unified.bst}} file and place it in your local \Directory{texmf} directory.
+Specifically, it needs to go into the folder \Directory{texmf/bibtex/bst} (see \S\ref{subsec:local-files} if you've somehow made it this far without setting up a local \Directory{texmf} folder).
+
+There are many other styles that you can use out of the box with either a TeX Live/{Mac\TeX} or \hologo{MiKTeX} distribution, such as \Package{alpha} or \Package{apalike}.
+But, presumably, you will want to use the \Package{unified} style that Bridget Samuels wrote since you're (presumably) a linguist.
+
+\paragraph{Complete minimal working example}
+
+Listing~\ref{lst:natbib-example} gives a complete minimal working example of how to use \Package{natbib} and \hologo{BibTeX}.
+In order to figure out how to compile it correctly, read \S\ref{subsubsubsec:bibtex}.
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{latex}
+\documentclass{article}
+
+\begin{filecontents}{\jobname.bib}
+@book{chomsky1995:MP,
+    Address = {Cambridge, MA},
+    Author = {Chomsky, Noam},
+    Publisher = {The MIT Press},
+    Title = {The Minimalist Program},
+    Year = {1995}}
+\end{filecontents}
+
+\usepackage{natbib}
+
+\begin{document}
+
+In contemporary Minimalist syntax, S-Structure has been eliminated \citep[see][]{chomsky1995:MP}.
+
+\bibliography{\jobname}
+% the following will only work if unified.bst is in your texmf folder
+\bibliographystyle{unified}
+\end{document}
+	\end{minted}
+	\caption{Complete minimal working example showing how to use \Package{natbib} and \hologo{BibTeX}}
+	\label{lst:natbib-example}
+\end{listing}
+
+Before moving on to \Package{biblatex}, there are a few things to note.
+
+First, the bibliography file and the style file are specified at the end of the document, just before \mintinline{latex}|\end{document}|.
+In both cases, be sure to omit the file extensions (\IE{} don't add \File{.bib} or \File{.bst}).
+
+Second, the \File{.bib} file is bundled into this example so that you can copy and paste it into an editor and compile it directly.
+But this is \emph{not} how you should write your \File{.tex} files.
+You should instead use a single master bibliography file as discussed in \S\ref{subsubsec:the-bib-file}.
+In this case, you would replace \mintinline{latex}|\bibliography{\jobname}| with \mintinline{latex}|\bibliography{master}|, if you named your \File{.bib} file \File{master.bib}, for example.
+Moreover, you can completely omit everything from \mintinline{latex}|\begin{filecontents}| to \mintinline{latex}|\end{filecontents}|.
+
+\subsubsubsection{\Package{biblatex}}
+\label{subsubsubsec:biblatex}
+
+Unlike \Package{natbib}, \Package{biblatex} can be used with either backend processor: Biber or \hologo{BibTeX}.
+If you wish to use the full range of features that \Package{biblatex} provides, you will need to use Biber.
+
+As mentioned above, there is good reason to use \Package{biblatex} and Biber over \Package{natbib} and \hologo{BibTeX}.
+Most notably, \Package{biblatex} and Biber work a lot more straightforwardly with accented characters and non-Latin alphabets.
+
+However, in addition to not being an acceptable format for submission to many academic journals, the available implementations of the \href{http://celxj.org/downloads/UnifiedStyleSheet.pdf}{Unified Stylesheet for Linguistics Journals} in \Package{biblatex} are currently lacking.
+More on this below.
+
+\paragraph{Citation commands}
+
+
+
+\paragraph{Styles}
+
+
+
+\paragraph{Complete minimal working example}
+
+
+
+\subsubsection{The backend processor}
+\label{subsubsec:the-backend-processor}
+
+\subsubsubsection{\hologo{BibTeX}}
+\label{subsubsubsec:bibtex}
+
+
+
+\subsubsubsection{Biber}
+\label{subsubsubsec:biber}
+
+
 
 \subsection{Paragraphs}
 \label{subsec:paragraphs}

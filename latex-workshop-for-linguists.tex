@@ -12,13 +12,17 @@
 \setmainfont{CMU Serif Roman}
 
 % -----------------------------------------------------------------------------
-% MARGINS & PARAGRAPHS
+% GENERAL DOCUMENT SETUP STUFF
 % -----------------------------------------------------------------------------
 \usepackage[
 	margin=0.75in
 ]{geometry}
 \setlength{\parindent}{0em}
 \setlength{\parskip}{1ex}
+
+\usepackage{multicol}
+
+\usepackage{enumitem}
 
 % -----------------------------------------------------------------------------
 % GITINFO
@@ -248,10 +252,17 @@ Pull requests and/or suggested changes to the document are definitely welcome, t
 \newcommand*{\Package}[1]{\texttt{#1}}
 \newcommand*{\Directory}[1]{\texttt{#1}}
 
+\newcommand*{\ASCIIEmoji}[1]{\texttt{#1}}
+
+\newcommand*{\EntryType}[1]{\texttt{#1}}
+\newcommand*{\DataField}[1]{\texttt{#1}}
+\newcommand*{\BibliographyData}[1]{\texttt{#1}}
+
 \newcommand*{\KEY}[1]{\textbf{#1}}
 \newcommand*{\Semantics}[1]{\textbf{#1}}
 
 \newcommand*{\TitleText}[1]{\textit{#1}}
+\newcommand*{\Journal}[1]{\textit{#1}}
 
 \newcommand*{\Constr}[1]{\textsc{#1}}
 
