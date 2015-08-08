@@ -1111,8 +1111,14 @@ Listing~\ref{lst:good-practice-for-paragraphs} exemplifies \emph{good practice} 
 This good practice allows us to manipulate the semantics of paragraphs in the preamble, so we can typeset them as we like, without having to modify each individual paragraph.
 
 There's generally no need to modify the default semantics for paragraphs.
-However, in Listing~\ref{lst:good-practice-for-paragraphs}, I've given the same semantics that are used to typeset the paragraphs in this document, which are intended to be much more handout-y and much less essay-y.
-Try typesetting Listing~\ref{lst:good-practice-for-paragraphs} yourself and see what happens.
+However, in Listing~\ref{lst:good-practice-for-paragraphs}, I've given semantics that are similar to those used to typeset the paragraphs in this document, which are intended to be much more handout-y and much less essay-y.
+Try typesetting Listing~\ref{lst:good-practice-for-paragraphs} yourself and see what happens.%
+\footnote{%
+Instead of using the two \mintinline{latex}|\setlength| commands in Listing~\ref{lst:good-practice-for-paragraphs}, I would actually just recommend loading the \Package{parskip} package.
+It gives you handout-y semantics for paragraphs in a much better and more robust way.
+Listing~\ref{lst:good-practice-for-paragraphs} is only given for pedagogical purposes---namely, to illustrate the point of semantic markup for paragraphs, which isn't necessarily clearly illustrated by just loading a package.
+Nonetheless, just loading the \Package{parskip} package instead is indeed the better way to go.%
+}
 
 \begin{listing}[htbp]
 	\centering
