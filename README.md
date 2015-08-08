@@ -14,6 +14,7 @@ In order to compile the file `latex-workshop-for-linguists.tex`, you will need t
 * Compile the file with shell escape enabled. Also see the [`minted` documentation][minted] documentation for more information.
 * Either change the font that the document uses or download and install the [Computer Modern Unicode][cm-unicode] font on your machine.
 * Put the file [`leipzig-mod.sty`][leipzig-mod] in either the same directory as `latex-workshop-for-linguists.tex` or in a local TeX tree, such as `$(kpsewhich -var-value=TEXMFHOME)/tex/latex` if your distro is TeX Live or MacTeX.
+* If you're TeX distro is MiKTeX, you will need to manually install the [`textglos` package][textglos], since it is not part of the MiKTeX distro.
 
 # License
 
@@ -23,3 +24,4 @@ In order to compile the file `latex-workshop-for-linguists.tex`, you will need t
 [minted]: http://texdoc.net/texmf-dist/doc/latex/minted/minted.pdf
 [cm-unicode]: http://sourceforge.net/projects/cm-unicode/
 [leipzig-mod]: https://github.com/adamliter/TeXnology/blob/master/TEXMFHOME/tex/latex/leipzig-mod.sty
+[textglos]: http://ctan.org/pkg/textglos
