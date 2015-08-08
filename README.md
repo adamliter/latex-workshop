@@ -13,7 +13,7 @@ In order to compile the file `latex-workshop-for-linguists.tex`, you will need t
 * Install `Pygments`. If you have `pip` installed, you can just do `pip install Pygments`. See the [`minted` documentation][minted] documentation for more information.
 * Compile the file with shell escape enabled. Also see the [`minted` documentation][minted] documentation for more information.
 * Either change the font that the document uses or download and install the [Computer Modern Unicode][cm-unicode] font on your machine.
-* Put the file [`leipzig-mod.sty`][leipzig-mod] in either the same directory as `latex-workshop-for-linguists.tex` or in `texmf/tex/generic`.
+* Put the file [`leipzig-mod.sty`][leipzig-mod] in either the same directory as `latex-workshop-for-linguists.tex` or in `texmf/tex/latex`.
 
 # License
 
@@ -22,4 +22,4 @@ In order to compile the file `latex-workshop-for-linguists.tex`, you will need t
 [handout]: http://adamliter.org/content/LaTeX/latex-workshop-for-linguists.pdf
 [minted]: http://texdoc.net/texmf-dist/doc/latex/minted/minted.pdf
 [cm-unicode]: http://sourceforge.net/projects/cm-unicode/
-[leipzig-mod]: https://raw.githubusercontent.com/adamliter/TeXnology/master/TEXMFHOME/tex/generic/leipzig-mod.sty
+[leipzig-mod]: https://github.com/adamliter/TeXnology/blob/master/TEXMFHOME/tex/latex/leipzig-mod.sty
