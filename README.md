@@ -13,7 +13,7 @@ In order to compile the file `latex-workshop-for-linguists.tex`, you will need t
 * Install `Pygments`. If you have `pip` installed, you can just do `pip install Pygments`. See the [`minted` documentation][minted] documentation for more information.
 * Compile the file with shell escape enabled. Also see the [`minted` documentation][minted] documentation for more information.
 * Either change the font that the document uses or download and install the [Computer Modern Unicode][cm-unicode] font on your machine.
-* Put the file [`leipzig-mod.sty`][leipzig-mod] in either the same directory as `latex-workshop-for-linguists.tex` or in a local TeX tree, such as `TEXMFHOME/tex/latex` if your distro is TeX Live or MacTeX.
+* Put the file [`leipzig-mod.sty`][leipzig-mod] in either the same directory as `latex-workshop-for-linguists.tex` or in a local TeX tree, such as `$(kpsewhich -var-value=TEXMFHOME)/tex/latex` if your distro is TeX Live or MacTeX.
 
 # License
 
