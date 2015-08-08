@@ -1,4 +1,4 @@
-# LaTeX Workshop for Linguists
+# LaTeX Workshop (for Linguists)
 
 This repository contains materials for an impromptu workshop on LaTeX at the 2015 Chicago LSA Institute. A PDF of the compiled handout can be found [here][handout].
 
