@@ -1033,8 +1033,8 @@ In both cases, be sure to omit the file extensions (\IE{} don't add \File{.bib} 
 Second, the \File{.bib} file is bundled into this example so that you can copy and paste it into an editor and compile it directly.
 But this is \emph{not} how you should write your \File{.tex} files.
 You should instead use a single master bibliography file as discussed in \S\ref{subsubsec:the-bib-file}.
-In this case, you would replace \mintinline{latex}|\bibliography{\jobname}| with \mintinline{latex}|\bibliography{master}|, if you named your \File{.bib} file \File{master.bib}, for example.
-Moreover, you can completely omit everything from \mintinline{latex}|\begin{filecontents}| to \mintinline{latex}|\end{filecontents}|.
+In this case, you would replace \mintinline{latex}|\bibliography{\jobname}| with \mintinline{latex}|\bibliography{master}|, if, for example, you named your \File{.bib} file \File{master.bib}.
+Moreover, you would also then completely delete everything from \mintinline{latex}|\begin{filecontents}| to \mintinline{latex}|\end{filecontents}|.
 
 \subsubsubsection{\Package{biblatex}}
 \label{subsubsubsec:biblatex}
