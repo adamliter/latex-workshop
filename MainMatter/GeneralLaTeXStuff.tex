@@ -570,13 +570,14 @@ There are several components that are relevant to setting up your machine in ord
 	}
 	
 	\item[The backend processor]{%
-		In addition to using a citation package, you will also need to use a program for processing your \File{.aux} file.
-		Since you only start with your \File{.tex} file, using a \File{.bib} file for references involves a series of compilation steps.
-		You must first compile your \File{.tex} file to produce an \File{.aux} file.
-		Then you must process your \File{.aux} file with one of the two backend processors: \hologo{BibTeX} or Biber.
-		Doing this goes through and matches up the things that were cited in your \File{.tex} file with entries in your \File{.bib} file.
-		Then you need to compile your \File{.tex} document again in order to get the references to show up.
-		The differences between the two backend processors and the compilation steps that are necessary will be discussed in more detail in \S\ref{subsubsec:the-backend-processor}.%
+		In addition to using a citation package, you will also need to use a program for getting the relevant citations from your \File{.bib} file.
+		Using a \File{.bib} file for references involves a series of compilation steps.
+		You must first compile your \File{.tex} file to produce either an \File{.aux} or \File{.bcf} file.
+		Then you must process the \File{.aux} or \File{.bcf} file with a backend processor.
+		The two backend processors on the market are \hologo{BibTeX} and Biber.
+		Processing the \File{.aux} or \File{.bcf} goes through and matches up the things that were cited in your \File{.tex} file with entries in your \File{.bib} file.
+		The differences between the two backend processors will be discussed in more detail in \S\ref{subsubsec:the-backend-processor}.
+		The necessary compilation steps will actually be discussed in \S\ref{subsubsec:the-citation-package} because it depends on the citation package that you use, not the backend processor.%
 	}
 
 \end{description}
@@ -597,7 +598,7 @@ For a while, the only option for processing bibliography files was \hologo{BibTe
 \hologo{BibTeX} was developed in the ancient days when memory and hard drive space were expensive, character encodings were limited, and dinosaurs still roamed the earth.
 
 Biblatex is a recent and modern alternative to \hologo{BibTeX}.
-People generally use Biblatex to refer to the combination of the citation package \Package{biblatex} and the backend processor Biber.
+People sometimes use Biblatex to refer to the combination of the citation package \Package{biblatex} and the backend processor Biber.
 I will adopt this practice of using Biblatex to refer to both of these things in combination, whereas \Package{biblatex} will only be used to refer to the citation package.
 
 What makes this practice particularly confusing, is that many people use Biblatex in contradistinction to \hologo{BibTeX}.
@@ -605,6 +606,7 @@ The more accurate contrast, however, would be to contrast Biber with \hologo{Bib
 
 For better or worse, however, this terminological parlance is quite common among \TeX{} users and is probably here to stay.
 One thing that is actually useful about this seemingly confusing terminology, however, is that there are differences between how you write a \File{.bib} file that is intended to be used with Biblatex and how you write a \File{.bib} file that is intended to be used with \hologo{BibTeX}.
+
 In other words, it can actually be useful to distinguish Biblatex and \hologo{BibTeX} if you want to know how a \File{.bib} file was prepared, for example.
 Biblatex supports a wider range of entry types and a wider range of data fields and is thus much more flexible and versatile than \hologo{BibTeX}.%
 \footnote{%
@@ -655,7 +657,7 @@ It is \emph{very important} that you save it in the correct location.
 It \emph{must} go inside your local \Directory{texmf} folder; specifically, it \emph{must} go inside \Directory{texmf/bibtex/bib}.
 If you do not have a local \Directory{texmf} folder set up, go read and follow the instructions in \S\ref{subsec:local-files}.
 
-Moreover, you will also save yourself a lot of pain if you do not use spaces in the name of the file.
+Moreover, you will also save yourself a lot of pain if you \emph{do not use spaces} in the name of the file.
 I would recommend something simple like \File{master.bib} or \File{linguistics.bib}.
 
 Now that you have your \File{.bib} file setup, you can start adding entries to it.
@@ -971,11 +973,9 @@ A notable exception to this is \href{http://semprag.org/}{\Journal{Semantics \& 
 \paragraph{Citation commands}
 
 There are two main commands for citations with \Package{natbib} that you ought to know about.
-You can use \mintinline{latex}|\citet[]{...}| for inline citations and \mintinline{latex}|\citep[][]{...}| for parenthetical citations.
+You can use \mintinline{latex}|\citet[][]{...}| for inline citations and \mintinline{latex}|\citep[][]{...}| for parenthetical citations.
 
-The first optional argument of \mintinline{latex}|\citet| can be used to specify page numbers.
-
-The first optional argument of \mintinline{latex}|\citep| can be used to specify a prenote, and the second optional argument can be used to specify page numbers.
+The first optional argument of both commands can be used to specify a prenote, and the second optional argument can be used to specify page numbers.
 
 There is also a handy \href{http://merkel.zoneo.net/Latex/natbib.php}{\Package{natbib} reference sheet} that describes more of the citation commands.
 
@@ -985,16 +985,73 @@ There is also a handy \href{http://merkel.zoneo.net/Latex/natbib.php}{\Package{n
 \File{.bst} files are awful.
 
 Thankfully, Bridget Samuels has gone through the trouble of creating one for us that conforms to the \href{http://celxj.org/downloads/UnifiedStyleSheet.pdf}{Unified Stylesheet for Linguistics Journals}.
-If you decide to use \Package{natbib} and \hologo{BibTeX}, you should download the file \href{http://celxj.org/downloads/unified.bst}{\File{unified.bst}} file and place it in your local \Directory{texmf} directory.
+If you decide to use \Package{natbib} and \hologo{BibTeX}, you should download the file \href{http://celxj.org/downloads/unified.bst}{\File{unified.bst}} and place it in your local \Directory{texmf} directory.
 Specifically, it needs to go into the folder \Directory{texmf/bibtex/bst} (see \S\ref{subsec:local-files} if you've somehow made it this far without setting up a local \Directory{texmf} folder).
 
 There are many other styles that you can use out of the box with either a TeX Live/{Mac\TeX} or \hologo{MiKTeX} distribution, such as \Package{alpha} or \Package{apalike}.
 But, presumably, you will want to use the \Package{unified} style that Bridget Samuels wrote since you're (presumably) a linguist.
 
+\paragraph{Compilation steps}
+
+In order for the references to be handled automagically in your document, you need to go through a series of compilation steps.
+This series of steps might depend on the citation package that you use and perhaps also the style.
+
+In most cases when using \Package{natbib}, it is necessary to do four compilation steps.
+
+\begin{enumerate}[label={(\roman*)}]
+
+	\item{\mintinline{sh}|latex myfile.tex|}
+	
+	\item{\mintinline{sh}|bibtex myfile.aux|}
+	
+	\item{\mintinline{sh}|latex myfile.tex|}
+	
+	\item{\mintinline{sh}|latex myfile.tex|}
+
+\end{enumerate}
+
+In these four steps, you should treat \Engine{latex} as a placeholder for whatever engine you are using.
+For example, if you are using \hologo{pdfLaTeX}, then you should replace \Engine{latex} with \Engine{pdflatex} in these four steps.
+Similarly, if you are using \hologo{XeLaTeX}, then you should replace \Engine{latex} with \Engine{xelatex} in these four steps.
+
+These commands can be run from the command line, but, more likely, you will just run these commands from inside of your editor.
+
+Note that the file extensions are optional.
+In fact, it's probably better practice to omit them and let the program try to guess which file to process.
+I've only included them here to draw your attention to the fact that the \File{.aux} file is what you should process with \hologo{BibTeX}, \emph{not} the \File{.tex} file or the \File{.bib} file.
+
+Again, if you omit the \File{.aux} file extension, \hologo{BibTeX} will do things correctly, so just go ahead and omit it if you do do your build steps on the command line.
+More likely, you will just run these commands from within your editor, in which case you won't need to worry about the file extensions.
+
+The first pass of \Engine{latex} will collect all of the cite keys that you are trying to cite inside of your \File{.tex} document and put them in the \File{.aux} file.
+
+The pass of \Engine{bibtex} over the \File{.aux} file goes and gets the citations from your \File{.bib} file that match the cite keys in the \File{.aux} file.
+
+The second pass of \Engine{latex} inserts the citations into the generated output, and the third pass of \Engine{latex} resolves any cross references that have changed.
+
+While these series of compilation steps may seem a bit annoying, it is necessary for \LaTeX{} to do its automagic.%
+\footnote{%
+See \S\ref{sec:things-to-learn-on-your-own} for some suggestions on how to automate the compilation process.%
+}
+You will definitely come to appreciate how \LaTeX{} handles bibliographies and references compared to Microsoft Word.
+
 \paragraph{Complete minimal working example}
 
 Listing~\ref{lst:natbib-example} gives a complete minimal working example of how to use \Package{natbib} and \hologo{BibTeX}.
-In order to figure out how to compile it correctly, read \S\ref{subsubsubsec:bibtex}.
+
+There are a few things to note about this example.
+
+First, the bibliography file and the style file are specified at the end of the document, just before \mintinline{latex}|\end{document}|.
+In both cases, be sure to omit the file extensions (\IE{} do \emph{not} add \File{.bib} or \File{.bst}).
+
+Second, the \File{.bib} file is bundled into this example so that you can copy and paste it into an editor and compile it directly.
+But this is \emph{not} how you should write your \File{.tex} files.
+You should instead use a single master bibliography file as discussed in \S\ref{subsubsec:the-bib-file}.
+
+In this case, you would replace \mintinline{latex}|\bibliography{\jobname}| with \mintinline{latex}|\bibliography{master}|, if, for example, you named your \File{.bib} file \File{master.bib}.
+Moreover, you would also then completely delete everything from \mintinline{latex}|\begin{filecontents}| to \mintinline{latex}|\end{filecontents}|.
+
+Try compiling this example using what you just learned above about how to compile a \File{.tex} document that uses \Package{natbib} for citations.
 
 \begin{listing}[htbp]
 	\centering
@@ -1014,27 +1071,18 @@ In order to figure out how to compile it correctly, read \S\ref{subsubsubsec:bib
 
 \begin{document}
 
-In contemporary Minimalist syntax, S-Structure has been eliminated \citep[see][]{chomsky1995:MP}.
+In Minimalist syntax, S-Structure has been eliminated \citep[see][73--124]{chomsky1995:MP}.
 
 \bibliography{\jobname}
-% the following will only work if unified.bst is in your texmf folder
+% the following will only work if unified.bst is in your local texmf folder
+% if you haven't downloaded that file yet, just replace unified with
+% apalike and then try compiling this example
 \bibliographystyle{unified}
 \end{document}
 	\end{minted}
 	\caption{Complete minimal working example showing how to use \Package{natbib} and \hologo{BibTeX}}
 	\label{lst:natbib-example}
 \end{listing}
-
-Before moving on to \Package{biblatex}, there are a few things to note.
-
-First, the bibliography file and the style file are specified at the end of the document, just before \mintinline{latex}|\end{document}|.
-In both cases, be sure to omit the file extensions (\IE{} don't add \File{.bib} or \File{.bst}).
-
-Second, the \File{.bib} file is bundled into this example so that you can copy and paste it into an editor and compile it directly.
-But this is \emph{not} how you should write your \File{.tex} files.
-You should instead use a single master bibliography file as discussed in \S\ref{subsubsec:the-bib-file}.
-In this case, you would replace \mintinline{latex}|\bibliography{\jobname}| with \mintinline{latex}|\bibliography{master}|, if, for example, you named your \File{.bib} file \File{master.bib}.
-Moreover, you would also then completely delete everything from \mintinline{latex}|\begin{filecontents}| to \mintinline{latex}|\end{filecontents}|.
 
 \subsubsubsection{\Package{biblatex}}
 \label{subsubsubsec:biblatex}
@@ -1043,40 +1091,214 @@ Unlike \Package{natbib}, \Package{biblatex} can be used with either backend proc
 If you wish to use the full range of features that \Package{biblatex} provides, you will need to use Biber.
 
 As mentioned above, there is good reason to use \Package{biblatex} and Biber over \Package{natbib} and \hologo{BibTeX}.
-Most notably, \Package{biblatex} and Biber work a lot more straightforwardly with accented characters and non-Latin alphabets.
+Most notably, \Package{biblatex} and Biber work a lot more straightforwardly with accented Latin characters and non-Latin alphabets.
 
 However, in addition to not being an acceptable format for submission to many academic journals, the available implementations of the \href{http://celxj.org/downloads/UnifiedStyleSheet.pdf}{Unified Stylesheet for Linguistics Journals} in \Package{biblatex} are currently lacking.
 More on this below.
 
 \paragraph{Citation commands}
 
+\Package{biblatex} provides \mintinline{latex}|\textcite[][]{...}| for inline citations and \mintinline{latex}|\autocite[][]{...}| for non-inline citations.
+Like with the \Package{natbib} citation commands, the first optional argument can be used for a prenote, and the second optional argument can be used to specify specific page numbers.
 
+One thing that is nice about \Package{biblatex} is that the \mintinline{latex}|\autocite| command is a high-level command for non-inline citations.
+In the case of linguistics, at least, you will usually want this to be a parenthetical citation.
+However, some styles call for footnotes for non-inline citations instead of parenthetical citations.
+If you use \Package{biblatex} and the \mintinline{latex}|\autocite| command, all you have to do is change the style, and this will be handled automagically for you.
 
 \paragraph{Styles}
 
+\Package{biblatex} provides many predefined styles that control both the citation style and the bibliography style.
+The citation style is controlled by a \File{.cbx} file, and the bibliography style is controlled by a \File{.bbx} file.
 
+The style options are declared globally when the \Package{biblatex} package is loaded.
+Assuming that a style provides both a \File{.cbx} and a \File{.bbx} file with the same name, you can declare these at the same time by setting \PackageOption{style} to the name of the style that you wish to use.
+
+If you wish to mix and match citation and bibliography styles, you can instead declare them separately, with \PackageOption{citestyle} and \PackageOption{bibstyle} respectively.
+For an example, see Listing~\ref{lst:biblatex-non-complete-example}.
+
+As mentioned above, there is currently not a good implementation of the \href{http://celxj.org/downloads/UnifiedStyleSheet.pdf}{Unified Stylesheet for Linguistics Journals} for \Package{biblatex}.
+\href{http://semprag.org/}{\Journal{Semantics \& Pragmatics}} does have an alpha version of an implementation, which is available \href{https://github.com/semprag/biblatex-sp-unified}{here}.
+
+However, I do not like the \href{http://semprag.org/}{\Journal{Semantics \& Pragmatics}} implementation because it requires formatting the \File{.bib} file in a very idiosyncratic manner that prevents it from being portable and usable with other styles.
+
+As part of the \href{https://github.com/lingbib/lingbib}{Lingbib} project that I am working on with Kenneth Hanson (cf.~\S\ref{subsubsubsec:lingbib}), I am developing an implementation based on the \href{http://semprag.org/}{\Journal{Semantics \& Pragmatics}} implementation that does not require the \File{.bib} file to be formatted in an idiosyncratic manner.
+It should hopefully be ready for use sometime soon.
+I will update this \File{.pdf} when it is ready for use.
+
+In the meantime, you can use the \PackageOption{authoryear-comp} citation style and the \PackageOption{authoryear} bibliography style that are both provided by \Package{biblatex} out of the box.
+The code given in Listing~\ref{lst:biblatex-non-complete-example}, which shows how to set these styles when loading \Package{biblatex}, will produce an approximation of the \href{http://celxj.org/downloads/UnifiedStyleSheet.pdf}{Unified Stylesheet for Linguistics Journals} that is probably good enough for all purposes other than submitting to a journal.%
+\footnote{%
+And, I mean, bibliography and citation styles are just prescriptivist nonsense anyway.
+As long as all of the information is there and the style is consistent who cares \ldots{} ?%
+}
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{latex}
+\documentlcass{article}
+\usepackage[
+    backend=biber,% you can use bibtex instead of biber if you want
+    citestyle=authoryear-comp,
+    bibstyle=authoryear
+]{biblatex}
+% This is needed because the default authoryear style puts "In:" 
+% before a journal name, which is not standard in linguistics styles.
+% So this code gets rid of that.
+\renewbibmacro{in:}{%
+  \ifentrytype{article}{}{\printtext{\bibstring{in}\intitlepunct}}}
+
+\begin{document}
+
+The preamble of this document shows how to approximate a linguistics style.
+
+\end{document}
+	\end{minted}
+	\caption{Setting up citation and bibliography styles with \Package{biblatex}}
+	\label{lst:biblatex-non-complete-example}
+\end{listing}
+
+The code in Listing~\ref{lst:biblatex-non-complete-example} only shows how to set up the style.
+For a complete minimal working example, see Listing~\ref{lst:biblatex-example}.
+
+\paragraph{Compilation steps}
+
+Just like with \Package{natbib}, \Package{biblatex} requires a certain series of compilation steps in order for everything to work.
+Again, the steps that are necessary might depend on certain things, such as which style you use.%
+\footnote{%
+For example, I think citation styles that do non-inline citations as footnotes might require a third pass of \Engine{latex}.%
+}
+
+In most cases when using \Package{biblatex}, it is sufficient to do the following three compilation steps.
+
+\begin{enumerate}[label={(\roman*)}]
+
+	\item{\mintinline{sh}|latex myfile.tex|}
+	
+	\item{\mintinline{sh}|biber myfile.bcf| OR \mintinline{sh}|bibtex myfile.aux|%
+	\footnote{%
+	\label{fn:backends-with-biblatex}
+	As discussed above and as will be discussed further below in \S\ref{subsubsec:the-backend-processor}, it is possible to use either backend with \Package{biblatex}.
+	Because Biber has many advantages over \hologo{BibTeX}, I would always recommend using Biber.
+	Nonetheless, if you choose to use \hologo{BibTeX} with \Package{biblatex} for whatever reason, then you will need to run \Engine{biblatex} on the \File{.aux} file instead of running \Engine{biber} on the \File{.bcf} file.%
+	}
+	}
+	
+	\item{\mintinline{sh}|latex myfile.tex|}
+
+\end{enumerate}
+
+Just like we discussed above for \Package{natbib}, you should treat \Engine{latex} as a placeholder for whatever engine you are using.
+So, for example, if you are using \hologo{pdfLaTeX}, then you should replace \Engine{latex} with \Engine{pdflatex} in these three steps.
+Similarly, if you are using \hologo{XeLaTeX}, then you should replace \Engine{latex} with \Engine{xelatex} in these three steps.
+
+Likewise, these are commands that you could enter into a terminal, but in most cases you will just run them from within your editor.
+
+Were you to run these commands in a terminal, a further similarity to what we discussed above for \Package{natbib} is that you could leave off the file extensions.
+In fact, I would encourage you to leave off the file extensions if you do end up doing your build steps inside of a terminal.
+
+I have only shown the file extensions here in order to draw your attention to the fact that Biber processes a \File{.bcf} file rather than the \File{.aux} file.
+Rather than having to remember, this, though, you could just leave off the file extension and let the program guess which file to process.
+
+The first pass through \Engine{latex} is necessary to generate the \File{.bcf} file.%
+\footnote{%
+Or the \File{.aux} file if you're using \hologo{BibTeX} as the backend (cf.~fn.~\ref{fn:backends-with-biblatex}).
+}
+This serves a similar purpose to the \File{.aux} file in the case of \hologo{BibTeX}.
+Specifically, it allows Biber to get all of the citations from your \File{.bib} file that match the cite keys that you used in your \File{.tex} document.
+
+The second pass through \Engine{latex} typesets all of the references.%
+\footnote{%
+Unlike with \Package{natbib}, you do not need a third pass through \Engine{latex} in most cases.
+This is because \Package{biblatex} loads all of the references into the preamble of your document, and so it can determine the cross references before processing the document.
+In other words, you do not need a third pass through \Engine{latex} (in most cases) to sort out any cross references that have changed, like you do with \Package{natbib}.%
+}
 
 \paragraph{Complete minimal working example}
 
+In Listing~\ref{lst:biblatex-example} you can see a complete minimal working example.
+Like with the complete minimal working example above for \Package{natbib}, the \File{.bib} file is bundled into this example only so that you can copy and paste it into an editor and try compiling it yourself.
+But this is \emph{not} how you should write your \File{.tex} files.
 
+You should instead use a single master bibliography file as discussed in \S\ref{subsubsec:the-bib-file}.
+In this case, you would replace \mintinline{latex}|\addbibresource{\jobname.bib}| with \mintinline{latex}|\addbibresource{master.bib}|, if, for example, you named your \File{.bib} file \File{master.bib}.
+Moreover, you would also then completely delete everything from \mintinline{latex}|\begin{filecontents}| to \mintinline{latex}|\end{filecontents}|.
+
+A second thing to note about the code in Listing~\ref{lst:biblatex-example}---particularly in contradistinction to the example for \Package{natbib}---is that the bibliography file is added in the preamble of your document and you \emph{must} specify the file extension (\File{.bib}).
+
+One thing that is nice about doing things this way is that you can use multiple bibliography databases in one document.
+That is to say, you can have multiple calls to \mintinline{latex}|\addbibresource| in your preamble, whereas you can only have one call to \mintinline{latex}|\bibliography| in your document with \Package{natbib}.
+
+Finally, you print your bibliography at the end of your document by writing \mintinline{latex}|\printbibliography|.
+
+Copy and paste the example code in Listing~\ref{lst:biblatex-example} into your editor, and try compiling it using the three compilation steps discussed above.
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{latex}
+\documentclass{article}
+
+\begin{filecontents}{\jobname.bib}
+@book{chomsky1995:MP,
+    Address = {Cambridge, MA},
+    Author = {Chomsky, Noam},
+    Publisher = {The MIT Press},
+    Title = {The Minimalist Program},
+    Year = {1995}}
+\end{filecontents}
+
+\usepackage[
+    backend=biber,% you can use bibtex instead of biber if you want
+    citestyle=authoryear-comp,
+    bibstyle=authoryear
+]{biblatex}
+% This is needed because the default authoryear style puts "In:" 
+% before a journal name, which is not standard in linguistics styles.
+% So this code gets rid of that.
+\renewbibmacro{in:}{%
+  \ifentrytype{article}{}{\printtext{\bibstring{in}\intitlepunct}}}
+
+\addbibresource{\jobname.bib}
+
+\begin{document}
+
+In Minimalist syntax, S-Structure has been eliminated \autocite[see][73--124]{chomsky1995:MP}.
+
+\printbibliography
+
+\end{document}
+	\end{minted}
+	\caption{A complete minimal working example with \Package{biblatex}}
+	\label{lst:biblatex-example}
+\end{listing}
 
 \subsubsection{The backend processor}
 \label{subsubsec:the-backend-processor}
 
+As mentioned above in \S\ref{subsubsec:overview}, there are two backend processors that you can use for doing bibliographies with \LaTeX.
+The purpose of the backend processor is to serve as an interface between your \File{.tex} document and your bibliography file (\File{.bib}).
+That is, they go through your \File{.bib} file and automagically pull out all of the things that you cited in your \File{.tex} document.
+
+The citation package \Package{natbib} is only compatible with the backend processor \hologo{BibTeX}, whereas the citation package \Package{biblatex} is compatible with both \hologo{BibTeX} and Biber.
+
 \subsubsubsection{\hologo{BibTeX}}
 \label{subsubsubsec:bibtex}
 
-
+For a long time, the only backend processor for bibliographies with \LaTeX{} was \hologo{BibTeX}.
+Because it was developed quite some time ago, it does not play nicely with accented Latin characters and non-Latin alphabets.
+For this reason, I would encourage you to use Biber with \Package{biblatex} instead.
 
 \subsubsubsection{Biber}
 \label{subsubsubsec:biber}
 
-
+Biber is a modern alternative to \hologo{BibTeX}.
+In addition to playing nicely with accented Latin characters and non-Latin alphabets, another advantage of Biber is that it is capable of reading and processing many more entry types and data fields than \hologo{BibTeX} is (cf.~\S\ref{subsubsubsec:a-terminological-note} and fn.~\ref{fn:entry-types-biblatex-vs-bibtex}).
+This is the basis for many of the advanced and versatile features of the \Package{biblatex} package.
 
 \subsection{Paragraphs}
 \label{subsec:paragraphs}
 
-Let's end this section with paragraphs.
+Before moving on to stuff that is specifically useful for linguistics, let's end this general \LaTeX{} section with paragraphs.
 Let's do this for two reasons.
 First, because semantic markup is awesome.
 And second, because a very common \emph{really bad practice} of \LaTeX{} beginners is to insert line breaks all over the place.
