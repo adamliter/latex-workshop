@@ -594,7 +594,7 @@ The history of \TeX{} and the evolution of relevant terminology is complicated.
 Hopefully the terminology won't cause too much confusion, but I would nonetheless like to make note of it.
 If it doesn't make sense now, perhaps it will in 6 months.
 
-For a while, the only option for processing bibliography files was \hologo{BibTeX}.
+For a while, the only option for a backend processor was \hologo{BibTeX}.
 \hologo{BibTeX} was developed in the ancient days when memory and hard drive space were expensive, character encodings were limited, and dinosaurs still roamed the earth.
 
 Biblatex is a recent and modern alternative to \hologo{BibTeX}.
@@ -622,6 +622,8 @@ Some of the differences will be briefly discussed below, but for further discuss
 	\item{The question \href{http://tex.stackexchange.com/q/25701/32888}{bibtex vs.~biber and biblatex vs.~natbib} and its answers on TeX.SX}
 	
 	\item{The question \href{http://tex.stackexchange.com/q/5091/32888}{What to do to switch to biblatex?} and its answers on TeX.SX}
+	
+	\item{The question \href{http://tex.stackexchange.com/q/37095/32888}{Compatibility of bibtex and biblatex bibliography files?} and its answers on TeX.SX}
 	
 	\item{\S\S1--3 of the \href{http://texdoc.net/texmf-dist/doc/latex/biblatex/biblatex.pdf}{\Package{biblatex} documentation}}
 
@@ -873,7 +875,7 @@ There are four components to a name.
 	
 	\item{The last name (does \emph{not} include the ``von'' part)}
 	
-	\item{The ``Jr'' part (examples include ``Jr.'', ``III'', \ETC)}
+	\item{The ``Jr'' part (examples include ``Jr.'', ``Sr.'', ``IV'', \ETC)}
 
 \end{enumerate}
 
@@ -899,7 +901,7 @@ So, for example, if something you wish to cite has three authors, you should wri
 \paragraph{On casing}
 
 Depending on the style that you use for your bibliography, you might see your titles being typeset in \href{https://en.wiktionary.org/wiki/sentence_case}{sentence casing} rather than \href{https://en.wiktionary.org/wiki/title_case}{title casing}.
-This is what's called for by the \href{http://celxj.org/downloads/UnifiedStyleSheet.pdf}{Unified Stylesheet for Linguistics Journals}, for example.
+Sentence casing is what's called for by the \href{http://celxj.org/downloads/UnifiedStyleSheet.pdf}{Unified Stylesheet for Linguistics Journals}, for example.
 
 Nonetheless, there might be certain things that ought to remain capitalized.
 In this case, you should surround these things with braces in the data field.
@@ -1041,8 +1043,14 @@ Listing~\ref{lst:natbib-example} gives a complete minimal working example of how
 
 There are a few things to note about this example.
 
-First, the bibliography file and the style file are specified at the end of the document, just before \mintinline{latex}|\end{document}|.
+First, the bibliography file and the style file are specified at the end of the document, just before \mintinline{latex}|\end{document}|.%
+\footnote{%
+Technically, you can put the \mintinline{latex}|\bibliographystyle| command anywhere in your document, but I like to keep it next to the \mintinline{latex}|\bibliography| command, which is what prints the references section and thus must come at the end of the document.%
+}
 In both cases, be sure to omit the file extensions (\IE{} do \emph{not} add \File{.bib} or \File{.bst}).
+You can use multiple bibliography files, but you should only have one call to the \mintinline{latex}|\bibliography| command.
+If you need to use multiple \File{.bib} files, you should pass a comma-separated list to the \mintinline{latex}|\bibliography| command, such as \mintinline{latex}|\bibliography{linguistics,philosophy}|.
+This command would allow you to use the two bibliography files \File{linguistics.bib} and \File{philosophy.bib}.
 
 Second, the \File{.bib} file is bundled into this example so that you can copy and paste it into an editor and compile it directly.
 But this is \emph{not} how you should write your \File{.tex} files.
@@ -1132,7 +1140,7 @@ In the meantime, you can use the \PackageOption{authoryear-comp} citation style 
 The code given in Listing~\ref{lst:biblatex-non-complete-example}, which shows how to set these styles when loading \Package{biblatex}, will produce an approximation of the \href{http://celxj.org/downloads/UnifiedStyleSheet.pdf}{Unified Stylesheet for Linguistics Journals} that is probably good enough for all purposes other than submitting to a journal.%
 \footnote{%
 And, I mean, bibliography and citation styles are just prescriptivist nonsense anyway.
-As long as all of the information is there and the style is consistent who cares \ldots{} ?%
+As long as all of the information is there, the style doesn't call for underlining, and the formatting is consistent, who cares \ldots{} ?%
 }
 
 \begin{listing}[htbp]
@@ -1182,7 +1190,7 @@ In most cases when using \Package{biblatex}, it is sufficient to do the followin
 	\label{fn:backends-with-biblatex}
 	As discussed above and as will be discussed further below in \S\ref{subsubsec:the-backend-processor}, it is possible to use either backend with \Package{biblatex}.
 	Because Biber has many advantages over \hologo{BibTeX}, I would always recommend using Biber.
-	Nonetheless, if you choose to use \hologo{BibTeX} with \Package{biblatex} for whatever reason, then you will need to run \Engine{biblatex} on the \File{.aux} file instead of running \Engine{biber} on the \File{.bcf} file.%
+	Nonetheless, if you choose to use \hologo{BibTeX} with \Package{biblatex} for whatever reason, then you will need to run \Engine{bibtex} on the \File{.aux} file instead of running \Engine{biber} on the \File{.bcf} file.%
 	}
 	}
 	
@@ -1228,8 +1236,8 @@ Moreover, you would also then completely delete everything from \mintinline{late
 
 A second thing to note about the code in Listing~\ref{lst:biblatex-example}---particularly in contradistinction to the example for \Package{natbib}---is that the bibliography file is added in the preamble of your document and you \emph{must} specify the file extension (\File{.bib}).
 
-One thing that is nice about doing things this way is that you can use multiple bibliography databases in one document.
-That is to say, you can have multiple calls to \mintinline{latex}|\addbibresource| in your preamble, whereas you can only have one call to \mintinline{latex}|\bibliography| in your document with \Package{natbib}.
+You can have multiple calls to \mintinline{latex}|\addbibresource| in your preamble if you want to use multiple \File{.bib} files.
+You cannot pass the names of multiple \File{.bib} files to one call of \mintinline{latex}|\addbibresource|; separate calls are necessary.
 
 Finally, you print your bibliography at the end of your document by writing \mintinline{latex}|\printbibliography|.
 
