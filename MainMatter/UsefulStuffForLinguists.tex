@@ -31,13 +31,10 @@ However, you should be able to search for instructions online and pretty easily 
 \usepackage{fontspec}
 \setmainfont[Ligatures=TeX]{Times New Roman}
 \newfontfamily\phonetic[]{Doulos SIL}
-% if you have TeX Live or MacTeX, use the textglos package
-% instead of writing this custom command
-\newcommand*{\xv}[1]{\textit{#1}}
-
+\usepackage{textglos} % good semantic markup for inline examples, like \xv{...}, \xm{...}, etc.
 \begin{document}
 
-The English word \xv{cat} is underlyingly {\phonetic/kæt/}.
+The English word \xv{cat} is underlyingly {\phonetic\xm{kæt}}.
 
 \end{document}
 	\end{minted}
@@ -57,12 +54,10 @@ If you download and install this font on your machine, then you can do something
 \documentclass{article}
 \usepackage{fontspec}
 \setmainfont[Ligatures=TeX]{CMU Serif Roman}
-% if you have TeX Live or MacTeX, use the textglos package
-% instead of writing this custom command
-\newcommand*{\xv}[1]{\textit{#1}}
+\usepackage{textglos} % good semantic markup for inline examples, like \xv{...}, \xm{...}, etc.
 \begin{document}
 
-The English word \xv{cat} is underlyingly /kæt/.
+The English word \xv{cat} is underlyingly \xm{kæt}.
 Also, look at the cool stuff that I can do in the same font: ášçëû!
 
 \end{document}
@@ -72,7 +67,7 @@ Also, look at the cool stuff that I can do in the same font: ášçëû!
 \end{listing}
 
 Processing either Listing~\ref{lst:phonetic-font}~or~\ref{lst:one-font} with either \hologo{LuaLaTeX} or \hologo{XeLaTeX} will produce a PDF with the correct glyphs (as long as you have the requisite fonts installed on your computer).
-One further thing that is important for this to work correctly is to make sure that your \File{.tex} file has the correct character encoding.
+One further thing that is \emph{very important} for this to work correctly is to make sure that your \File{.tex} file has the correct character encoding.
 It is best to make sure that all of your \File{.tex} files are saved with UTF-8 encoding.
 A good editor should allow to see and change the character encoding of the file.
 Since this depends on the editor, it is beyond the scope of the workshop to explain it in any more detail, but you should be able to search online and figure it out.
@@ -107,9 +102,7 @@ Notice in particular that you can give the examples \mintinline{latex}|\label|s 
 	\begin{minted}{latex}
 \documentclass{article}
 
-% if you have TeX Live or MacTeX, use the textglos package
-% instead of writing this custom command
-\newcommand*{\xv}[1]{\textit{#1}}
+\usepackage{textglos} % good semantic markup for inline examples, like \xv{...}, \xm{...}, etc.
 
 %\usepackage{fixltx2e} % only needed if you have TeX Live < 2015
 \newcommand*{\IND}[1]{\textsubscript{#1}}

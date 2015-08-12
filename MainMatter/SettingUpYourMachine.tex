@@ -44,8 +44,7 @@ The easiest thing to install on Windows is \hologo{MiKTeX}, which is a different
 At one point, there were security concerns about \hologo{MiKTeX} and thus it was preferable to install TeX Live.
 However, these security concerns seem to have been mitigated, and it's not clear that there is a huge reason to prefer a TeX Live installation on Windows.%
 \footnote{%
-See \href{http://tex.stackexchange.com/q/20036/32888}{this question and its answers on TeX.SX} for discussion.
-See also \S\ref{subsubsec:an-example-use-case}%
+See \href{http://tex.stackexchange.com/q/20036/32888}{this question and its answers on TeX.SX} for discussion.%
 }
 Moreover, it is not as straightforward to install TeX Live as it is to install \hologo{MiKTeX}.
 Nonetheless, if you wish to do so, see \href{http://www.tug.org/texlive/acquire-netinstall.html}{here}.
@@ -364,45 +363,29 @@ To reiterate, do \emph{not} put any of your \File{.tex} documents inside this \D
 Perhaps the most important use case for the local \Directory{texmf} folder is for maintaining a single master bibliography file that can be used for citations in all of your documents.
 This will be discussed in detail in \S\ref{subsec:bibliographies}.
 
-For the moment, however, I briefly discuss a use case that is relevant to \hologo{MiKTeX} users, but users of TeX Live or {Mac\TeX} might still wish to read this in order to get an idea of what the local \Directory{texmf} directory is good for.
+For the moment, however, I will briefly discuss a use case that is relevant to linguists who use \LaTeX.
 
-For whatever reason, the package \Package{textglos} is included in the TeX Live distribution, but not the \hologo{MiKTeX} distribution.
-This is a package that I would highly recommend for semantic markup of inline linguistic examples (cf.~\S\ref{sec:useful-stuff-for-linguists}).
+Alexis Dimitriadis has modified part of a package called \Package{gb4e}, which you will be introduced to in \S\ref{subsec:examples}.
+\Package{gb4e} is one of the recommended packages for typesetting linguistic examples.
 
-If you're using \hologo{MiKTeX} and wish to use \Package{textglos}, you can \href{http://ctan.org/tex-archive/macros/latex/contrib/textglos}{download the contents of the package from CTAN} and put them in your local \Directory{texmf} folder.
+One drawback about the \Package{gb4e} package is that it does not provide a straightforward way to indicate which language an example comes from, at least not out of the box.
+The modifications that Alexis Dimitriadis has made allow you to do this straightforwardly.
+He has named the modified package \href{http://www.let.uu.nl/~Alexis.Dimitriadis/personal/latex/cgloss.sty}{\Package{cgloss}}.
 
-To do this, save the \File{textglos.dtx} file and the \File{textglos.ins} folder in a temporary folder somewhere on your computer, such as \Directory{Downloads}.
-Then, open the \File{.ins} file in your editor and process it with \hologo{LaTeX}.%
+However, \Package{cgloss} is not available as part of TeX Live or \hologo{MiKTeX}.
+It is only available on Alexis's website.
+
+If you want to use Alexis's modifications, you will need to download the file \href{http://www.let.uu.nl/~Alexis.Dimitriadis/personal/latex/cgloss.sty}{\File{cgloss.sty}} and place it in your local \Directory{texmf} folder.
+Specifically, it should be placed inside of the folder \Directory{texmf/tex/latex}.%
 \footnote{%
-The files need to be in the same folder in order for this to work.
-}
-This will produce a \File{.sty} file.
-
-Next, open the \File{.dtx} file with your editor, and process it with \hologo{LaTeX} as well.
-This will produce a \File{.pdf} file, along with some other stuff.
-
-Next, you need to create two new folders in your local \Directory{texmf} folder.
-The new folders are \Directory{texmf/tex/latex/textglos} and \Directory{texmf/doc/latex/textglos}.%
-\footnote{%
-If you followed the instructions in \S\ref{subsubsec:local-files:miktex} and created your \Directory{texmf} folder inside your Dropbox folder and named it \Directory{Local TeX Files}, then you would need to create the directories \Directory{C:\textbackslash Users\textbackslash <user name>\textbackslash Dropbox\textbackslash Local TeX Files\textbackslash tex\textbackslash latex\textbackslash textglos} and \Directory{C:\textbackslash Users\textbackslash <user name>\textbackslash Dropbox\textbackslash Local TeX Files\textbackslash doc\textbackslash latex\textbackslash textglos}.
-Here, I'm just using \Directory{texmf} as a placeholder for \Directory{C:\textbackslash Users\textbackslash <user name>\textbackslash Dropbox\textbackslash Local TeX Files}.%
+If you're using \hologo{MiKTeX} and you followed the instructions in \S\ref{subsubsec:local-files:miktex} and created your \Directory{texmf} folder inside your Dropbox folder and named it \Directory{Local TeX Files}, then you should read this as referring to \Directory{C:\textbackslash Users\textbackslash <user name>\textbackslash Dropbox\textbackslash Local TeX Files\textbackslash tex\textbackslash latex}.
+In other words, I'm just using \Directory{texmf} as a placeholder for wherever you created your local \Directory{texmf} folder.
+So this also applies if you created your local \Directory{texmf} folder in Dropbox on OSX or Linux.
+That is, you should then put the file inside of \Directory{\textasciitilde/Dropbox/texmf/tex/latex}.%
 }
 
-Inside the folder \Directory{texmf/tex/latex/textglos}, put the newly created \File{.sty} file.
-
-Inside the folder \Directory{texmf/doc/latex/textglos}, put the newly created \File{.pdf} file.
-
-Then, you can delete all of the other \Package{textglos} files in your \Directory{Downloads} folder that were generated when you compiled the \File{.ins} and \File{.dtx} files.
-
-This will now allow you to use the \Package{textglos} package in your \File{.tex} documents, even though the package is not part of your \TeX{} distribution, \hologo{MiKTeX}.
+This will now allow you to use the \Package{cgloss} package in your \File{.tex} documents, even though the package is not part of your \TeX{} distribution.%
+\footnote{%
+After you have read \S\ref{subsec:examples} and learned how to use the \Package{gb4e} package, you can read Alan Munn's \href{http://tex.stackexchange.com/a/49583/32888}{answer on TeX.SX} about how to use the functionality of \Package{cgloss}.%
+}
 In other words, you can put any custom packages or style files into the local \Directory{texmf} directory.
-
-The downside to this, of course, is that your package manager will not be able to automatically update the \Package{textglos} package whenever a new version of it is released.%
-\footnote{%
-See \S\ref{subsec:keeping-your-tex-distro-up-to-date} for discussion of how to update your \TeX{} distribution periodically.
-}
-In other words, you would need to periodically check CTAN for new versions of \Package{textglos} and go through this same process whenever the package is updated.%
-\footnote{%
-I would highly recommend this package, and so this might be another reason why you might wish to consider installing TeX Live over \hologo{MiKTeX} if you're on Windows.
-See also \S\ref{subsubsec:tex-distro:windows}.%
-}
