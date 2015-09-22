@@ -506,7 +506,8 @@ The table contains specific values, and the figure is a graph of those values.
 It's the same data, so you presumably want to give them similar names.
 If you use prefixes like this, you could do \mintinline{latex}|\label{tab:super-important-results}| for the table and \mintinline{latex}|\label{fig:super-important-results}| for the graph.%
 \footnote{%
-Spaces are not allowed in the names of \mintinline{latex}|\label|s.%
+Spaces are technically allowed in the names of \mintinline{latex}|\label|s, but they are highly discouraged.
+In certain cases, spaces in \mintinline{latex}|\label| names might cause problems.%
 }
 
 Fourth, and most importantly, is that you must compile your document twice in order for this to work.
