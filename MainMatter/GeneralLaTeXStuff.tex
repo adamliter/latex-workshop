@@ -1102,8 +1102,8 @@ If you wish to use the full range of features that \Package{biblatex} provides, 
 As mentioned above, there is good reason to use \Package{biblatex} and Biber over \Package{natbib} and \hologo{BibTeX}.
 Most notably, \Package{biblatex} and Biber work a lot more straightforwardly with accented Latin characters and non-Latin alphabets.
 
-However, in addition to not being an acceptable format for submission to many academic journals, the available implementations of the \href{http://celxj.org/downloads/UnifiedStyleSheet.pdf}{Unified Stylesheet for Linguistics Journals} in \Package{biblatex} are currently lacking.
-More on this below.
+In addition to not being an acceptable format for submission to many academic journals, the only available implementation of the \href{http://celxj.org/downloads/UnifiedStyleSheet.pdf}{Unified Stylesheet for Linguistics Journals} in \Package{biblatex} is currently very early in development.
+However, at the time of the most recent update to this \File{.pdf}, the implementation is much better than it was a few months ago (more on this below).
 
 \paragraph{Citation commands}
 
@@ -1128,16 +1128,13 @@ Assuming that a style provides both a \File{.cbx} and a \File{.bbx} file with th
 If you wish to mix and match citation and bibliography styles, you can instead declare them separately, with \PackageOption{citestyle} and \PackageOption{bibstyle} respectively.
 For an example, see Listing~\ref{lst:biblatex-non-complete-example}.
 
-As mentioned above, there is currently not a good implementation of the \href{http://celxj.org/downloads/UnifiedStyleSheet.pdf}{Unified Stylesheet for Linguistics Journals} for \Package{biblatex}.
-\href{http://semprag.org/}{\Journal{Semantics \& Pragmatics}} does have an alpha version of an implementation, which is available \href{https://github.com/semprag/biblatex-sp-unified}{here}.
+As mentioned above, the one implementation of the \href{http://celxj.org/downloads/UnifiedStyleSheet.pdf}{Unified Stylesheet for Linguistics Journals} for \Package{biblatex} is currently very much in an alpha stage of testing.
+This implementation is maintained by \href{http://semprag.org/}{\Journal{Semantics \& Pragmatics}}, and it is available \href{https://github.com/semprag/biblatex-sp-unified}{here}.
 
-However, I do not like the \href{http://semprag.org/}{\Journal{Semantics \& Pragmatics}} implementation because it requires formatting the \File{.bib} file in a very idiosyncratic manner that prevents it from being portable and usable with other styles.
+At the time of the most recent update to this \File{.pdf} (\today), the implementation is much better than it was a few months ago.
+If you would like to use \Package{biblatex} (which I would recommend for the reasons already discussed), I would recommend using \href{https://github.com/semprag/biblatex-sp-unified}{\Journal{S\&P}'s implementation} of the \href{http://celxj.org/downloads/UnifiedStyleSheet.pdf}{Unified Stylesheet for Linguistics Journals}.
 
-As part of the \href{https://github.com/lingbib/lingbib}{Lingbib} project that I am working on with Kenneth Hanson (cf.~\S\ref{subsubsubsec:lingbib}), I am developing an implementation based on the \href{http://semprag.org/}{\Journal{Semantics \& Pragmatics}} implementation that does not require the \File{.bib} file to be formatted in an idiosyncratic manner.
-It should hopefully be ready for use sometime soon.
-I will update this \File{.pdf} when it is ready for use.
-
-In the meantime, you can use the \PackageOption{authoryear-comp} citation style and the \PackageOption{authoryear} bibliography style that are both provided by \Package{biblatex} out of the box.
+Nonetheless, if you don't want to download it and put it in a local \Directory{texmf} folder, then you can use the \PackageOption{authoryear-comp} citation style and the \PackageOption{authoryear} bibliography style that are both provided by \Package{biblatex} out of the box.
 The code given in Listing~\ref{lst:biblatex-non-complete-example}, which shows how to set these styles when loading \Package{biblatex}, will produce an approximation of the \href{http://celxj.org/downloads/UnifiedStyleSheet.pdf}{Unified Stylesheet for Linguistics Journals} that is probably good enough for all purposes other than submitting to a journal.%
 \footnote{%
 And, I mean, bibliography and citation styles are just prescriptivist nonsense anyway.
