@@ -131,20 +131,16 @@ Release:\gitReln{} (\gitAuthorDate)%\\
 % -----------------------------------------------------------------------------
 \usepackage{calc}
 
-\usepackage{forest}
+\usepackage[
+	linguistics
+]{forest}
+
 \forestset{
-	qtree/.style={
-		for tree={
-			parent anchor=south,
-			child anchor=north,
-			align=center,
-			inner sep=1pt
-		}
-	},
-	.style={
-		baseline
-	}
+	forest default/.style={
+        for tree={parent anchor={},child anchor={}}
+      }
 }
+
 \usetikzlibrary{matrix}
 \usetikzlibrary{decorations.pathreplacing}
 
@@ -321,6 +317,8 @@ Release:\gitReln{} (\gitAuthorDate)%\\
 \newcommand*{\Package}[1]{\texttt{#1}}
 \newcommand*{\PackageOption}[1]{\texttt{#1}}
 \newcommand*{\Engine}[1]{\texttt{#1}}
+
+\newcommand*{\ForestStyle}[1]{\texttt{#1}}
 
 \newcommand*{\ASCIIEmoji}[1]{\texttt{#1}}
 

@@ -194,8 +194,7 @@ I would recommend using \Package{forest}.%
 \footnote{%
 For further discussion, see \href{http://tex.stackexchange.com/q/5447/32888}{this question and its answers on TeX.SX}.%
 }
-The syntax for both of these is almost the same, and \Package{forest} is a lot more powerful.
-However, you don't need to know its internals to do the basic stuff.
+The syntax for both of these is almost the same, except that \Package{forest} is a bit more forgiving in its syntax for labeling the leafs in a tree.
 
 Let's start with a very basic example, given in Listing~\ref{lst:basic-forest-example}, which will produce what you see in (\ref{ex:basic-forest-example}).
 
@@ -203,7 +202,7 @@ Try typesetting this yourself.
 
 \begin{exe}
 	\ex[]{
-		\begin{forest}
+		\begin{forest} forest default
 		[VP
 			[V]
 			[DP]
@@ -237,12 +236,12 @@ There are a few things to note about this basic example.
 
 First, line breaks are not necessary.
 You could have produced the same output by writing \mintinline{latex}|[VP [V] [DP] ]|.
-Nonetheless, spacing things across lines is generally a good practice because it makes your code much more readable, which also in turn makes it much easier to debug if you are getting errors when trying to compile your file.
+Nonetheless, spacing things across lines is generally a good practice because it makes your code much more readable, which in turn makes it easier to debug if you are getting errors when trying to compile your file.
 
 Second, you will see that this tree does not occur inside of a numbered example.
 This is something you will almost always want to do, as it is a standard in the field.
 Given what you learned in \S\ref{subsec:examples}, you should be able to imagine how to do this.
-And we will see an explicit example of how to do this below.
+We will see an explicit example of how to do this below.
 
 Third, you will notice that the branches do not actually connect at the bottom of the ``VP'' node.
 Having the branches connect at the bottom of their parent node is the standard style in syntax.
@@ -253,7 +252,7 @@ The code in Listing~\ref{lst:typesetting-trees} will produce what you see in (\r
 
 \begin{exe}
     \ex[]{
-        \begin{forest} qtree
+        \begin{forest}
         [TP
             [DP
                 [D\\he, name=DP2]
@@ -270,9 +269,9 @@ The code in Listing~\ref{lst:typesetting-trees} will produce what you see in (\r
                         [VP, s sep+=20pt
                             [V, name=V1]
                             [DP, s sep+=30pt
-                                [D\\ø]
+                                [D\\ø, for c-commanded={red}]
                                 [NP
-                                    [{Egyptian cotton shirts}, triangle]
+                                    [{Egyptian cotton shirts}, roof]
                                 ]
                             ]
                         ]
@@ -280,7 +279,7 @@ The code in Listing~\ref{lst:typesetting-trees} will produce what you see in (\r
                 ]
             ]
         ]
-        \draw[->] (V1) [in=-90, out=-90, looseness=1.5] to (V2);
+        \draw[->] (V1) [in=-90, out=-90, looseness=0.75] to (V2);
         \draw[->,dashed] (DP1) [in=-90, out=-90, looseness=1.5] to (DP2);
         \end{forest}
     }
@@ -292,20 +291,7 @@ The code in Listing~\ref{lst:typesetting-trees} will produce what you see in (\r
 	\begin{minted}{latex}
 \documentclass{article}
 \usepackage{forest}
-\forestset{
-    qtree/.style={ % define a style that imitates the qtree package
-        for tree={
-            parent anchor=south,
-            child anchor=north,
-            align=center,
-            inner sep=1pt
-        }
-    },
-    .style={ % declare styles to apply to all forest environments
-        qtree,
-        baseline
-    }
-}
+\useforestlibrary*{linguistics}
 \usepackage{gb4e}
 \noautomath
 \begin{document}
@@ -328,9 +314,9 @@ The code in Listing~\ref{lst:typesetting-trees} will produce what you see in (\r
                         [VP, s sep+=20pt
                             [V, name=V1]
                             [DP, s sep+=30pt
-                                [D\\ø]
+                                [D\\ø, for c-commanded={red}]
                                 [NP
-                                    [{Egyptian cotton shirts}, triangle]
+                                    [{Egyptian cotton shirts}, roof]
                                 ]
                             ]
                         ]
@@ -338,7 +324,7 @@ The code in Listing~\ref{lst:typesetting-trees} will produce what you see in (\r
                 ]
             ]
         ]
-        \draw[->] (V1) [in=-90, out=-90, looseness=1.5] to (V2);
+        \draw[->] (V1) [in=-90, out=-90, looseness=0.75] to (V2);
         \draw[->,dashed] (DP1) [in=-90, out=-90, looseness=1.5] to (DP2);
         \end{forest}
     }
@@ -352,7 +338,7 @@ The code in Listing~\ref{lst:typesetting-trees} will produce what you see in (\r
 A few comments about what you see in Listing~\ref{lst:typesetting-trees} are in order.
 
 First, \Package{forest} is designed to typeset trees as compactly as possible.
-Sometimes when you want to show movement, you will therefore need to increase the distance between siblings so that arrows don't overlap with something else.
+Sometimes when you want to show movement, you will therefore need to increase the distance between siblings so that the arrows don't overlap with something else.
 This is what \mintinline{latex}|s sep+=| allows you to do.
 You can manually set the sibling separation with just \mintinline{latex}|s sep=|, whereas \mintinline{latex}|s sep+=| allows you to increase the default sibling separation value by a certain amount.
 
@@ -360,24 +346,28 @@ If you want to draw an arrow from one leaf in a tree to another leaf, you need t
 
 If you want to have spaces in a node in a tree, you will need to surround the content in braces, like what I did with \mintinline{latex}|{Egyptian cotton shirts}| in Listing~\ref{lst:typesetting-trees}.
 
-Finally, you will most likely want all of your trees to be typeset using both \mintinline{latex}|baseline| and \mintinline{latex}|qtree|.
-By declaring \mintinline{latex}|\forestset{.style={qtree,baseline}}| in your preamble, you tell \Package{forest} to typeset all of your trees like this.%
-\footnote{%
-The method for declaring default styles is going to change in a future version of \Package{forest}.
-I will update this handout when it does change.
-}
+Finally, you will most likely want all of your trees to be typeset using the default styles of the \Package{linguistics} library for \Package{forest}.
+The \Package{linguistics} library was introduced in version 2.0 of the \Package{forest} package. If you have an outdated version of \Package{forest}, I would highly recommend upgrading to the latest version.
 
-The first option, \mintinline{latex}|baseline|, ensures that the baseline of the typeset object is the top of the tree, rather than the bottom of the tree.
-This means that ``TP'' will be typeset as aligned with the example number (if you put it inside of an example environment) rather than ``Egyptian cotton shirts''.
+By using the \Package{linguistics} library for \Package{forest}, three default styles are applied to all trees: (i) the branches (lines) that connect leafs in a tree are set to meet at the bottom of their parent leaf; (ii) the baseline of the resulting tree is set to the top of the tree, which causes the top of the tree to align with the example number when the tree occurs inside of a numbered example (rather than aligning with the bottom of the tree); and (iii) leafs that span multiple lines are set to have centered horizontal alignment.
 
-The second option, \mintinline{latex}|qtree|, is a style that mimics the \Package{qtree} package style for trees.%
-\footnote{%
-Note that this style is not defined by \Package{forest}.
-We must define it ourselves.%
-}
-This is the style that is standard for typesetting trees.
-Specifically, it ensures that the branches of the tree connect at the bottom of each node.
-Try typesetting a tree without using the \mintinline{latex}|qtree| option to see what happens.
+If you'd rather that these three styles were not applied to every tree by default, you can load the \Package{linguistics} library with the unstarred variant of the \mintinline{latex}|\useforestlibrary| command (\IE{} \mintinline{latex}|\useforestlibrary{linguistics}|).
+Then, to apply the styles to any given tree, you would need to add the three styles to each tree before writing the bracketed structure for the tree, like the following:\\\mintinline{latex}|\begin{forest} sn edges, baseline, for tree={align=center} [VP [V] [DP]]\end{forest}|.
+
+The package \Package{forest} also defines several other handy options, the first two of which are exhibited in Listing~\ref{lst:typesetting-trees}:
+\begin{itemize}
+	\item{\mintinline{latex}|roof|, for drawing triangles}
+	\item{\mintinline{latex}|c-commanded|, for visiting all leafs c-commanded by the current leaf}
+	\item{\mintinline{latex}|c-commanders|, for visiting all leafs that c-command the current leaf}
+\end{itemize}
+These options are intended to be used at a particular leaf and do not apply to the tree as a whole.
+
+There are also two other styles that \Package{forest} defines.
+Styles are applied to a tree as a whole and are written before the bracketed structure of the tree.
+These two styles are \ForestStyle{nice empty nodes} and \ForestStyle{GP1}.
+The style \ForestStyle{nice empty nodes} can be used when you have leafs without labels and you want the branches of child leafs to connect to the branch of the parent leaf.
+The style \ForestStyle{GP1} can be used to typeset Government Phonology representations.
+If you'd like to see examples of both styles, you can take a look at the \Package{forest} documentation.
 
 \subsection{Typesetting OT tableaux}
 \label{subsec:typesetting-OT-tableaux}
