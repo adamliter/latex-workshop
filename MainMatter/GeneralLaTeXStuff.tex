@@ -135,13 +135,22 @@ You might think to write \mintinline{latex}|\textsc{nom}|.
 This is \emph{bad practice}.
 Instead, you should give glossed feature abbreviations like this a semantics, since you will presumably want to typeset them all the same way.
 To do this, you could declare \mintinline{latex}|\newcommand*{\Fts}[1]{\textsc{#1}}| in your preamble.
-Then, you would be able to write \mintinline{latex}|\Fts{nom}| instead of \mintinline{latex}|\textsc{nom}|.
+Then, you would be able to write \mintinline{latex}|\Fts{nom}| instead of \mintinline{latex}|\textsc{nom}|.%
+\footnote{%
+This is just intended as an example of semantic markup.
+I would not actually recommend typesetting glossed features in this manner; instead of defining your own \mintinline{latex}|\Fts| macro, you should use the \Package{leipzig} package.
+This package provides commands for many of the common feature abbreviations, all following the \LGR, which is a standard for glosses in the field of linguistics.
+In addition to providing glossing macros for all of the glosses in the \LGR, \Package{leipzig} also provides a way to automagically print all of the glosses used in a document and their meanings, via the \Package{glossaries} package.
+This package will be covered in more detail in \S\ref{subsubsec:glossing-examples}.
+\label{fn:leipzig}%
+}
 
 A further example can be seen if you look at the source code for this handout.
 You will notice that I typeset all the names of packages in a mono-spaced font.
 Rather than writing, for example, \mintinline{latex}|\texttt{forest}|, I have written \mintinline{latex}|\Package{forest}|.
 In my preamble, I defined the \mintinline{latex}|\Package{}| command in the following way: \mintinline{latex}|\newcommand*{\Package}[1]{\texttt{#1}}|.
 If I ever wanted to change how the name of every package is typeset in this document, I would only need to change it once in my preamble.
+This is called semantic markup, and it makes any changes you might want to make to the formatting of a document much easier.
 
 \subsection{Footnotes}
 \label{subsec:footnotes}
