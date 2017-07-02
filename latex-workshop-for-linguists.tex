@@ -49,8 +49,8 @@ Release:\gitReln{} (\gitAuthorDate)%\\
 
 \usepackage{etoolbox}
 \makeatletter
-\patchcmd{\@fancyhead}{\rlap}{\color{gray}\small\sffamily\rlap}{}{}
-\patchcmd{\@fancyfoot}{\rlap}{\color{gray}\small\sffamily\rlap}{}{}
+\patchcmd{\f@nch@head}{\rlap}{\color{gray}\small\sffamily\rlap}{}{}
+\patchcmd{\f@nch@foot}{\rlap}{\color{gray}\small\sffamily\rlap}{}{}
 \makeatother
 
 \fancypagestyle{frontmatter}{%
