@@ -142,28 +142,22 @@ However, pronouns cannot c-command their binders.
 \label{subsubsec:glossing-examples}
 
 With \Package{gb4e}, you can also gloss examples.
-An example is shown in Listing~\ref{lst:glossed-example}.%
-\footnote{%
-I'm a bit loathe to recommend this because the package currently has a bug, but it's a really great package.
-For an even better way of typesetting common linguistic gloss abbreviations than what you see in Listing~\ref{lst:glossed-example}, check out the \href{http://ctan.org/pkg/leipzig}{\Package{leipzig}} package.
-If you use \Package{leipzig} \emph{without} the \Package{glossaries} package, you shouldn't run into any trouble.
-However, if you use \Package{leipzig} in conjunction with the \Package{glossaries} package---which is a really great thing to do because it can then automagically generate a list of all glosses that you've used in your document---you will run into problems.
-There is a really hacky workaround \href{http://tex.stackexchange.com/a/204615/32888}{here}, but it's a bug that should ultimately be fixed in the \Package{leipzig} package.
-I've tried contacting the maintainer of the package, but I haven't gotten a response.
-I plan to try contacting her again soon, so hopefully the bug will be fixed at some point.%
-}
+An example is shown in Listing~\ref{lst:glossed-example}.
+The package \Package{leipzig} provides several feature glossing macros, following the glossing standards for the field of linguistics as set forth by the \LGR.
+You can find a list of all the macros that the \Package{leipzig} provides in the package documentation.
+Most of them are pretty straightforward to guess, like \mintinline{latex}|\Acc{}| for accusative and \mintinline{latex}|\Prog{}| for progressive; however, some of them you might need to look up in the package documentation.
 
 \begin{listing}[htbp]
 	\centering
 	\begin{minted}{latex}
 \documentclass{article}
-\newcommand*{\Fts}[1]{\textsc{#1}}
 \usepackage{gb4e}
 \noautomath
+\usepackage{leipzig}
 \begin{document}
 \begin{exe}
     \ex[]{\gll Der Apfel würde gegessen.\\
-    The.\Fts{m}.\Fts{sg}.\Fts{nom} apple was eaten\\
+    The.\M{}.\Sg{}.\Nom{} apple was eaten\\
     \trans `The apple was eaten'
     }
 \end{exe}
@@ -173,17 +167,96 @@ I plan to try contacting her again soon, so hopefully the bug will be fixed at s
 	\label{lst:glossed-example}
 \end{listing}
 
-Try typesetting (\ref{ex:try-glossed-example}) yourself, giving it a \mintinline{latex}|\label|, and \mintinline{latex}|\ref|erring to it in the text of your document. 
+While the \LGR{} are relatively comprehensive, you might find yourself in a situation where you need to use a gloss that is not standardized in the \LGR.
+If this need arises, \Package{leipzig} provides a way to define your own glossing macros.
+One further feature of the \Package{leipzig} package that is really nice is that it provides a way, via the \Package{glossaries} package, to automagically typeset a list of all glosses used in a paper along with their definitions.
+This is something that is very commonly printed in a footnote in a paper the first time a gloss is used in that paper.
+Listing~\ref{lst:leipzig-example} gives an example of both of these features of the package.
+
+In order to correctly compile Listing~\ref{lst:leipzig-example}, there are some special compilation steps that you will need to go through, just like with bibliographies.
+This is because the \Package{glossaries} package needs to make use of some information written to the \File{.aux} file after you run \Engine{latex} for the first time.
+The compilation steps that you will need to go through in order to get this to work are the following three steps:
+
+\begin{enumerate}[label={(\roman*)}]
+
+	\item{\mintinline{sh}|latex myfile.tex|}
+
+	\item{\mintinline{sh}|makeglossaries myfile|}
+
+	\item{\mintinline{sh}|latex myfile.tex|}
+
+\end{enumerate}
+
+The second command runs a Perl script that should have been installed when you installed your TeX distribution.
+Notably, you should just call the script on the base name of your file; do not specify a file extension when you run the command \Engine{makeglossaries}!
+You should also ensure that your file name does not include spaces, which might give the \Engine{makeglossaries} script a hard time.
+Just like with bibliographies, it is possible to run these compilation steps from the command line, but it's also possible to configure your editor to run the \Engine{makeglossaries} command.
+And again, \Engine{latex} should be treated as a placeholder for whatever engine you are using.
+For example, if you are using \hologo{XeLaTeX}, then you should replace \Engine{latex} with \Engine{xelatex} in two of these three steps.
+
+\begin{listing}[htbp]
+	\centering
+	\begin{minted}{latex}
+\documentclass{article}
+\usepackage{gb4e}
+\noautomath
+\usepackage{leipzig}
+\makeglossaries
+\newleipzig{pol}{pol}{polite}
+\begin{document}
+As can be seen in (\ref{ex:causative}), \ldots
+\footnote{The following abbreviations are used in this paper: \printglosses} 
 
 \begin{exe}
-	%
-	\ex[]{\gll Hasan geu-peu-reubah aneuk miet nyan\\
-	Hasan \Third\Pol-\Caus-fall child small \Dem\\
-	\trans `Hasan caused the child to fall'
-	}
-	\label{ex:try-glossed-example}
-	%
+    \ex[]{\gll Hasan geu-peu-reubah aneuk miet nyan\\
+    Hasan \Third{}\Pol{}-\Caus{}-fall child small \Dem{}\\
+    \trans `Hasan caused the child to fall'
+    }
+    \label{ex:causative}
 \end{exe}
+\end{document}
+	\end{minted}
+	\caption{An example with \Package{leipzig} and \Package{glossaries}}
+	\label{lst:leipzig-example}
+\end{listing}
+
+There are a few further things worth noting about the use of \Package{leipzig} package.
+In order for you to be able to automagically print out a list of all glosses used in the paper and their definitions, you must execute \mintinline{latex}|\makeglossaries| in the preamble, after loading the \Package{leipzig} package.
+This then allows you to use the command \mintinline{latex}|\printglosses| to print out all glosses used in the document.
+Moreover, if you need to define some glosses that are not part of the \LGR, such as a polite feature gloss as shown in the example, you can do so with \mintinline{latex}|\newleipzig|.
+New feature glossing macros should be declared after \mintinline{latex}|\makeglossaries|.
+
+\mintinline{latex}|\newleipzig| takes three arguments.
+The first argument is a label, which is what will be used to define the macro, except with the first letter being capitalized.
+As can be seen in Listing~\ref{lst:leipzig-example}, the first argument to \mintinline{latex}|\newleipzig| is \MacroArg{pol}, which means that the command that will be created for you to use inside the document itself will be \mintinline{latex}|\Pol{}|.
+The second argument is the short form of the abbreviation.
+This is what will show up in small caps in the gloss itself.
+In Listing~\ref{lst:leipzig-example}, the second argument to \mintinline{latex}|\newleipzig| is \MacroArg{pol}, which means that \Pol{} is what will show up in the gloss.
+Note that this second argument must be all lowercase.
+Finally, the third argument is the definition of the gloss that will show up when you print out the abbreviations and their definitions with \mintinline{latex}|\printglosses|.
+In Listing~\ref{lst:leipzig-example}, the third argument to \mintinline{latex}|\newleipzig| is \MacroArg{polite}.
+
+One last thing that is worth noting about the \Package{leipzig} package is that it should be loaded after you load the \Package{hyperref} package, if you are also using that package.
+Moreover, \Package{hyperref} should generally be the last package that you load in your preamble, so this means that the last two packages you will probably want to load are \Package{hyperref} and \Package{leipzig}, in that order.
+
+If you haven't already, try typesetting the example in Listing~\ref{lst:leipzig-example} yourself, to make sure that you've got the hang of doing the three different compilation steps.
+Note that if your document has a bibliography, you will still need to do the compilation steps for the bibliography as well, so your compilation process might ultimately involve five steps:
+
+\begin{enumerate}[label={(\roman*)}]
+
+	\item{\mintinline{sh}|latex myfile.tex|}
+
+	\item{\mintinline{sh}|biber myfile| OR \mintinline{sh}|bibtex myfile|}
+
+	\item{\mintinline{sh}|makeglossaries myfile|}
+
+	\item{\mintinline{sh}|latex myfile.tex|}
+
+	\item{\mintinline{sh}|latex myfile.tex|}
+
+\end{enumerate}
+
+To make sure you've further got the hang of the \Package{leipzig} package, try defining a new gloss that isn't part of the standardized set from the \LGR.
 
 \subsection{Typesetting trees}
 \label{subsec:typesetting-trees}
