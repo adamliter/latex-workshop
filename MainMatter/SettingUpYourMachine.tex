@@ -173,7 +173,7 @@ TEXMFHOME usually refers to the path \Directory{\textasciitilde/Library/texmf} o
 If you're still on Windows XP, it should be \Directory{C:\textbackslash Documents and Settings\textbackslash <user name>\textbackslash texmf} instead of \Directory{C:\textbackslash Users\textbackslash <user name>\textbackslash texmf}.%
 }
 
-If you are unsure what the value of TEXMFHOME is, you can check it by going to the command line and running \mintinline{sh}|kpsewhich -var-value=TEXMFHOME|.
+If you are unsure what the value of TEXMFHOME is, you can check it by going to the command line and running \mintinline{sh}|kpsewhich --var-value=TEXMFHOME|.
 If, for example, you're on a Mac and haven't changed the default setting, this should return the following directory path: \Directory{/Users/<user name>/Library/texmf}.%
 \footnote{%
 The `\Directory{\textasciitilde}' is used as shorthand for a user's home directory.
@@ -212,11 +212,11 @@ Note that the commands given in Listings~\ref{lst:OSX-Linux-make-TEXMFHOME}--\re
 \begin{listing}[htbp]
 	\centering
 	\begin{minted}{sh}
-mkdir -p $(kpsewhich -var-value=TEXMFHOME)/{doc,generic,scripts,source} && \
-mkdir -p $(kpsewhich -var-value=TEXMFHOME)/bibtex/{bib,bst} && \
-mkdir -p $(kpsewhich -var-value=TEXMFHOME)/fonts/{afm,map,misc,pk,source,tfm,type1} && \
-mkdir -p $(kpsewhich -var-value=TEXMFHOME)/tex/{context,generic,latex,plain,xelatex,xetex} && \
-mkdir -p $(kpsewhich -var-value=TEXMFHOME)/tex/latex/biblatex/{bbx,cbx}
+mkdir -p $(kpsewhich --var-value=TEXMFHOME)/{doc,generic,scripts,source} && \
+mkdir -p $(kpsewhich --var-value=TEXMFHOME)/bibtex/{bib,bst} && \
+mkdir -p $(kpsewhich --var-value=TEXMFHOME)/fonts/{afm,map,misc,pk,source,tfm,type1} && \
+mkdir -p $(kpsewhich --var-value=TEXMFHOME)/tex/{context,generic,latex,plain,xelatex,xetex} && \
+mkdir -p $(kpsewhich --var-value=TEXMFHOME)/tex/latex/biblatex/{bbx,cbx}
 	\end{minted}
 	\caption{Make a minimal TDS-compliant directory at TEXMFHOME on OSX or Linux}
 	\label{lst:OSX-Linux-make-TEXMFHOME}
@@ -225,18 +225,21 @@ mkdir -p $(kpsewhich -var-value=TEXMFHOME)/tex/latex/biblatex/{bbx,cbx}
 \paragraph{Windows}
 
 If you're on Windows, you can copy and paste the commands shown in Listing~\ref{lst:Windows-make-TEXMFHOME} into the Command Prompt and hit ENTER.
-(Note that this is currently untested, since I do not have a Windows machine.
-If this works for you, please let me know so that I can remove this disclaimer.)
 
 \begin{listing}[htbp]
 	\centering
 	\begin{minted}{bat}
-FOR /F "delims=" %i IN ('kpsewhich -var-value=TEXMFHOME') DO ^
-FOR %d IN (doc, generic, scripts, source) DO mkdir /S %i\%d & ^
-FOR %d IN (bib, bst) DO mkdir /S %i\bibtex\%d & ^
-FOR %d IN (afm, map, misc, pk, source, tfm, type1) DO mkdir /S %i\fonts\%d & ^
-FOR %d IN (context, generic, latex, plain, xelatex, xetex) DO mkdir /S %i\tex\%d & ^
-FOR %d IN (bbx, cbx) DO mkdir /S %i\tex\latex\biblatex\%d
+for /f "delims=" %I in ('kpsewhich --var-value=TEXMFHOME') do (
+for %d in (doc, generic, scripts, source) do (
+md "%I/%d")
+for %d in (bib, bst) do (
+md "%I/bibtex/%d")
+for %d in (afm, map, misc, pk, source, tfm, type1) do (
+md "%I/fonts/%d")
+for %d in (context, generic, latex, plain, xelatex, xetex) do (
+md "%I/tex/%d")
+for %d in (bbx, cbx) do (
+md "%I/tex/latex/biblatex/%d"))
 	\end{minted}
 	\caption{Make a minimal TDS-compliant directory at TEXMFHOME on Windows}
 	\label{lst:Windows-make-TEXMFHOME}
@@ -267,7 +270,7 @@ mkdir -p bibtex/{bib,bst} && \
 mkdir -p fonts/{afm,map,misc,pk,source,tfm,type1} && \
 mkdir -p tex/{context,generic,latex,plain,xelatex,xetex} && \
 mkdir -p tex/latex/biblatex/{bbx,cbx} && \
-ln -s ~/Dropbox/texmf $(kpsewhich -var-value=TEXMFHOME)
+ln -s ~/Dropbox/texmf $(kpsewhich --var-value=TEXMFHOME)
 	\end{minted}
 	\caption{Make a TDS-compliant directory in Dropbox and symlink it into TEXMFHOME on OSX or Linux}
 	\label{lst:OSX-Linux-make-TEXMFHOME-in-Dropbox}
@@ -277,21 +280,19 @@ ln -s ~/Dropbox/texmf $(kpsewhich -var-value=TEXMFHOME)
 
 If you're on Windows Vista or up, you can copy and paste the commands shown in Listing~\ref{lst:Windows-make-TEXMFHOME-in-Dropbox} into the Command Prompt and hit ENTER.
 If you're on Windows XP, why are you still running Windows XP?
-(Note that this is currently untested, since I do not have a Windows machine.
-If this works for you, please let me know so that I can remove this disclaimer.)
 
 \begin{listing}[htbp]
 	\centering
 	\begin{minted}{bat}
-mkdir %HOMEPATH%\Dropbox\texmf & ^
-chdir %HOMEPATH%\Dropbox\texmf & ^
-FOR %d IN (doc, generic, scripts, source) DO mkdir /S %d & ^
-FOR %d IN (bib, bst) DO mkdir /S bibtex\%d & ^
-FOR %d IN (afm, map, misc, pk, source, tfm, type1) DO mkdir /S fonts\%d & ^
-FOR %d IN (context, generic, latex, plain, xelatex, xetex) DO mkdir /S tex\%d & ^
-FOR %d IN (bbx, cbx) DO mkdir /S tex\latex\biblatex\%d & ^
-FOR /F "delims=" %i IN ('kpsewhich -var-value=TEXMFHOME') DO ^
-mklink /J %i %HOMEPATH%\Dropbox\texmf
+md "%USERPROFILE%\Dropbox\texmf"
+chdir "%USERPROFILE%\Dropbox\texmf"
+for %d in (doc, generic, scripts, source) do (md "%d")
+for %d in (bib, bst) do (md "bibtex\%d")
+for %d in (afm, map, misc, pk, source, tfm, type1) do (md "fonts\%d")
+for %d in (context, generic, latex, plain, xelatex, xetex) do (md "tex\%d")
+for %d in (bbx, cbx) do (md "tex\latex\biblatex\%d")
+for /f "delims=" %I in ('kpsewhich --var-value=TEXMFHOME') do (
+mklink /J "%I" "%USERPROFILE%\Dropbox\texmf")
 	\end{minted}
 	\caption{Make a TDS-compliant directory in Dropbox and symlink it into TEXMFHOME on Windows}
 	\label{lst:Windows-make-TEXMFHOME-in-Dropbox}
@@ -309,25 +310,21 @@ However, since it doesn't really matter, I would instead recommend creating the 
 
 To do this, you can copy and paste the commands shown in Listing~\ref{lst:Windows-make-local-texmf-MiKTeX} into the Windows Command Prompt and hit ENTER.%
 \footnote{%
-Note that in this case the folder called \Directory{Local TeX Files} is the same as the \Directory{texmf} folder depicted in Figure~\ref{fig:TDS}.
-You should \emph{not} put a folder called \Directory{texmf} inside of \Directory{Local TeX Files}.
-Instead, treat \Directory{Local TeX Files} as the \Directory{texmf} folder.
-The commands given in Listing~\ref{lst:Windows-make-local-texmf-MiKTeX} will do this automagically for you.%
+While \hologo{MiKTeX} recommends using the folder name \Directory{Local TeX Files}, it really doesn't matter what folder name is used.
+The commands in Listing~\ref{lst:Windows-make-local-texmf-MiKTeX} will use the folder name \Directory{texmf} instead of \Directory{Local TeX Files}.
+This way, if you also happen to have a Mac or Linux machine, you can use the same folder inside your Dropbox folder on that other computer, too.%
 }
-This will only work on Windows Vista and up.
-(Note that this is currently untested, since I do not have a Windows machine.
-If this works for you, please let me know so that I can remove this disclaimer.)
 
 \begin{listing}[htbp]
 	\centering
 	\begin{minted}{bat}
-mkdir "%HOMEPATH%\Dropbox\Local TeX Files" & ^
-chdir "%HOMEPATH%\Dropbox\Local TeX Files" & ^
-FOR %d IN (doc, generic, scripts, source) DO mkdir /S %d & ^
-FOR %d IN (bib, bst) DO mkdir /S bibtex\%d & ^
-FOR %d IN (afm, map, misc, pk, source, tfm, type1) DO mkdir /S fonts\%d & ^
-FOR %d IN (context, generic, latex, plain, xelatex, xetex) DO mkdir /S tex\%d & ^
-FOR %d IN (bbx, cbx) DO mkdir /S tex\latex\biblatex\%d
+md "%USERPROFILE%\Dropbox\texmf"
+chdir "%USERPROFILE%\Dropbox\texmf"
+for %d in (doc, generic, scripts, source) do (md "%d")
+for %d in (bib, bst) do (md "bibtex\%d")
+for %d in (afm, map, misc, pk, source, tfm, type1) do (md "fonts\%d")
+for %d in (context, generic, latex, plain, xelatex, xetex) do (md "tex\%d")
+for %d in (bbx, cbx) do (md "tex\latex\biblatex\%d")
 	\end{minted}
 	\caption{Make a TDS-compliant directory in Dropbox for \hologo{MiKTeX} on Windows}
 	\label{lst:Windows-make-local-texmf-MiKTeX}
@@ -341,7 +338,7 @@ For a discussion of the differences between administrative and user mode in \hol
 Next, click on the Roots tab.
 Click Add in order to add a local \Directory{texmf} folder.
 
-Navigate to \Directory{C:\textbackslash Users\textbackslash <user name>\textbackslash Dropbox\textbackslash Local TeX Files} and click OK.
+Navigate to \Directory{C:\textbackslash Users\textbackslash <user name>\textbackslash Dropbox\textbackslash texmf} and click OK.
 
 Next, click Apply.
 
@@ -376,13 +373,9 @@ However, \Package{cgloss} is not available as part of TeX Live or \hologo{MiKTeX
 It is only available on Alexis's website.
 
 If you want to use Alexis's modifications, you will need to download the file \href{http://www.let.uu.nl/~Alexis.Dimitriadis/personal/latex/cgloss.sty}{\File{cgloss.sty}} and place it in your local \Directory{texmf} folder.
-Specifically, it should be placed inside of the folder \Directory{texmf/tex/latex}.%
-\footnote{%
-If you're using \hologo{MiKTeX} and you followed the instructions in \S\ref{subsubsec:local-files:miktex} and created your \Directory{texmf} folder inside your Dropbox folder and named it \Directory{Local TeX Files}, then you should read this as referring to \Directory{C:\textbackslash Users\textbackslash <user name>\textbackslash Dropbox\textbackslash Local TeX Files\textbackslash tex\textbackslash latex}.
-In other words, I'm just using \Directory{texmf} as a placeholder for wherever you created your local \Directory{texmf} folder.
-So this also applies if you created your local \Directory{texmf} folder in Dropbox on OSX or Linux.
-That is, you should then put the file inside of \Directory{\textasciitilde/Dropbox/texmf/tex/latex}.%
-}
+Specifically, it should be placed inside of the folder \Directory{texmf/tex/latex}.
+The reference to \Directory{texmf} in the preceding sentence should be treated as a placeholder for wherever you created your local \Directory{texmf} folder.
+So, for example, if you created your local \Directory{texmf} folder in Dropbox on OSX or Linux, then you should put the file inside of \Directory{\textasciitilde/Dropbox/texmf/tex/latex}.
 
 This will now allow you to use the \Package{cgloss} package in your \File{.tex} documents, even though the package is not part of your \TeX{} distribution.%
 \footnote{%
