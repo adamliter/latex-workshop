@@ -25,6 +25,16 @@ will need to do the following things:
 * Either change the font that the document uses or download and install
   the [Computer Modern Unicode][cm-unicode] font on your machine.
 
+While not necessary to succesfully compile the document, if you'd like
+the `git` information in the footer to be typeset correctly, you will
+also need to:
+
+* Install the three required hooks into the `.git/hooks/` directory.
+  This can be done via the `setup.sh` script on a *nix system with
+  `./setup.sh`. Then do `git checkout master`. (The `git` information
+  for insertion into the document is generated anytime a checkout,
+  commit, or merge occurs.)
+
 # License
 
 <a rel="license"
