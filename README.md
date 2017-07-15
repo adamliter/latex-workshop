@@ -1,4 +1,4 @@
-<!-- -*- code: utf-8; mode: markdown; fill-column: 72; -*- -->
+<!-- -*- coding: utf-8; mode: markdown; fill-column: 72; -*- -->
 
 # LaTeX workshop (for linguists)
 
