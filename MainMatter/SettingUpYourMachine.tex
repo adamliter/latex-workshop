@@ -42,16 +42,25 @@ Instead, you should \href{http://tex.stackexchange.com/q/1092/32888}{install a `
 \subsubsection{Windows}
 \label{subsubsec:tex-distro:windows}
 
-The easiest thing to install on Windows is \hologo{MiKTeX}, which is a different distribution than TeX Live.
-\hologo{MiKTeX} doesn't install every package but instead installs a minimal distribution and allows you to install packages on the fly when compiling your document if the requisite package is not already installed.
+On Windows, you have two options: \hologo{MiKTeX} or TeX Live.
+For some time, the easiest thing to install on Windows was \hologo{MiKTeX}, which is a completely different distribution than TeX Live.
+This is because TeX Live was primarily designed for machines with an underlying Unix-based operating system.
 
-At one point, there were security concerns about \hologo{MiKTeX} and thus it was preferable to install TeX Live.
-However, these security concerns seem to have been mitigated, and it's not clear that there is a huge reason to prefer a TeX Live installation on Windows.%
-\footnote{%
+Despite \hologo{MiKTeX} being easier to install there were, at one point, security concerns about \hologo{MiKTeX} and thus it was preferable to install TeX Live, even though it was much more complicated to install TeX Live on Windows.
+
+Nowadays, these security concerns seem to have been mitigated,\footnote{%
 See \href{http://tex.stackexchange.com/q/20036/32888}{this question and its answers on TeX.SX} for discussion.%
-}
-Moreover, it is not as straightforward to install TeX Live as it is to install \hologo{MiKTeX}.
-Nonetheless, if you wish to do so, see \href{http://www.tug.org/texlive/acquire-netinstall.html}{here}.
+} and it's also now equally easy to install TeX Live on Windows.
+Therefore, from these two points of view, there isn't much reason to prefer one distribution over the other.
+
+Most Windows users that I've encountered seem to have \hologo{MiKTeX}, probably because it was at one point more straightforward to install.
+
+To install \hologo{MiKTeX}, go to the \href{https://miktex.org/download}{\hologo{MiKTeX} download page}.
+If you download the ``Basic Installer'' from the download page, \hologo{MiKTeX} will just install the basic packages.
+I'd recommend instead downloading the ``Net Installer'' in order to install all of the packages from the beginning.
+This will greatly increase the time it takes to install, but you won't then have to go download a package from the internet every time you need to use a new package, which is what \hologo{MiKTeX} will have to do if you only do the basic installation.
+
+If you'd rather install TeX Live for Windows, follow \href{http://www.tug.org/texlive/acquire-netinstall.html}{this link} to download the \File{.exe} file to start the installation process. Note that TeX Live installs all of the packages from the beginning by default, so the installation process will probably take a few hours.
 
 \subsection{Keeping your \TeX{} distribution up to date}
 \label{subsec:keeping-your-tex-distro-up-to-date}
