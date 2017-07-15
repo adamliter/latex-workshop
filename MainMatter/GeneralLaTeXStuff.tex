@@ -567,7 +567,7 @@ There are several components that are relevant to setting up your machine in ord
 		}
 		How to manage this file and other relevant aspects will be discussed in detail in \S\ref{subsubsec:the-bib-file}.%
 	}
-	
+
 	\item[The citation package]{%
 		Strictly speaking, you do not need to use a citation package.
 		The base \hologo{LaTeX} format already provides the command \mintinline{latex}|\cite{...}|.
@@ -578,7 +578,7 @@ There are several components that are relevant to setting up your machine in ord
 		For the purposes of linguistics at least, I would only recommend \Package{natbib} or \Package{biblatex}.
 		Both of these packages will be discussed in more detail in \S\ref{subsubsec:the-citation-package}.%
 	}
-	
+
 	\item[The backend processor]{%
 		In addition to using a citation package, you will also need to use a program for getting the relevant citations from your \File{.bib} file.
 		Using a \File{.bib} file for references involves a series of compilation steps.
@@ -630,11 +630,11 @@ Some of the differences will be briefly discussed below, but for further discuss
 \begin{itemize}
 
 	\item{The question \href{http://tex.stackexchange.com/q/25701/32888}{bibtex vs.~biber and biblatex vs.~natbib} and its answers on TeX.SX}
-	
+
 	\item{The question \href{http://tex.stackexchange.com/q/5091/32888}{What to do to switch to biblatex?} and its answers on TeX.SX}
-	
+
 	\item{The question \href{http://tex.stackexchange.com/q/37095/32888}{Compatibility of bibtex and biblatex bibliography files?} and its answers on TeX.SX}
-	
+
 	\item{\S\S1--3 of the \href{http://texdoc.net/texmf-dist/doc/latex/biblatex/biblatex.pdf}{\Package{biblatex} documentation}}
 
 \end{itemize}
@@ -693,26 +693,26 @@ In general, you will probably mostly only need to use the entry types \EntryType
 	\item[\EntryType{@article}]{%
 		This entry type should be used for journal articles.%
 	}
-	
+
 	\item[\EntryType{@book}]{%
 		This entry type should be used for complete books.%
 	}
-	
+
 	\item[\EntryType{@incollection}]{%
 		This entry type should be used for chapters in edited volumes.
 		Do \emph{not} use the \EntryType{@inbook} entry type for this.%
 	}
-	
+
 	\item[\EntryType{@inproceedings}]{%
 		This entry type should be used for stuff that is published in conference proceedings.%
 	}
-	
+
 	\item[\EntryType{@misc}]{%
 		This entry type should be used for miscellaneous stuff, such as talks or posters presented at conferences (that aren't published in proceedings).
 		You can add something to the \DataField{howpublished} field that indicates where it was presented and whether it was a talk or a poster.
 		See \S\ref{subsubsubsec:data-fields} for more details.%
 	}
-	
+
 	\item[\EntryType{@unpublished}]{%
 		This entry type can be used for unpublished manuscripts.%
 	}
@@ -738,121 +738,121 @@ For each of the entry types mentioned above, here are the recommended data field
 \begin{itemize}
 
 	\item{\EntryType{@article}
-		
+
 		\begin{itemize}
-		
+
 			\item{\DataField{author}}
-			
+
 			\item{\DataField{title}}
-			
+
 			\item{\DataField{journal}}
-			
+
 			\item{\DataField{year}}
-			
+
 			\item{\DataField{volume}}
-			
+
 			\item{\DataField{number}}
-			
+
 			\item{\DataField{pages}}
-			
+
 			\item{\DataField{doi}}
-		
+
 		\end{itemize}
-		
+
 	}
-	
+
 	\item{\EntryType{@book}
-	
+
 		\begin{itemize}
-		
+
 			\item{\DataField{author}}
-			
+
 			\item{\DataField{title}}
-			
+
 			\item{\DataField{publisher}}
-			
+
 			\item{\DataField{year}}
-			
+
 			\item{\DataField{address}}
-		
+
 		\end{itemize}
-	
+
 	}
-	
+
 	\item{\EntryType{@incollection}
-	
+
 		\begin{itemize}
-		
+
 			\item{\DataField{author}}
-			
+
 			\item{\DataField{title}}
-			
+
 			\item{\DataField{booktitle}}
-			
+
 			\item{\DataField{publisher}}
-			
+
 			\item{\DataField{year}}
-			
+
 			\item{\DataField{editor}}
-			
+
 			\item{\DataField{pages}}
-			
+
 			\item{\DataField{address}}
-		
+
 		\end{itemize}
-	
+
 	}
-	
+
 	\item{\EntryType{@inproceedings}
-	
+
 		\begin{itemize}
-		
+
 			\item{\DataField{author}}
-			
+
 			\item{\DataField{title}}
-			
+
 			\item{\DataField{booktitle}}
-			
+
 			\item{\DataField{publisher}}
-			
+
 			\item{\DataField{year}}
-			
+
 			\item{\DataField{pages}}
-			
+
 			\item{\DataField{address}}
-		
+
 		\end{itemize}
-	
+
 	}
-	
+
 	\item{\EntryType{@misc}
-	
+
 		\begin{itemize}
 
 			\item{\DataField{author}}
 
 			\item{\DataField{title}}
-	
+
 			\item{\DataField{howpublished}}
 
 			\item{\DataField{year}}
 
 		\end{itemize}
-	
+
 	}
-	
+
 	\item{\EntryType{@unpublished}
-	
+
 		\begin{itemize}
-		
+
 			\item{\DataField{author}}
-			
+
 			\item{\DataField{note}}
-			
+
 			\item{\DataField{title}}
-			
+
 			\item{\DataField{year}}
-		
+
 		\end{itemize}
 
 	}
@@ -880,11 +880,11 @@ There are four components to a name.
 \begin{enumerate}[label={(\roman*)}]
 
 	\item{First name (this includes any and all middle names)}
-	
+
 	\item{The ``von'' part (examples include ``von'', ``van'', ``de'', ``de la'', \ETC)}
-	
+
 	\item{The last name (does \emph{not} include the ``von'' part)}
-	
+
 	\item{The ``Jr'' part (examples include ``Jr.'', ``Sr.'', ``IV'', \ETC)}
 
 \end{enumerate}
@@ -894,9 +894,9 @@ There are three possible ways to enter names into a \File{.bib} database.
 \begin{enumerate}[label={(\roman*)}]
 
 	\item{``First von Last''}
-	
+
 	\item{``von Last, First''}
-	
+
 	\item{``von Last, Jr, First''}
 
 \end{enumerate}
@@ -936,7 +936,7 @@ Here are two suggestions.
 \begin{enumerate}[label={(\roman*)}]
 
 	\item{\BibliographyData{lastnameYYYY}}
-	
+
 	\item{\BibliographyData{lastnameYYYY:informativewordfromtitle}}
 
 \end{enumerate}
@@ -1013,11 +1013,11 @@ In most cases when using \Package{natbib}, it is necessary to do four compilatio
 \begin{enumerate}[label={(\roman*)}]
 
 	\item{\mintinline{sh}|latex myfile.tex|}
-	
+
 	\item{\mintinline{sh}|bibtex myfile.aux|}
-	
+
 	\item{\mintinline{sh}|latex myfile.tex|}
-	
+
 	\item{\mintinline{sh}|latex myfile.tex|}
 
 \end{enumerate}
@@ -1159,7 +1159,7 @@ As long as all of the information is there, the style doesn't call for underlini
     citestyle=authoryear-comp,
     bibstyle=authoryear
 ]{biblatex}
-% This is needed because the default authoryear style puts "In:" 
+% This is needed because the default authoryear style puts "In:"
 % before a journal name, which is not standard in linguistics styles.
 % So this code gets rid of that.
 \renewbibmacro{in:}{%
@@ -1191,7 +1191,7 @@ In most cases when using \Package{biblatex}, it is sufficient to do the followin
 \begin{enumerate}[label={(\roman*)}]
 
 	\item{\mintinline{sh}|latex myfile.tex|}
-	
+
 	\item{\mintinline{sh}|biber myfile.bcf| OR \mintinline{sh}|bibtex myfile.aux|%
 	\footnote{%
 	\label{fn:backends-with-biblatex}
@@ -1200,7 +1200,7 @@ In most cases when using \Package{biblatex}, it is sufficient to do the followin
 	Nonetheless, if you choose to use \hologo{BibTeX} with \Package{biblatex} for whatever reason, then you will need to run \Engine{bibtex} on the \File{.aux} file instead of running \Engine{biber} on the \File{.bcf} file.%
 	}
 	}
-	
+
 	\item{\mintinline{sh}|latex myfile.tex|}
 
 \end{enumerate}
@@ -1269,7 +1269,7 @@ Copy and paste the example code in Listing~\ref{lst:biblatex-example} into your 
     citestyle=authoryear-comp,
     bibstyle=authoryear
 ]{biblatex}
-% This is needed because the default authoryear style puts "In:" 
+% This is needed because the default authoryear style puts "In:"
 % before a journal name, which is not standard in linguistics styles.
 % So this code gets rid of that.
 \renewbibmacro{in:}{%
