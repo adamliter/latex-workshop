@@ -217,7 +217,11 @@ See \S\ref{subsubsubsec:symlink-your-local-texmf-folder-into-TEXMFHOME} for inst
 
 \paragraph{OSX/Linux}
 
-If you're on a Mac or Linux, you can open a terminal and copy and paste the commands that are shown in Listing~\ref{lst:OSX-Linux-make-TEXMFHOME} and hit ENTER.%
+If you're on a Mac or Linux, you can open a terminal%
+\footnote{%
+To open a terminal on a Mac, search Spotlight for the program ``Terminal''.
+It can also be found inside the Utilities folder, which is inside of the Applications folder.%
+} and copy and paste the commands that are shown in Listing~\ref{lst:OSX-Linux-make-TEXMFHOME} and hit ENTER.%
 \footnote{%
 \label{fn:kpsewhich}%
 Note that the commands given in Listings~\ref{lst:OSX-Linux-make-TEXMFHOME}--\ref{lst:Windows-make-TEXMFHOME-in-Dropbox} will only work after TeX Live has been installed, because the command line tool \mintinline{sh}|kpsewhich| is part of TeX Live.%
@@ -238,7 +242,10 @@ mkdir -p $(kpsewhich --var-value=TEXMFHOME)/tex/latex/biblatex/{bbx,cbx}
 
 \paragraph{Windows}
 
-If you're on Windows, you can copy and paste the commands shown in Listing~\ref{lst:Windows-make-TEXMFHOME} into the Command Prompt and hit ENTER.
+If you're on Windows, you can copy and paste the commands shown in Listing~\ref{lst:Windows-make-TEXMFHOME} into the Command Prompt and hit ENTER.%
+\footnote{%
+You can open the Command Prompt on Windows by searching for it in the start menu.%
+}
 
 \begin{listing}[htbp]
 	\centering
@@ -293,7 +300,7 @@ ln -s ~/Dropbox/texmf $(kpsewhich --var-value=TEXMFHOME)
 \paragraph{Windows}
 
 If you're on Windows Vista or up, you can copy and paste the commands shown in Listing~\ref{lst:Windows-make-TEXMFHOME-in-Dropbox} into the Command Prompt and hit ENTER.
-If you're on Windows XP, why are you still running Windows XP?
+If you're on Windows XP, why are you still running Windows XP? (Symbolic links don't work on Windows XP.)
 
 \begin{listing}[htbp]
 	\centering
