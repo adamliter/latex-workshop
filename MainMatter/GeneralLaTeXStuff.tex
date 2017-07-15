@@ -679,7 +679,7 @@ Now that you have your \File{.bib} file setup, you can start adding entries to i
 
 There are various entry types, and the available entry types differ slightly depending on whether you use \Package{biblatex} or not.%
 \footnote{%
-\label{fn:entry-types-biblatex-vs-bibtex}
+\label{fn:entry-types-biblatex-vs-bibtex}%
 Covering this in any detail is really beyond the scope of this document.
 For more information, please see the resources mentioned in \S\ref{subsubsubsec:a-terminological-note}.
 For the most part, however, you do not need to worry about it.
@@ -1194,7 +1194,7 @@ In most cases when using \Package{biblatex}, it is sufficient to do the followin
 
 	\item{\mintinline{sh}|biber myfile.bcf| OR \mintinline{sh}|bibtex myfile.aux|%
 	\footnote{%
-	\label{fn:backends-with-biblatex}
+	\label{fn:backends-with-biblatex}%
 	As discussed above and as will be discussed further below in \S\ref{subsubsec:the-backend-processor}, it is possible to use either backend with \Package{biblatex}.
 	Because Biber has many advantages over \hologo{BibTeX}, I would always recommend using Biber.
 	Nonetheless, if you choose to use \hologo{BibTeX} with \Package{biblatex} for whatever reason, then you will need to run \Engine{bibtex} on the \File{.aux} file instead of running \Engine{biber} on the \File{.bcf} file.%
