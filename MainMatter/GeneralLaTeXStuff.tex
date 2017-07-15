@@ -922,8 +922,8 @@ If the braces do not surround the entire word, it will mess up the kerning.
 
 Note furthermore that the data field was written using title casing, but the output you see will be sentence casing, except for the word \xv{Mohawk}, because we surrounded it with braces.
 I would recommend always entering titles into the data fields using title casing.
-It is much easier to automagically convert title casing to sentence casing than it is to automagically convert sentence casing to title casing.
-Thus, you will save yourself much pain if you need to switch to a style that uses title casing.
+Both \Package{biblatex} and \hologo{BibTeX} provide means for automagically converting from title casing to sentence casing, depending on the style, but not necessarily vice versa.
+Thus, you will save yourself much pain if you need to switch to a style that uses title casing if the entries in your \File{.bib} file are already in title casing.
 
 \paragraph{On cite keys}
 
@@ -1105,14 +1105,14 @@ In Minimalist syntax, S-Structure has been eliminated \citep[see][73--124]{choms
 \subsubsubsection{\Package{biblatex}}
 \label{subsubsubsec:biblatex}
 
-Unlike \Package{natbib}, \Package{biblatex} can be used with either backend processor: Biber or \hologo{BibTeX}.
+Unlike \Package{natbib}, \Package{biblatex} can be used with either backend processor, Biber or \hologo{BibTeX}.
 If you wish to use the full range of features that \Package{biblatex} provides, you will need to use Biber.
 
 As mentioned above, there is good reason to use \Package{biblatex} and Biber over \Package{natbib} and \hologo{BibTeX}.
 Most notably, \Package{biblatex} and Biber work a lot more straightforwardly with accented Latin characters and non-Latin alphabets.
 
 In addition to not being an acceptable format for submission to many academic journals, the only available implementation of the \href{http://celxj.org/downloads/UnifiedStyleSheet.pdf}{Unified Stylesheet for Linguistics Journals} in \Package{biblatex} is currently very early in development.
-However, at the time of the most recent update to this \File{.pdf}, the implementation is much better than it was a few months ago (more on this below).
+However, at the time of the most recent update to this \File{.pdf}, the implementation is much better than it used to be.
 
 \paragraph{Citation commands}
 
@@ -1140,7 +1140,7 @@ For an example, see Listing~\ref{lst:biblatex-non-complete-example}.
 As mentioned above, the one implementation of the \href{http://celxj.org/downloads/UnifiedStyleSheet.pdf}{Unified Stylesheet for Linguistics Journals} for \Package{biblatex} is currently very much in an alpha stage of testing.
 This implementation is maintained by \href{http://semprag.org/}{\Journal{Semantics \& Pragmatics}}, and it is available \href{https://github.com/semprag/biblatex-sp-unified}{here}.
 
-At the time of the most recent update to this \File{.pdf} (\today), the implementation is much better than it was a few months ago.
+At the time of the most recent update to this \File{.pdf} (\today), the implementation is much better than it used to be.
 If you would like to use \Package{biblatex} (which I would recommend for the reasons already discussed), I would recommend using \href{https://github.com/semprag/biblatex-sp-unified}{\Journal{S\&P}'s implementation} of the \href{http://celxj.org/downloads/UnifiedStyleSheet.pdf}{Unified Stylesheet for Linguistics Journals}.
 
 Nonetheless, if you don't want to download it and put it in a local \Directory{texmf} folder, then you can use the \PackageOption{authoryear-comp} citation style and the \PackageOption{authoryear} bibliography style that are both provided by \Package{biblatex} out of the box.
@@ -1322,7 +1322,7 @@ And second, because a very common \emph{really bad practice} of \LaTeX{} beginne
 
 Recall from \S\ref{subsec:latex-philosophy} that \LaTeX{} is all about semantic markup.
 This goes for paragraphs, too.
-People who are used to Word are used to pressing ENTER on the keyboard once in order to separate paragraphs.
+People who are used to Word are used to pressing ENTER on the keyboard once in order to start a new paragraph.
 Perhaps unsurprisingly then, many new \LaTeX{} users will often do stuff like what is shown in Listing~\ref{lst:bad-practice-with-line-breaks}.
 
 \begin{listing}[htbp]
@@ -1395,7 +1395,7 @@ However, there are two main reasons why it might be nice to put each sentence on
 First, having shorter lines might be easier to read, depending on how your editor is set up.
 Second, if you keep your \File{.tex} file under version control, it makes for cleaner diffs.%
 \footnote{%
-Explaining what exactly a version control system (VCS) is, is quite beyond the scope of this workshop.
+Explaining what exactly a version control system (VCS) is, is quite beyond the scope of this document.
 Basically, it's a way to keep a history of all of the changes that have been made to a document.
 If you delve any further into learning \LaTeX{} or learning to program, you will probably also want to learn a VCS at some point.
 The most popular one is \mintinline{sh}|git|.
