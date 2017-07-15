@@ -15,6 +15,10 @@ Nonetheless, there are several advantages to installing a \TeX{} distribution on
 The biggest advantage is being able to maintain a single master \File{.bib} file and use it in all of your \File{.tex} documents for references.
 For more on this, please read \S\ref{subsec:local-files} and \S\ref{subsec:bibliographies}.
 
+Another advantage is the ability to keep your \TeX{} distribution up to date (see \S\ref{subsec:keeping-your-tex-distro-up-to-date}).
+Since the \TeX{} distros used by these online editors often lag behind the update cycle of the various \TeX{} distributions, you will be using packages that are a year or two old.
+If a bug in a package that you use is fixed by the package author but the online editor does not update its \TeX{} distribution for a while, you won't get immediate access to that bug fix.
+
 \subsubsection{Mac}
 \label{subsubsec:tex-distro:mac}
 
@@ -63,12 +67,13 @@ If package authors do decide to break backwards compatibility, they will usually
 On the other hand, with Word, you're lucky if you can open a file from last year's version of Word with this year's version of Word, much less have the formatting look even remotely the same.
 With \LaTeX, you could typeset a \LaTeX{} file written in 1739 and the output you get would be identical to the output you got in 1739.%
 }
+To update your \TeX{} distribution, refer to the question \href{https://tex.stackexchange.com/q/55437/32888}{How do I update my TeX distribution?} on TeX.SX.
 
 In addition to periodically updating the packages, you will also want to periodically update the entire distribution.
 Just like with packages, new features are developed or bugfixes are sometimes made to the engines themselves and other binaries that are the core of a \TeX{} distribution.
 
 For TeX Live, there is a new distribution that is released every year.
-The current one is TeX Live 2015.
+The current one is TeX Live 2017.
 
 When the new distribution is about to be released, the old one is ``frozen''.
 Once it is frozen, you will no longer be able to update packages, so you will want to install the newest version of TeX Live for any new features or bugfixes to the engines and other binaries as well as for the ability to continue to periodically update packages.
