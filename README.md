@@ -35,6 +35,11 @@ also need to:
   `git checkout master`. (The `git` information for insertion into the
   document is generated anytime a checkout, commit, or merge occurs.)
 
+# History
+
+For a list of changes, see the [changelog][changelog]. For PDFs of older
+releases of this document, see the [releases][releases].
+
 # License
 
 <a rel="license"
@@ -49,3 +54,5 @@ License</a>.
 [handout]: http://adamliter.org/content/LaTeX/latex-workshop-for-linguists.pdf
 [minted]: http://texdoc.net/texmf-dist/doc/latex/minted/minted.pdf
 [cm-unicode]: http://sourceforge.net/projects/cm-unicode/
+[changelog]: /CHANGELOG.md
+[releases]: https://github.com/adamliter/latex-workshop/releases
