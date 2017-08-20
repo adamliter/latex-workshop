@@ -13,7 +13,7 @@
     for use with `glossaries` (#4, 32849d0)
 - Link to discussion of how to update packages (f045a4e)
 - Info about how to open a terminal (f8cead1)
-- Changelog (#6)
+- Changelog (#6, a5ea176)
 - Continuous deployment (#1, fca3f2c)
 
 ### Changed
