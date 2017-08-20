@@ -65,6 +65,7 @@ tlmgr install \
       pgf \
       pgfopts \
       substr \
+      tabu \
       textcase \
       textglos \
       titlesec \
@@ -72,6 +73,7 @@ tlmgr install \
       trimspaces \
       upquote \
       url \
+      varwidth \
       xcolor \
       xfor \
       xkeyval \
