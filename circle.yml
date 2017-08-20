@@ -1,0 +1,53 @@
+machine:
+  timezone:
+    America/New_York
+  environment:
+    PATH: "/tmp/texlive/bin/x86_64-linux:$(echo $PATH)"
+
+checkout:
+  post:
+    - ./circle-ci-setup/install-git-hooks.sh
+    - git checkout
+
+dependencies:
+  pre:
+    - sudo apt-get update; sudo apt-get install default-jre
+    - ./circle-ci-setup/install-cm-unicode.sh
+    - ./circle-ci-setup/install-minimal-texlive.sh
+
+  post:
+    - git config --global user.name "Atom Machine"
+    - git config --global user.email "atommachine@adamliter.org"
+
+compile:
+  override:
+    - arara latex-workshop-for-linguists
+
+test:
+  override:
+    - "true"
+
+deployment:
+  release:
+    tag: /v[0-9]+(\.[0-9]+)*/
+    owner: adamliter
+    commands:
+      - git clone git@github.com:adamliter/adamliter.org
+        ../adamliter.org
+      - export GIT_DIR=../adamliter.org/.git &&
+        export GIT_WORK_TREE=../adamliter.org &&
+        git fetch origin &&
+        git checkout master &&
+        git reset --hard origin/master
+      - mv latex-workshop-for-linguists.pdf
+        ../adamliter.org/content/LaTeX/latex-workshop-for-linguists.pdf
+      - export GIT_DIR=../adamliter.org/.git &&
+        export GIT_WORK_TREE=../adamliter.org &&
+        git add content/LaTeX/latex-workshop-for-linguists.pdf &&
+        git commit -m 'Update LaTeX handout automagically via the @atommachine' &&
+        git push origin master
+
+general:
+  branches:
+    ignore:
+      - /.*?/
