@@ -7,7 +7,7 @@ machine:
 checkout:
   post:
     - ./circle-ci-setup/install-git-hooks.sh
-    - git checkout
+    - git checkout master
 
 dependencies:
   pre:
