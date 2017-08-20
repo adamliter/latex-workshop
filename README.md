@@ -49,4 +49,3 @@ License</a>.
 [handout]: http://adamliter.org/content/LaTeX/latex-workshop-for-linguists.pdf
 [minted]: http://texdoc.net/texmf-dist/doc/latex/minted/minted.pdf
 [cm-unicode]: http://sourceforge.net/projects/cm-unicode/
-[leipzig-mod]: https://github.com/adamliter/TeXnology/blob/master/TEXMFHOME/tex/latex/leipzig-mod.sty
