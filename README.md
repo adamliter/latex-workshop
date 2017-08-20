@@ -30,10 +30,10 @@ the `git` information in the footer to be typeset correctly, you will
 also need to:
 
 * Install the three required hooks into the `.git/hooks/` directory.
-  This can be done via the `setup.sh` script on a *nix system with
-  `./setup.sh`. Then do `git checkout master`. (The `git` information
-  for insertion into the document is generated anytime a checkout,
-  commit, or merge occurs.)
+  This can be done via the `install-git-hooks.sh` script on a *nix
+  system with `./circle-ci-setup/install-git-hooks.sh`. Then do
+  `git checkout master`. (The `git` information for insertion into the
+  document is generated anytime a checkout, commit, or merge occurs.)
 
 # License
 
