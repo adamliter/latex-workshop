@@ -18,7 +18,7 @@ will need to do the following things:
 
 * Install `Pygments`. If you have `pip` installed, you can just do
   `pip install Pygments`. See the [`minted` documentation][minted]
-  documentation for more information.
+  for more information.
 * Compile the file with shell escape enabled. Also see
   the [`minted` documentation][minted] documentation for more
   information.
