@@ -20,8 +20,7 @@ will need to do the following things:
   `pip install Pygments`. See the [`minted` documentation][minted]
   for more information.
 * Compile the file with shell escape enabled. Also see
-  the [`minted` documentation][minted] documentation for more
-  information.
+  the [`minted` documentation][minted] for more information.
 * Either change the font that the document uses or download and install
   the [Computer Modern Unicode][cm-unicode] font on your machine.
 
